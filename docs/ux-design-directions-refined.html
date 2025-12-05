@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marmorani - Directions Raffinées (3×6)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Carrara Pure */
+            --carrara-bg: #FFFFFF;
+            --carrara-surface: #F8F8F8;
+            --carrara-border: #E5E5E5;
+            --carrara-secondary: #4A4A4A;
+            --carrara-primary: #1A1A1A;
+            
+            /* Nero Marquina */
+            --nero-bg: #0D0D0D;
+            --nero-surface: #1A1A1A;
+            --nero-border: #2D2D2D;
+            --nero-accent: #C9A962;
+            --nero-text: #FFFFFF;
+            
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--carrara-bg);
+            color: var(--carrara-primary);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .main-header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: linear-gradient(180deg, #fff 0%, #fafafa 100%);
+            border-bottom: 1px solid var(--carrara-border);
+        }
+
+        .main-header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .main-header p {
+            font-size: 1rem;
+            color: var(--carrara-secondary);
+            max-width: 700px;
+            margin: 0 auto 24px;
+        }
+
+        .comparison-note {
+            display: inline-block;
+            background: var(--carrara-surface);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+
+        .comparison-note strong {
+            color: var(--nero-accent);
+        }
+
+        /* Navigation */
+        .direction-nav {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 24px;
+            background: var(--carrara-surface);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            border: 1px solid var(--carrara-border);
+            background: var(--carrara-bg);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border-radius: 4px;
+        }
+
+        .nav-btn:hover {
+            border-color: var(--carrara-primary);
+        }
+
+        .nav-btn.active {
+            background: var(--carrara-primary);
+            color: var(--carrara-bg);
+            border-color: var(--carrara-primary);
+        }
+
+        /* Direction Container */
+        .direction {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .direction.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Direction Header */
+        .direction-header {
+            padding: 40px;
+            background: var(--carrara-surface);
+            border-bottom: 1px solid var(--carrara-border);
+        }
+
+        .direction-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .direction-subtitle {
+            color: var(--carrara-secondary);
+            margin-bottom: 24px;
+        }
+
+        .direction-dna {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .dna-badge {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .dna-3 {
+            background: var(--carrara-surface);
+            border: 1px solid var(--carrara-border);
+        }
+
+        .dna-6 {
+            background: var(--nero-bg);
+            color: var(--nero-text);
+        }
+
+        .direction-meta {
+            display: flex;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            font-size: 0.85rem;
+        }
+
+        .meta-label {
+            color: var(--carrara-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.7rem;
+            margin-bottom: 4px;
+        }
+
+        /* Mockup Container */
+        .mockup-container {
+            background: #f0f0f0;
+            padding: 32px;
+            min-height: 80vh;
+        }
+
+        .mockup-frame {
+            background: var(--carrara-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.15);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Shared Elements */
+        .mock-nav {
+            display: flex;
+            align-items: center;
+            padding: 20px 48px;
+        }
+
+        .mock-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .mock-nav-links {
+            display: flex;
+            gap: 40px;
+            margin-left: auto;
+        }
+
+        .mock-nav-link {
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .mock-btn {
+            padding: 12px 32px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            letter-spacing: 0.05em;
+        }
+
+        .mock-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Cube Placeholder */
+        .cube-placeholder {
+            background: linear-gradient(135deg, #e8e8e8 0%, #f5f5f5 50%, #e0e0e0 100%);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #999;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cube-placeholder::before {
+            content: '';
+            position: absolute;
+            width: 70%;
+            height: 70%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.8) 0%, rgba(200,200,200,0.4) 100%);
+            transform: rotate(45deg);
+        }
+
+        .cube-placeholder-dark {
+            background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 50%, #252525 100%);
+        }
+
+        .cube-placeholder-dark::before {
+            background: linear-gradient(45deg, rgba(100,100,100,0.3) 0%, rgba(60,60,60,0.2) 100%);
+        }
+
+        /* ===== HYBRID A: Light Minimal + Dark Config ===== */
+        .hybridA-hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hybridA-nav {
+            background: var(--carrara-bg);
+            border-bottom: 1px solid var(--carrara-border);
+        }
+
+        .hybridA-nav .mock-logo { color: var(--carrara-primary); }
+        .hybridA-nav .mock-nav-link { color: var(--carrara-secondary); }
+        .hybridA-nav .mock-nav-link:hover { color: var(--carrara-primary); }
+
+        .hybridA-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 40px;
+            background: linear-gradient(180deg, var(--carrara-bg) 0%, var(--carrara-surface) 100%);
+        }
+
+        .hybridA-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+            color: var(--carrara-primary);
+        }
+
+        .hybridA-subtitle {
+            font-size: 1.1rem;
+            color: var(--carrara-secondary);
+            margin-bottom: 48px;
+            max-width: 450px;
+        }
+
+        .hybridA-cube-window {
+            background: var(--nero-bg);
+            padding: 60px 80px;
+            border-radius: 12px;
+            margin-bottom: 48px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.2);
+        }
+
+        .hybridA-cube-window .cube-placeholder {
+            width: 320px;
+            height: 320px;
+        }
+
+        .hybridA-config-bar {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+            padding: 20px 40px;
+            background: var(--carrara-bg);
+            border-radius: 60px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            border: 1px solid var(--carrara-border);
+        }
+
+        .hybridA-config-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hybridA-config-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--carrara-secondary);
+            margin-bottom: 6px;
+        }
+
+        .hybridA-config-value {
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .hybridA-config-divider {
+            width: 1px;
+            height: 36px;
+            background: var(--carrara-border);
+        }
+
+        .hybridA-cta {
+            background: var(--carrara-primary);
+            color: var(--carrara-bg);
+        }
+
+        /* ===== HYBRID B: Full Dark Cinematic ===== */
+        .hybridB-hero {
+            min-height: 100vh;
+            background: var(--nero-bg);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hybridB-nav {
+            background: transparent;
+            border: none;
+        }
+
+        .hybridB-nav .mock-logo { color: var(--nero-text); }
+        .hybridB-nav .mock-nav-link { color: rgba(255,255,255,0.5); }
+        .hybridB-nav .mock-nav-link:hover { color: var(--nero-text); }
+
+        .hybridB-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 40px;
+        }
+
+        .hybridB-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            color: var(--nero-text);
+        }
+
+        .hybridB-subtitle {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 60px;
+            max-width: 400px;
+        }
+
+        .hybridB-cube-container {
+            position: relative;
+            margin-bottom: 60px;
+        }
+
+        .hybridB-cube-container .cube-placeholder {
+            width: 380px;
+            height: 380px;
+            box-shadow: 0 60px 120px rgba(0,0,0,0.5);
+        }
+
+        .hybridB-config-bar {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+            padding: 20px 40px;
+            background: var(--nero-surface);
+            border-radius: 60px;
+            border: 1px solid var(--nero-border);
+        }
+
+        .hybridB-config-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hybridB-config-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 6px;
+        }
+
+        .hybridB-config-value {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--nero-text);
+        }
+
+        .hybridB-config-divider {
+            width: 1px;
+            height: 36px;
+            background: var(--nero-border);
+        }
+
+        .hybridB-cta {
+            background: var(--nero-accent);
+            color: var(--nero-bg);
+        }
+
+        .hybridB-scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.3);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(8px); }
+        }
+
+        /* ===== HYBRID C: Gradient Transition ===== */
+        .hybridC-hero {
+            min-height: 100vh;
+            background: linear-gradient(180deg, var(--carrara-bg) 0%, var(--carrara-surface) 30%, var(--nero-bg) 100%);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hybridC-nav {
+            background: transparent;
+            border: none;
+        }
+
+        .hybridC-nav .mock-logo { color: var(--carrara-primary); }
+        .hybridC-nav .mock-nav-link { color: var(--carrara-secondary); }
+        .hybridC-nav .mock-nav-link:hover { color: var(--carrara-primary); }
+
+        .hybridC-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 40px 80px;
+        }
+
+        .hybridC-intro {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .hybridC-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+            color: var(--carrara-primary);
+        }
+
+        .hybridC-subtitle {
+            font-size: 1rem;
+            color: var(--carrara-secondary);
+            max-width: 400px;
+        }
+
+        .hybridC-cube-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hybridC-cube-container .cube-placeholder {
+            width: 360px;
+            height: 360px;
+            box-shadow: 0 60px 120px rgba(0,0,0,0.4);
+        }
+
+        .hybridC-bottom {
+            background: var(--nero-bg);
+            padding: 32px 48px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 48px;
+        }
+
+        .hybridC-config-group {
+            display: flex;
+            gap: 32px;
+        }
+
+        .hybridC-config-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hybridC-config-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 6px;
+        }
+
+        .hybridC-config-value {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--nero-text);
+        }
+
+        .hybridC-price {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--nero-accent);
+        }
+
+        .hybridC-cta {
+            background: var(--nero-accent);
+            color: var(--nero-bg);
+            margin-left: auto;
+        }
+
+        /* ===== HYBRID D: Card-Based Config ===== */
+        .hybridD-hero {
+            min-height: 100vh;
+            background: var(--carrara-bg);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hybridD-nav {
+            background: var(--carrara-bg);
+            border: none;
+        }
+
+        .hybridD-nav .mock-logo { color: var(--carrara-primary); }
+        .hybridD-nav .mock-nav-link { color: var(--carrara-secondary); }
+        .hybridD-nav .mock-nav-link:hover { color: var(--carrara-primary); }
+
+        .hybridD-content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        .hybridD-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px 80px;
+        }
+
+        .hybridD-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 500;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: var(--carrara-primary);
+        }
+
+        .hybridD-subtitle {
+            font-size: 1rem;
+            color: var(--carrara-secondary);
+            margin-bottom: 48px;
+            max-width: 380px;
+        }
+
+        .hybridD-config-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .hybridD-config-card {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            background: var(--carrara-surface);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .hybridD-config-card:hover {
+            border-color: var(--carrara-border);
+            background: var(--carrara-bg);
+        }
+
+        .hybridD-card-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--carrara-secondary);
+            width: 100px;
+        }
+
+        .hybridD-card-value {
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .hybridD-card-edit {
+            font-size: 0.8rem;
+            color: var(--carrara-secondary);
+        }
+
+        .hybridD-price-row {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid var(--carrara-border);
+        }
+
+        .hybridD-price {
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        .hybridD-cta {
+            background: var(--carrara-primary);
+            color: var(--carrara-bg);
+        }
+
+        .hybridD-right {
+            background: var(--nero-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hybridD-right .cube-placeholder {
+            width: 400px;
+            height: 400px;
+        }
+
+        /* ===== HYBRID E: Floating Controls ===== */
+        .hybridE-hero {
+            min-height: 100vh;
+            background: var(--nero-bg);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hybridE-nav {
+            background: transparent;
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+        }
+
+        .hybridE-nav .mock-logo { color: var(--nero-text); }
+        .hybridE-nav .mock-nav-link { color: rgba(255,255,255,0.5); }
+        .hybridE-nav .mock-nav-link:hover { color: var(--nero-text); }
+
+        .hybridE-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .hybridE-cube-container .cube-placeholder {
+            width: 420px;
+            height: 420px;
+        }
+
+        .hybridE-floating-left {
+            position: absolute;
+            left: 48px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--nero-text);
+        }
+
+        .hybridE-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+        }
+
+        .hybridE-floating-right {
+            position: absolute;
+            right: 48px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--nero-surface);
+            padding: 32px;
+            border-radius: 12px;
+            width: 240px;
+        }
+
+        .hybridE-config-section {
+            margin-bottom: 24px;
+        }
+
+        .hybridE-config-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 8px;
+        }
+
+        .hybridE-config-value {
+            font-size: 1rem;
+            color: var(--nero-text);
+            padding: 12px 16px;
+            background: var(--nero-border);
+            border-radius: 6px;
+        }
+
+        .hybridE-price {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--nero-accent);
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .hybridE-cta {
+            background: var(--nero-accent);
+            color: var(--nero-bg);
+            width: 100%;
+        }
+
+        /* Footer */
+        .main-footer {
+            text-align: center;
+            padding: 60px 20px;
+            background: var(--carrara-surface);
+            border-top: 1px solid var(--carrara-border);
+        }
+
+        .main-footer h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.75rem;
+            margin-bottom: 16px;
+        }
+
+        .main-footer p {
+            color: var(--carrara-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hybridD-content { grid-template-columns: 1fr; }
+            .hybridE-floating-left, .hybridE-floating-right { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .direction-nav { gap: 4px; padding: 16px; }
+            .nav-btn { padding: 8px 12px; font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <h1>Marmorani</h1>
+        <p>5 hybrides combinant les forces des directions 3 (Centré Minimal) et 6 (Cinématique).</p>
+        <div class="comparison-note">
+            <strong>ADN commun :</strong> Cube centré • Maximum de respiration • Ultra-luxe
+        </div>
+    </header>
+
+    <nav class="direction-nav">
+        <button class="nav-btn active" onclick="showDirection('A')">A. Light + Dark Window</button>
+        <button class="nav-btn" onclick="showDirection('B')">B. Full Dark</button>
+        <button class="nav-btn" onclick="showDirection('C')">C. Gradient Fade</button>
+        <button class="nav-btn" onclick="showDirection('D')">D. Split Cards</button>
+        <button class="nav-btn" onclick="showDirection('E')">E. Floating Controls</button>
+    </nav>
+
+    <!-- Hybrid A: Light Minimal + Dark Config Window -->
+    <section class="direction active" id="dirA">
+        <div class="direction-header">
+            <h2 class="direction-title">A. Light + Dark Window</h2>
+            <p class="direction-subtitle">Site en mode clair (3), cube dans une "fenêtre" sombre (6). Contraste dramatique.</p>
+            <div class="direction-dna">
+                <span class="dna-badge dna-3">Dir 3: Layout centré, whitespace</span>
+                <span class="dna-badge dna-6">Dir 6: Fenêtre configurateur sombre</span>
+            </div>
+            <div class="direction-meta">
+                <div class="meta-item">
+                    <div class="meta-label">Ambiance</div>
+                    <div>Élégance accessible + impact visuel</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Transition</div>
+                    <div>Le cube "flotte" dans un écrin noir</div>
+                </div>
+            </div>
+        </div>
+        <div class="mockup-container">
+            <div class="mockup-frame">
+                <div class="hybridA-hero">
+                    <nav class="mock-nav hybridA-nav">
+                        <span class="mock-logo">Marmorani</span>
+                        <div class="mock-nav-links">
+                            <a href="#" class="mock-nav-link">Créer</a>
+                            <a href="#" class="mock-nav-link">Inspiration</a>
+                            <a href="#" class="mock-nav-link">Contact</a>
+                        </div>
+                    </nav>
+                    <div class="hybridA-content">
+                        <h1 class="hybridA-title">L'art du marbre,<br>à votre mesure</h1>
+                        <p class="hybridA-subtitle">Créez une pièce unique. Visualisez-la en 3D. Recevez-la chez vous.</p>
+                        <div class="hybridA-cube-window">
+                            <div class="cube-placeholder cube-placeholder-dark">
+                                <span style="color: #555; z-index: 1;">Cube 3D</span>
+                            </div>
+                        </div>
+                        <div class="hybridA-config-bar">
+                            <div class="hybridA-config-item">
+                                <span class="hybridA-config-label">Dimensions</span>
+                                <span class="hybridA-config-value">30 × 30 × 30 cm</span>
+                            </div>
+                            <div class="hybridA-config-divider"></div>
+                            <div class="hybridA-config-item">
+                                <span class="hybridA-config-label">Marbre</span>
+                                <span class="hybridA-config-value">Carrara</span>
+                            </div>
+                            <div class="hybridA-config-divider"></div>
+                            <div class="hybridA-config-item">
+                                <span class="hybridA-config-label">Finition</span>
+                                <span class="hybridA-config-value">Poli</span>
+                            </div>
+                            <div class="hybridA-config-divider"></div>
+                            <button class="mock-btn hybridA-cta">890 € — Commander</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hybrid B: Full Dark Cinematic -->
+    <section class="direction" id="dirB">
+        <div class="direction-header">
+            <h2 class="direction-title">B. Full Dark Cinematic</h2>
+            <p class="direction-subtitle">100% mode sombre. Maximum d'impact. Le marbre brille.</p>
+            <div class="direction-dna">
+                <span class="dna-badge dna-6">Dir 6: Fond noir cinématique</span>
+                <span class="dna-badge dna-3">Dir 3: Barre de config centrée</span>
+            </div>
+            <div class="direction-meta">
+                <div class="meta-item">
+                    <div class="meta-label">Ambiance</div>
+                    <div>Premium, exclusif, galerie d'art</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Feeling</div>
+                    <div>Comme entrer dans un showroom privé</div>
+                </div>
+            </div>
+        </div>
+        <div class="mockup-container">
+            <div class="mockup-frame">
+                <div class="hybridB-hero">
+                    <nav class="mock-nav hybridB-nav">
+                        <span class="mock-logo">Marmorani</span>
+                        <div class="mock-nav-links">
+                            <a href="#" class="mock-nav-link">Créer</a>
+                            <a href="#" class="mock-nav-link">Inspiration</a>
+                            <a href="#" class="mock-nav-link">Histoire</a>
+                        </div>
+                    </nav>
+                    <div class="hybridB-content">
+                        <h1 class="hybridB-title">Sculptez votre vision</h1>
+                        <p class="hybridB-subtitle">Des cubes de marbre sur mesure, fabriqués avec passion.</p>
+                        <div class="hybridB-cube-container">
+                            <div class="cube-placeholder cube-placeholder-dark">
+                                <span style="color: #555; z-index: 1;">Cube 3D</span>
+                            </div>
+                        </div>
+                        <div class="hybridB-config-bar">
+                            <div class="hybridB-config-item">
+                                <span class="hybridB-config-label">Dimensions</span>
+                                <span class="hybridB-config-value">30 × 30 × 30 cm</span>
+                            </div>
+                            <div class="hybridB-config-divider"></div>
+                            <div class="hybridB-config-item">
+                                <span class="hybridB-config-label">Marbre</span>
+                                <span class="hybridB-config-value">Carrara</span>
+                            </div>
+                            <div class="hybridB-config-divider"></div>
+                            <div class="hybridB-config-item">
+                                <span class="hybridB-config-label">Finition</span>
+                                <span class="hybridB-config-value">Poli</span>
+                            </div>
+                            <div class="hybridB-config-divider"></div>
+                            <button class="mock-btn hybridB-cta">890 € — Commander</button>
+                        </div>
+                    </div>
+                    <div class="hybridB-scroll-hint">Scroll pour découvrir</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hybrid C: Gradient Transition -->
+    <section class="direction" id="dirC">
+        <div class="direction-header">
+            <h2 class="direction-title">C. Gradient Fade</h2>
+            <p class="direction-subtitle">Transition douce du clair vers le sombre. Poétique et fluide.</p>
+            <div class="direction-dna">
+                <span class="dna-badge dna-3">Dir 3: Header clair</span>
+                <span class="dna-badge dna-6">Dir 6: Footer/config sombre</span>
+            </div>
+            <div class="direction-meta">
+                <div class="meta-item">
+                    <div class="meta-label">Ambiance</div>
+                    <div>Voyage visuel, storytelling</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Feeling</div>
+                    <div>Du jour vers la nuit, mystère</div>
+                </div>
+            </div>
+        </div>
+        <div class="mockup-container">
+            <div class="mockup-frame">
+                <div class="hybridC-hero">
+                    <nav class="mock-nav hybridC-nav">
+                        <span class="mock-logo">Marmorani</span>
+                        <div class="mock-nav-links">
+                            <a href="#" class="mock-nav-link">Créer</a>
+                            <a href="#" class="mock-nav-link">Inspiration</a>
+                            <a href="#" class="mock-nav-link">Contact</a>
+                        </div>
+                    </nav>
+                    <div class="hybridC-content">
+                        <div class="hybridC-intro">
+                            <h1 class="hybridC-title">L'art du marbre</h1>
+                            <p class="hybridC-subtitle">Créez une pièce unique en quelques clics.</p>
+                        </div>
+                        <div class="hybridC-cube-container">
+                            <div class="cube-placeholder cube-placeholder-dark">
+                                <span style="color: #555; z-index: 1;">Cube 3D</span>
+                            </div>
+                        </div>
+                        <div class="hybridC-bottom">
+                            <div class="hybridC-config-group">
+                                <div class="hybridC-config-item">
+                                    <span class="hybridC-config-label">Dimensions</span>
+                                    <span class="hybridC-config-value">30 × 30 × 30 cm</span>
+                                </div>
+                                <div class="hybridC-config-item">
+                                    <span class="hybridC-config-label">Marbre</span>
+                                    <span class="hybridC-config-value">Carrara</span>
+                                </div>
+                                <div class="hybridC-config-item">
+                                    <span class="hybridC-config-label">Finition</span>
+                                    <span class="hybridC-config-value">Poli</span>
+                                </div>
+                            </div>
+                            <div class="hybridC-price">890 €</div>
+                            <button class="mock-btn hybridC-cta">Commander</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hybrid D: Card-Based Config -->
+    <section class="direction" id="dirD">
+        <div class="direction-header">
+            <h2 class="direction-title">D. Split Cards</h2>
+            <p class="direction-subtitle">Configuration à gauche en cartes claires, cube à droite en sombre. Équilibré.</p>
+            <div class="direction-dna">
+                <span class="dna-badge dna-3">Dir 3: Config claire, typographiée</span>
+                <span class="dna-badge dna-6">Dir 6: Viewport 3D sombre</span>
+            </div>
+            <div class="direction-meta">
+                <div class="meta-item">
+                    <div class="meta-label">Ambiance</div>
+                    <div>Fonctionnel mais élégant</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Best for</div>
+                    <div>Utilisateurs qui veulent tout voir</div>
+                </div>
+            </div>
+        </div>
+        <div class="mockup-container">
+            <div class="mockup-frame">
+                <div class="hybridD-hero">
+                    <nav class="mock-nav hybridD-nav">
+                        <span class="mock-logo">Marmorani</span>
+                        <div class="mock-nav-links">
+                            <a href="#" class="mock-nav-link">Créer</a>
+                            <a href="#" class="mock-nav-link">Inspiration</a>
+                            <a href="#" class="mock-nav-link">Contact</a>
+                        </div>
+                    </nav>
+                    <div class="hybridD-content">
+                        <div class="hybridD-left">
+                            <h1 class="hybridD-title">Votre cube<br>sur mesure</h1>
+                            <p class="hybridD-subtitle">Configurez chaque détail. Visualisez en temps réel.</p>
+                            <div class="hybridD-config-cards">
+                                <div class="hybridD-config-card">
+                                    <span class="hybridD-card-label">Dimensions</span>
+                                    <span class="hybridD-card-value">30 × 30 × 30 cm</span>
+                                    <span class="hybridD-card-edit">Modifier →</span>
+                                </div>
+                                <div class="hybridD-config-card">
+                                    <span class="hybridD-card-label">Marbre</span>
+                                    <span class="hybridD-card-value">Carrara Blanc</span>
+                                    <span class="hybridD-card-edit">Modifier →</span>
+                                </div>
+                                <div class="hybridD-config-card">
+                                    <span class="hybridD-card-label">Finition</span>
+                                    <span class="hybridD-card-value">Poli miroir</span>
+                                    <span class="hybridD-card-edit">Modifier →</span>
+                                </div>
+                            </div>
+                            <div class="hybridD-price-row">
+                                <span class="hybridD-price">890 €</span>
+                                <button class="mock-btn hybridD-cta">Ajouter au panier</button>
+                            </div>
+                        </div>
+                        <div class="hybridD-right">
+                            <div class="cube-placeholder cube-placeholder-dark">
+                                <span style="color: #555; z-index: 1;">Cube 3D</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hybrid E: Floating Controls -->
+    <section class="direction" id="dirE">
+        <div class="direction-header">
+            <h2 class="direction-title">E. Floating Controls</h2>
+            <p class="direction-subtitle">Cube au centre absolu. Contrôles flottants discrets. Maximum d'immersion.</p>
+            <div class="direction-dna">
+                <span class="dna-badge dna-6">Dir 6: Full immersion sombre</span>
+                <span class="dna-badge dna-3">Dir 3: Contrôles minimalistes</span>
+            </div>
+            <div class="direction-meta">
+                <div class="meta-item">
+                    <div class="meta-label">Ambiance</div>
+                    <div>Galerie d'art, musée</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Feeling</div>
+                    <div>Le cube est une œuvre</div>
+                </div>
+            </div>
+        </div>
+        <div class="mockup-container">
+            <div class="mockup-frame">
+                <div class="hybridE-hero">
+                    <nav class="mock-nav hybridE-nav">
+                        <span class="mock-logo">Marmorani</span>
+                        <div class="mock-nav-links">
+                            <a href="#" class="mock-nav-link">Créer</a>
+                            <a href="#" class="mock-nav-link">Inspiration</a>
+                            <a href="#" class="mock-nav-link">Histoire</a>
+                        </div>
+                    </nav>
+                    <div class="hybridE-content">
+                        <div class="hybridE-floating-left">
+                            <h1 class="hybridE-title">Marmorani</h1>
+                        </div>
+                        <div class="hybridE-cube-container">
+                            <div class="cube-placeholder cube-placeholder-dark">
+                                <span style="color: #555; z-index: 1;">Cube 3D</span>
+                            </div>
+                        </div>
+                        <div class="hybridE-floating-right">
+                            <div class="hybridE-config-section">
+                                <div class="hybridE-config-label">Dimensions</div>
+                                <div class="hybridE-config-value">30 × 30 × 30 cm</div>
+                            </div>
+                            <div class="hybridE-config-section">
+                                <div class="hybridE-config-label">Marbre</div>
+                                <div class="hybridE-config-value">Carrara</div>
+                            </div>
+                            <div class="hybridE-config-section">
+                                <div class="hybridE-config-label">Finition</div>
+                                <div class="hybridE-config-value">Poli</div>
+                            </div>
+                            <div class="hybridE-price">890 €</div>
+                            <button class="mock-btn hybridE-cta">Commander</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <h2>Quel hybride vous parle ?</h2>
+        <p>Chaque variation combine les forces des directions 3 et 6. Choisissez celle qui capture le mieux l'essence de Marmorani.</p>
+    </footer>
+
+    <script>
+        function showDirection(letter) {
+            // Hide all directions
+            document.querySelectorAll('.direction').forEach(d => d.classList.remove('active'));
+            // Remove active from all buttons
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            // Show selected direction
+            document.getElementById('dir' + letter).classList.add('active');
+            // Add active to clicked button
+            const index = ['A', 'B', 'C', 'D', 'E'].indexOf(letter);
+            document.querySelectorAll('.nav-btn')[index].classList.add('active');
+            // Scroll to top of direction
+            document.getElementById('dir' + letter).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+</body>
+</html>
+

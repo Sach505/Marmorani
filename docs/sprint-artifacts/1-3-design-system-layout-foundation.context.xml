@@ -1,0 +1,235 @@
+<story-context id="1-3-design-system-layout-foundation" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>3</storyId>
+    <title>Design System &amp; Layout Foundation</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-04</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/1-3-design-system-layout-foundation.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>developer</asA>
+    <iWant>the design system configured with Marmorani's visual identity</iWant>
+    <soThat>all UI components follow the "Luxe Minimaliste Moderne" aesthetic</soThat>
+    <tasks>
+      <task id="1" ac="1,2,3,5">Configure Tailwind CSS design tokens
+        <subtask id="1.1">Update globals.css with Carrara Pure theme colors as CSS variables</subtask>
+        <subtask id="1.2">Add Nero Marquina theme colors as CSS variables in .dark class</subtask>
+        <subtask id="1.3">Add semantic colors (success, warning, error, info) for both themes</subtask>
+        <subtask id="1.4">Configure spacing scale (xs through 3xl) as CSS variables</subtask>
+        <subtask id="1.5">Extend @theme inline with custom color naming (carrara-*, marquina-*, gold accent)</subtask>
+      </task>
+      <task id="2" ac="4">Configure typography with next/font
+        <subtask id="2.1">Import Cormorant Garamond from Google Fonts via next/font/google</subtask>
+        <subtask id="2.2">Import Inter from Google Fonts via next/font/google</subtask>
+        <subtask id="2.3">Import JetBrains Mono from Google Fonts via next/font/google</subtask>
+        <subtask id="2.4">Configure font subsets (latin, latin-ext for European languages)</subtask>
+        <subtask id="2.5">Create CSS variables for each font family (--font-display, --font-body, --font-mono)</subtask>
+        <subtask id="2.6">Add font utility classes to @theme inline (font-display, font-body, font-mono)</subtask>
+      </task>
+      <task id="3" ac="6">Create CSS variables for theme switching
+        <subtask id="3.1">Define CSS custom properties in globals.css for light theme (Carrara Pure as default)</subtask>
+        <subtask id="3.2">Add dark theme CSS custom properties using .dark class (Nero Marquina)</subtask>
+        <subtask id="3.3">Create variables for: background, foreground, surface, border, accent, muted colors</subtask>
+        <subtask id="3.4">Ensure shadcn/ui existing variables are properly extended/overridden</subtask>
+      </task>
+      <task id="4" ac="7">Update RootLayout component
+        <subtask id="4.1">Update src/app/layout.tsx (or create src/app/[locale]/layout.tsx for i18n prep)</subtask>
+        <subtask id="4.2">Apply font variables to document body (font-display, font-body, font-mono)</subtask>
+        <subtask id="4.3">Add theme provider wrapper (simple class toggle for MVP)</subtask>
+        <subtask id="4.4">Configure proper html attributes (lang, suppressHydrationWarning)</subtask>
+        <subtask id="4.5">Add metadata configuration (title: Marmorani, description)</subtask>
+      </task>
+      <task id="5" ac="8">Create Header component
+        <subtask id="5.1">Create src/components/layout/Header.tsx</subtask>
+        <subtask id="5.2">Implement minimal top bar with logo/brand text (Marmorani)</subtask>
+        <subtask id="5.3">Add desktop navigation (placeholder links: Gallery, Configurator, Account)</subtask>
+        <subtask id="5.4">Add mobile hamburger button with icon (Lucide React)</subtask>
+        <subtask id="5.5">Style with Carrara Pure theme (white background, charcoal text #1A1A1A)</subtask>
+        <subtask id="5.6">Add responsive breakpoints (hide nav on mobile, show hamburger)</subtask>
+        <subtask id="5.7">Add cart icon with badge placeholder</subtask>
+      </task>
+      <task id="6" ac="9">Create Footer component
+        <subtask id="6.1">Create src/components/layout/Footer.tsx</subtask>
+        <subtask id="6.2">Add company info section (Marmorani brand)</subtask>
+        <subtask id="6.3">Add legal links section (Privacy, Terms - placeholder)</subtask>
+        <subtask id="6.4">Add contact info section (placeholder email/phone)</subtask>
+        <subtask id="6.5">Style with consistent design system tokens</subtask>
+        <subtask id="6.6">Add copyright notice with dynamic year</subtask>
+      </task>
+      <task id="7" ac="10">Create LocaleSwitcher component
+        <subtask id="7.1">Create src/components/layout/LocaleSwitcher.tsx</subtask>
+        <subtask id="7.2">Display current locale as native language name</subtask>
+        <subtask id="7.3">Create dropdown with 5 locales: English, Français, Italiano, Español, Deutsch</subtask>
+        <subtask id="7.4">Add language switching placeholder (console.log, full implementation in Story 1.4)</subtask>
+        <subtask id="7.5">Style as subtle dropdown, matching header aesthetics</subtask>
+      </task>
+      <task id="8" ac="7,8,9">Create layout index and integrate components
+        <subtask id="8.1">Create src/components/layout/index.ts for clean exports</subtask>
+        <subtask id="8.2">Integrate Header and Footer in RootLayout</subtask>
+        <subtask id="8.3">Add main content wrapper with proper styling</subtask>
+        <subtask id="8.4">Verify responsive layout works on mobile and desktop</subtask>
+      </task>
+      <task id="9" ac="6">Create theme utility components
+        <subtask id="9.1">Create src/components/ThemeProvider.tsx (simple theme context)</subtask>
+        <subtask id="9.2">Add hook useTheme() for theme access</subtask>
+        <subtask id="9.3">Add theme toggle utility (for configurator page dark mode)</subtask>
+      </task>
+      <task id="10" ac="all">Final verification
+        <subtask id="10.1">Run npm run dev and verify layout renders correctly</subtask>
+        <subtask id="10.2">Verify fonts are loading without layout shift</subtask>
+        <subtask id="10.3">Verify responsive breakpoints work (mobile/desktop)</subtask>
+        <subtask id="10.4">Verify theme colors match design spec</subtask>
+        <subtask id="10.5">Run npm run build - ensure no errors</subtask>
+        <subtask id="10.6">Run npm run lint - ensure no linting errors</subtask>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC1">Carrara Pure theme colors are defined: Background #FFFFFF, Surface #F8F8F8, Border #E5E5E5, Text primary #1A1A1A, Text secondary #4A4A4A</criterion>
+    <criterion id="AC2">Nero Marquina theme colors are defined: Background #0D0D0D, Surface #1A1A1A, Accent (gold) #C9A962, Text primary #FFFFFF, Text secondary #B3B3B3</criterion>
+    <criterion id="AC3">Semantic colors are defined for both themes: Success (green), Warning (amber), Error (red), Info (blue)</criterion>
+    <criterion id="AC4">Typography system is configured with Google Fonts via next/font: Cormorant Garamond (display), Inter (body), JetBrains Mono (mono)</criterion>
+    <criterion id="AC5">Spacing scale is configured: xs:4px, sm:8px, md:16px, lg:24px, xl:32px, 2xl:48px, 3xl:64px</criterion>
+    <criterion id="AC6">CSS variables are defined for runtime theme switching (light ↔ dark configurator)</criterion>
+    <criterion id="AC7">RootLayout component is implemented with font loading via next/font, theme provider integration, proper HTML structure with locale support</criterion>
+    <criterion id="AC8">Header component is implemented with minimal top bar design, charcoal text on light background, hamburger menu on mobile, desktop horizontal navigation, logo/brand display</criterion>
+    <criterion id="AC9">Footer component is implemented with contact information placeholder, legal links placeholder, consistent styling with design system</criterion>
+    <criterion id="AC10">LocaleSwitcher component is implemented displaying current locale, showing language names in native form (Français, Italiano, etc.), placeholder for locale change functionality</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/ux-design-specification.md" title="Marmorani UX Design Specification" section="3.1 Color System">
+        <snippet>Dual-atmosphere approach: Carrara Pure (light, general site) with bg #FFFFFF, surface #F8F8F8, border #E5E5E5, text primary #1A1A1A, text secondary #4A4A4A. Nero Marquina (dark, configurator) with bg #0D0D0D, surface #1A1A1A, accent #C9A962, text #FFFFFF.</snippet>
+      </doc>
+      <doc path="docs/ux-design-specification.md" title="Marmorani UX Design Specification" section="3.2 Typography System">
+        <snippet>Font selection: Cormorant Garamond (500-700) for headlines/display, Inter (300-500) for body text, JetBrains Mono (400) for dimensions and technical specs. Type scale: H1 3rem, H2 2.25rem, H3 1.5rem, Body 1rem.</snippet>
+      </doc>
+      <doc path="docs/ux-design-specification.md" title="Marmorani UX Design Specification" section="3.3 Spacing System">
+        <snippet>Base Unit: 4px. Tokens: xs 4px, sm 8px, md 16px, lg 24px, xl 32px, 2xl 48px, 3xl 64px. Layout grid: 12-column with 24px gutters. Container max-width: 1280px.</snippet>
+      </doc>
+      <doc path="docs/ux-design-specification.md" title="Marmorani UX Design Specification" section="9.3 Design Tokens Reference">
+        <snippet>CSS variable definitions for implementation including --color-bg, --color-surface, --color-accent, --font-display (Cormorant Garamond), --font-body (Inter), --font-mono (JetBrains Mono), spacing tokens, and transition defaults.</snippet>
+      </doc>
+      <doc path="docs/architecture.md" title="Marmorani Architecture" section="Project Structure">
+        <snippet>Components location: src/components/layout/ for Header.tsx, Footer.tsx, Navigation.tsx, LocaleSwitcher.tsx. Layout in src/app/[locale]/layout.tsx for i18n routes.</snippet>
+      </doc>
+      <doc path="docs/architecture.md" title="Marmorani Architecture" section="Decision Summary">
+        <snippet>Styling: Tailwind CSS 3.x with utility-first design token support. UI Components: shadcn/ui (minimal, accessible, full control). i18n: next-intl for 5 locales (en, fr, it, es, de).</snippet>
+      </doc>
+      <doc path="docs/architecture.md" title="Marmorani Architecture" section="Implementation Patterns - Component Pattern">
+        <snippet>Standard component structure: interface ComponentProps, hooks first (useTranslations, useStore), derived state with useMemo, event handlers, then render. React functional components with TypeScript.</snippet>
+      </doc>
+      <doc path="docs/sprint-artifacts/tech-spec-epic-1.md" title="Epic Technical Specification" section="Story 1.3 Acceptance Criteria">
+        <snippet>AC1.3.1-10: Carrara Pure colors, Nero Marquina colors, semantic colors, 3 fonts via next/font, spacing scale, CSS variables for theme switching, RootLayout, Header, Footer, LocaleSwitcher components.</snippet>
+      </doc>
+      <doc path="docs/prd.md" title="Marmorani PRD" section="User Experience Principles - Visual Identity">
+        <snippet>"Luxe Minimaliste Moderne": refined elegance with bold contemporary touches. Clean white spaces meet striking contrasts. Color palette: predominantly white and light neutrals with sophisticated accents (charcoal, gold, deep marble tones). Bold modern typefaces for headlines, clean sans-serif for body.</snippet>
+      </doc>
+      <doc path="docs/epics.md" title="Marmorani Epics" section="Story 1.3: Design System &amp; Layout Foundation">
+        <snippet>Story definition: As a developer, I want the design system configured with Marmorani's visual identity, so that all UI components follow the "Luxe Minimaliste Moderne" aesthetic. Prerequisites: Story 1.1.</snippet>
+      </doc>
+      <doc path="docs/sprint-artifacts/1-2-database-schema-prisma-setup.md" title="Story 1.2 (Completed)" section="Dev Agent Record">
+        <snippet>Project Stack: Next.js 16, Tailwind 4, Zustand 5. shadcn/ui initialized with "new-york" style and CSS variables. Path aliases @/* maps to ./src/*. Components directory src/components/ui/ exists.</snippet>
+      </doc>
+      <doc path="docs/sprint-artifacts/1-1-project-initialization-core-dependencies.md" title="Story 1.1 (Completed)" section="Dev Agent Record">
+        <snippet>Tailwind CSS 4.x alpha installed with different config approach (@theme directive in CSS). globals.css contains shadcn/ui CSS variables. next/font ready but not configured with project fonts. ESLint configured and passing.</snippet>
+      </doc>
+    </docs>
+
+    <code>
+      <artifact path="src/app/globals.css" kind="stylesheet" symbol=":root, .dark, @theme inline" lines="1-123" reason="Current shadcn/ui CSS variables using oklch colors. Needs extension with Marmorani color tokens (Carrara Pure, Nero Marquina), typography, and spacing. Uses Tailwind v4 @theme inline directive."/>
+      <artifact path="src/app/layout.tsx" kind="layout" symbol="RootLayout" lines="1-35" reason="Default Next.js layout using Geist fonts. Needs replacement with Cormorant Garamond, Inter, JetBrains Mono. Add ThemeProvider, Header, Footer integration."/>
+      <artifact path="src/components/ui/" kind="directory" reason="Empty shadcn/ui components directory. Layout components should go in separate src/components/layout/ directory per architecture spec."/>
+      <artifact path="src/lib/utils.ts" kind="utility" symbol="cn" reason="Tailwind merge utility already implemented with clsx and tailwind-merge for className composition."/>
+      <artifact path="package.json" kind="config" symbol="dependencies" lines="11-35" reason="All required dependencies installed: next 16.0.7, react 19.2.0, tailwindcss 4, lucide-react for icons, next-intl for i18n, clsx and tailwind-merge for utilities."/>
+    </code>
+
+    <dependencies>
+      <ecosystem name="node">
+        <package name="next" version="16.0.7" purpose="Next.js framework with App Router"/>
+        <package name="tailwindcss" version="^4" purpose="Tailwind CSS v4 with @theme inline directive"/>
+        <package name="lucide-react" version="^0.555.0" purpose="Icons for header (hamburger, cart, locale)"/>
+        <package name="class-variance-authority" version="^0.7.1" purpose="Component variants"/>
+        <package name="clsx" version="^2.1.1" purpose="Conditional classNames"/>
+        <package name="tailwind-merge" version="^3.4.0" purpose="Merge Tailwind classes"/>
+      </ecosystem>
+      <fonts>
+        <font name="Cormorant Garamond" source="Google Fonts" purpose="Display/headlines font - elegant serif for luxury feel"/>
+        <font name="Inter" source="Google Fonts" purpose="Body text - clean, readable sans-serif"/>
+        <font name="JetBrains Mono" source="Google Fonts" purpose="Monospace - prices, dimensions, technical data"/>
+      </fonts>
+    </dependencies>
+  </artifacts>
+
+  <interfaces>
+    <interface name="Header" kind="React Component" path="src/components/layout/Header.tsx">
+      <signature>export function Header(): JSX.Element</signature>
+    </interface>
+    <interface name="Footer" kind="React Component" path="src/components/layout/Footer.tsx">
+      <signature>export function Footer(): JSX.Element</signature>
+    </interface>
+    <interface name="LocaleSwitcher" kind="React Component" path="src/components/layout/LocaleSwitcher.tsx">
+      <signature>export function LocaleSwitcher(): JSX.Element</signature>
+    </interface>
+    <interface name="ThemeProvider" kind="React Context Provider" path="src/components/ThemeProvider.tsx">
+      <signature>export function ThemeProvider({ children }: { children: React.ReactNode }): JSX.Element</signature>
+    </interface>
+    <interface name="useTheme" kind="React Hook" path="src/components/ThemeProvider.tsx">
+      <signature>export function useTheme(): { theme: 'light' | 'dark'; setTheme: (theme: 'light' | 'dark') => void; toggleTheme: () => void }</signature>
+    </interface>
+    <interface name="RootLayout" kind="Next.js Layout" path="src/app/layout.tsx">
+      <signature>export default function RootLayout({ children }: { children: React.ReactNode }): JSX.Element</signature>
+    </interface>
+  </interfaces>
+
+  <constraints>
+    <constraint source="UX Spec">Carrara Pure Theme Default: Light theme is default for all pages except configurator</constraint>
+    <constraint source="UX Spec">Nero Marquina for Configurator: Dark theme used specifically for 3D configurator immersive experience</constraint>
+    <constraint source="UX Spec">Gold Accent #C9A962: Used for primary CTAs and price displays - the luxury signature color</constraint>
+    <constraint source="Architecture">Tailwind v4 Configuration: Uses @theme inline directive in CSS instead of tailwind.config.ts</constraint>
+    <constraint source="Architecture">next/font Optimization: Google Fonts loaded via next/font for zero layout shift</constraint>
+    <constraint source="Architecture">shadcn/ui Integration: Extend existing CSS variable system, don't replace it</constraint>
+    <constraint source="Architecture">Component Pattern: PascalCase files, props interface, hooks first, derived state, handlers, render</constraint>
+    <constraint source="Story 1.1/1.2">Path Aliases: @/* maps to ./src/* - use for all imports</constraint>
+    <constraint source="Story 1.1/1.2">Components Directory: Layout components go in src/components/layout/, UI in src/components/ui/</constraint>
+    <constraint source="UX Spec">Responsive Design: Desktop horizontal nav, Mobile hamburger → fullscreen overlay</constraint>
+    <constraint source="UX Spec">Typography Hierarchy: Display (Cormorant Garamond) for headings, Body (Inter) for UI, Mono (JetBrains) for prices/dimensions</constraint>
+  </constraints>
+
+  <tests>
+    <standards>
+      Visual and build verification for this story:
+      - npm run dev must start without errors
+      - npm run build must complete successfully  
+      - npm run lint must pass with no errors
+      - Fonts must load without visible layout shift (FOUT)
+      - Theme colors must match UX spec exactly
+      - Responsive breakpoints must work correctly
+      
+      No unit tests required - visual verification and build passing are the tests.
+    </standards>
+    <locations>
+      <location>npm run dev - localhost:3000 visual inspection</location>
+      <location>npm run build - TypeScript compilation and build check</location>
+      <location>npm run lint - ESLint validation</location>
+      <location>Browser DevTools - verify CSS variables applied correctly</location>
+    </locations>
+    <ideas>
+      <idea ac="AC1,AC2">Inspect :root and .dark CSS variables in browser DevTools to verify exact hex values</idea>
+      <idea ac="AC3">Toggle dark mode and verify semantic colors change appropriately</idea>
+      <idea ac="AC4">Check Network tab for font loading, verify Cormorant Garamond, Inter, JetBrains Mono</idea>
+      <idea ac="AC5">Measure spacing using DevTools to confirm 4px base unit scale</idea>
+      <idea ac="AC6">Test theme toggle button switches between light/dark modes</idea>
+      <idea ac="AC7">Verify RootLayout wraps content with Header and Footer</idea>
+      <idea ac="AC8">Test Header at desktop (horizontal nav) and mobile (hamburger) breakpoints</idea>
+      <idea ac="AC9">Verify Footer displays on all pages with consistent styling</idea>
+      <idea ac="AC10">Click LocaleSwitcher dropdown and verify 5 language options appear</idea>
+    </ideas>
+  </tests>
+</story-context>
+

@@ -1,0 +1,228 @@
+<story-context id="1-4-internationalization-setup" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>4</storyId>
+    <title>Internationalization Setup</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-04</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/1-4-internationalization-setup.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>the platform available in multiple languages</iWant>
+    <soThat>I can browse and purchase in my preferred language</soThat>
+    <tasks>
+      <task id="1" ac="1">
+        Configure next-intl
+        <subtask id="1.1">Verify next-intl is installed (from Story 1.1)</subtask>
+        <subtask id="1.2">Create src/i18n/config.ts with locale configuration (locales array, defaultLocale)</subtask>
+        <subtask id="1.3">Create src/i18n/request.ts with getRequestConfig for server-side i18n</subtask>
+      </task>
+      <task id="2" ac="3">
+        Create locale routing structure
+        <subtask id="2.1">Move src/app/layout.tsx content to src/app/[locale]/layout.tsx</subtask>
+        <subtask id="2.2">Create minimal src/app/layout.tsx that wraps children only</subtask>
+        <subtask id="2.3">Update src/app/page.tsx to redirect to default locale or create src/app/[locale]/page.tsx</subtask>
+        <subtask id="2.4">Ensure RootLayout in [locale] folder receives locale param and passes to NextIntlClientProvider</subtask>
+      </task>
+      <task id="3" ac="6">
+        Create middleware for locale detection
+        <subtask id="3.1">Create src/middleware.ts using next-intl's createMiddleware</subtask>
+        <subtask id="3.2">Configure locales array and defaultLocale</subtask>
+        <subtask id="3.3">Configure localePrefix strategy ('always' for explicit URLs)</subtask>
+        <subtask id="3.4">Configure matcher to exclude static files, api routes, and _next</subtask>
+      </task>
+      <task id="4" ac="5">
+        Create message files structure
+        <subtask id="4.1">Create src/messages/en.json with complete base translations (common, header, footer, errors)</subtask>
+        <subtask id="4.2">Create src/messages/fr.json with French translations</subtask>
+        <subtask id="4.3">Create src/messages/it.json with Italian translations</subtask>
+        <subtask id="4.4">Create src/messages/es.json with Spanish translations</subtask>
+        <subtask id="4.5">Create src/messages/de.json with German translations</subtask>
+      </task>
+      <task id="5" ac="1,7">
+        Update RootLayout with NextIntlClientProvider
+        <subtask id="5.1">Import NextIntlClientProvider from next-intl</subtask>
+        <subtask id="5.2">Import getMessages function</subtask>
+        <subtask id="5.3">Wrap children with NextIntlClientProvider passing messages and locale</subtask>
+        <subtask id="5.4">Set HTML lang attribute from locale parameter</subtask>
+      </task>
+      <task id="6" ac="7">
+        Update Header component with translations
+        <subtask id="6.1">Import useTranslations hook</subtask>
+        <subtask id="6.2">Replace hardcoded navigation links with translation keys (header.gallery, header.configurator, header.account)</subtask>
+        <subtask id="6.3">Replace hardcoded brand text with translation key if needed (or keep "Marmorani" as brand)</subtask>
+        <subtask id="6.4">Translate aria-labels and accessibility text</subtask>
+      </task>
+      <task id="7" ac="7">
+        Update Footer component with translations
+        <subtask id="7.1">Import useTranslations hook</subtask>
+        <subtask id="7.2">Replace company tagline with translation key (footer.tagline)</subtask>
+        <subtask id="7.3">Replace legal links text with translation keys (footer.privacy, footer.terms, footer.cookies)</subtask>
+        <subtask id="7.4">Replace contact section labels with translation keys</subtask>
+        <subtask id="7.5">Translate copyright text (footer.copyright)</subtask>
+      </task>
+      <task id="8" ac="4">
+        Update LocaleSwitcher with actual navigation
+        <subtask id="8.1">Import useRouter, usePathname from next/navigation</subtask>
+        <subtask id="8.2">Import useLocale from next-intl</subtask>
+        <subtask id="8.3">Replace console.log placeholder with actual locale change logic</subtask>
+        <subtask id="8.4">Use router.replace with new locale while preserving current pathname</subtask>
+        <subtask id="8.5">Verify current locale is highlighted in dropdown</subtask>
+      </task>
+      <task id="9" ac="5,7">
+        Create translations content
+        <subtask id="9.1">Define translation schema with namespaces: common, header, footer, errors</subtask>
+        <subtask id="9.2">Complete English translations (en.json) as source of truth</subtask>
+        <subtask id="9.3">Create French translations (professional quality)</subtask>
+        <subtask id="9.4">Create Italian translations (professional quality)</subtask>
+        <subtask id="9.5">Create Spanish translations (professional quality)</subtask>
+        <subtask id="9.6">Create German translations (professional quality)</subtask>
+      </task>
+      <task id="10" ac="all">
+        Final verification
+        <subtask id="10.1">Navigate to /en/, /fr/, /it/, /es/, /de/ - all should work</subtask>
+        <subtask id="10.2">Use language switcher to change locales - URL and content should update</subtask>
+        <subtask id="10.3">Verify browser locale detection (test with Accept-Language header)</subtask>
+        <subtask id="10.4">Verify Header and Footer display translated content</subtask>
+        <subtask id="10.5">Run npm run build - no errors</subtask>
+        <subtask id="10.6">Run npm run lint - no linting errors</subtask>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC1">next-intl is installed and configured as the i18n solution</criterion>
+    <criterion id="AC2">5 locales are supported: English (en - default), French (fr), Italian (it), Spanish (es), German (de)</criterion>
+    <criterion id="AC3">Locale routing works via /[locale]/ URL prefix: /en/, /fr/, /it/, /es/, /de/ serve respective content</criterion>
+    <criterion id="AC4">Language switcher in the header is functional: clicking changes URL locale prefix, page content updates, current selection is visually indicated</criterion>
+    <criterion id="AC5">Message files structure exists for all 5 locales: src/messages/en.json (complete), src/messages/fr.json, src/messages/it.json, src/messages/es.json, src/messages/de.json</criterion>
+    <criterion id="AC6">Middleware detects browser locale: first visit auto-detects browser's preferred language, redirects to appropriate locale if supported, falls back to English if not</criterion>
+    <criterion id="AC7">useTranslations() hook works in components: Header navigation links, Footer content, LocaleSwitcher are translated, all static text uses translation keys</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/architecture.md" title="Architecture" section="Decision Summary">
+        ADR-004: next-intl for i18n - App Router native, type-safe, automatic fallbacks. Project structure defines src/messages/ for locale files.
+      </doc>
+      <doc path="docs/architecture.md" title="Architecture" section="Project Structure">
+        Defines i18n route structure: src/app/[locale]/ with layout.tsx, page.tsx, and all route pages. Messages in src/messages/{locale}.json.
+      </doc>
+      <doc path="docs/prd.md" title="PRD" section="Non-Functional Requirements">
+        International support requirement for 5 languages: en, fr, it, es, de. Multi-language accessibility for broader market reach.
+      </doc>
+      <doc path="docs/sprint-artifacts/tech-spec-epic-1.md" title="Tech Spec Epic 1" section="Story 1.4">
+        Acceptance criteria AC1.4.1-7. Story dependencies on 1.3 (design system). Implementation notes for next-intl middleware and message structure.
+      </doc>
+      <doc path="docs/epics.md" title="Epics" section="Story 1.4">
+        Full story definition with Given/When/Then BDD acceptance criteria. Technical notes: locale routing, middleware detection, useTranslations pattern.
+      </doc>
+      <doc path="docs/ux-design-specification.md" title="UX Design" section="Component Library">
+        LocaleSwitcher component specification. Language names displayed in native form (Français, Italiano, Español, Deutsch).
+      </doc>
+      <doc path="docs/sprint-artifacts/1-3-design-system-layout-foundation.md" title="Previous Story" section="Completion Notes">
+        LocaleSwitcher already created with dropdown UI, displays 5 locales. Uses console.log placeholder - needs actual navigation logic in this story.
+      </doc>
+    </docs>
+    
+    <code>
+      <file path="src/app/layout.tsx" kind="layout" symbol="RootLayout" lines="1-89" reason="Current root layout with font loading and ThemeProvider. Needs to be restructured for [locale] routing. Move content to src/app/[locale]/layout.tsx.">
+        Contains font configuration (Cormorant Garamond, Inter, JetBrains Mono), metadata, ThemeProvider wrapper. HTML lang is hardcoded to "en" - needs dynamic locale.
+      </file>
+      <file path="src/app/page.tsx" kind="page" symbol="Home" lines="1-65" reason="Current home page. Needs to move to src/app/[locale]/page.tsx or redirect to default locale.">
+        Basic Next.js starter page - will be replaced with locale-aware version.
+      </file>
+      <file path="src/components/layout/Header.tsx" kind="component" symbol="Header" lines="1-147" reason="Has hardcoded navigation links (Gallery, Configurator, Account) that need translation keys. Also has hardcoded 'Cart' text.">
+        Uses LocaleSwitcher component. Navigation array has hardcoded English strings. aria-labels need translation.
+      </file>
+      <file path="src/components/layout/Footer.tsx" kind="component" symbol="Footer" lines="1-88" reason="Has hardcoded text: company tagline, legal links, contact labels, copyright. All need translation keys.">
+        legalLinks array has hardcoded names. Tagline is hardcoded English. Copyright uses template literal.
+      </file>
+      <file path="src/components/layout/LocaleSwitcher.tsx" kind="component" symbol="LocaleSwitcher" lines="1-115" reason="Has console.log placeholder for locale change. Need to implement actual navigation with useRouter and usePathname.">
+        locales array correctly defined. handleLocaleChange logs to console - needs router.replace implementation.
+      </file>
+      <file path="src/components/ThemeProvider.tsx" kind="provider" symbol="ThemeProvider" reason="Existing provider - NextIntlClientProvider will wrap alongside this.">
+        Theme management using useSyncExternalStore pattern.
+      </file>
+      <file path="package.json" kind="config" symbol="dependencies" lines="25" reason="Confirms next-intl ^4.5.8 already installed.">
+        All required dependencies present: next 16.0.7, next-intl ^4.5.8.
+      </file>
+    </code>
+    
+    <dependencies>
+      <node>
+        <package name="next" version="16.0.7" />
+        <package name="next-intl" version="^4.5.8" />
+        <package name="react" version="19.2.0" />
+        <package name="react-dom" version="19.2.0" />
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="architecture">Use App Router native patterns with next-intl</constraint>
+    <constraint type="architecture">Server Components first - getRequestConfig for server-side i18n</constraint>
+    <constraint type="architecture">NextIntlClientProvider for client component translations</constraint>
+    <constraint type="routing">Dynamic segment pattern: /[locale]/ for all pages</constraint>
+    <constraint type="routing">Middleware handles automatic locale detection and redirection</constraint>
+    <constraint type="naming">Message files: src/messages/{locale}.json</constraint>
+    <constraint type="naming">i18n config: src/i18n/config.ts and src/i18n/request.ts</constraint>
+    <constraint type="pattern">Use useTranslations() hook in components</constraint>
+    <constraint type="pattern">Locale type: 'en' | 'fr' | 'it' | 'es' | 'de'</constraint>
+    <constraint type="convention">Keep brand name "Marmorani" untranslated</constraint>
+    <constraint type="convention">Display locale names in native form (Français, not French)</constraint>
+    <constraint type="path">Use @/* path aliases (maps to ./src/*)</constraint>
+    <constraint type="testing">Run npm run build and npm run lint before completion</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface name="next-intl/server" kind="import">
+      <signature>getRequestConfig(callback: (params: {locale: string}) => Promise&lt;{messages: Messages}&gt;)</signature>
+      <signature>getMessages(): Promise&lt;Messages&gt;</signature>
+    </interface>
+    <interface name="next-intl" kind="import">
+      <signature>useTranslations(namespace?: string): (key: string, values?: Record&lt;string, unknown&gt;) => string</signature>
+      <signature>useLocale(): string</signature>
+      <signature>NextIntlClientProvider: React.FC&lt;{messages: Messages, locale: string, children: React.ReactNode}&gt;</signature>
+    </interface>
+    <interface name="next-intl/middleware" kind="import">
+      <signature>createMiddleware(config: {locales: string[], defaultLocale: string, localePrefix?: 'always' | 'as-needed' | 'never'})</signature>
+    </interface>
+    <interface name="next/navigation" kind="import">
+      <signature>useRouter(): {replace: (url: string) => void, push: (url: string) => void}</signature>
+      <signature>usePathname(): string</signature>
+    </interface>
+    <interface name="Locale" kind="type">
+      <signature>type Locale = 'en' | 'fr' | 'it' | 'es' | 'de'</signature>
+    </interface>
+    <interface name="Messages" kind="type">
+      <signature>{ common: {...}, header: {...}, footer: {...}, errors: {...} }</signature>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      No formal test framework configured yet (Vitest planned but not installed). Manual verification through browser testing and build validation. Run `npm run build` for type checking and `npm run lint` for code quality.
+    </standards>
+    <locations>
+      <location>tests/ (planned, not yet created)</location>
+      <location>Manual browser testing for i18n routes</location>
+    </locations>
+    <ideas>
+      <idea ac="AC1,AC2">Verify next-intl config exports correct locales array and defaultLocale</idea>
+      <idea ac="AC3">Navigate to each locale URL (/en/, /fr/, /it/, /es/, /de/) - page loads without error</idea>
+      <idea ac="AC4">Click each locale in LocaleSwitcher - URL updates, content changes, selection highlighted</idea>
+      <idea ac="AC5">Verify all 5 message files exist and parse as valid JSON</idea>
+      <idea ac="AC6">Test with Accept-Language: fr header - should redirect to /fr/</idea>
+      <idea ac="AC6">Test with unsupported locale (Accept-Language: zh) - should fall back to /en/</idea>
+      <idea ac="AC7">Verify Header shows translated navigation (Galerie, Configurateur, Compte in French)</idea>
+      <idea ac="AC7">Verify Footer shows translated legal links and copyright</idea>
+      <idea ac="all">npm run build completes without type errors</idea>
+      <idea ac="all">npm run lint passes with no errors</idea>
+    </ideas>
+  </tests>
+</story-context>
+

@@ -1,0 +1,46 @@
+{
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "back": "Retour",
+    "next": "Suivant",
+    "submit": "Soumettre",
+    "search": "Rechercher",
+    "viewAll": "Voir tout",
+    "learnMore": "En savoir plus"
+  },
+  "header": {
+    "gallery": "Galerie",
+    "configurator": "Configurateur",
+    "account": "Compte",
+    "cart": "Panier",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu",
+    "shoppingCart": "Panier",
+    "currentLanguage": "Langue actuelle : {language}. Cliquez pour changer de langue."
+  },
+  "footer": {
+    "tagline": "L'artisanat du marbre de luxe, conçu selon votre vision. Dimensions personnalisées, qualité exceptionnelle.",
+    "contact": "Contact",
+    "legal": "Mentions légales",
+    "privacy": "Politique de confidentialité",
+    "terms": "Conditions d'utilisation",
+    "cookies": "Politique des cookies",
+    "copyright": "© {year} Marmorani. Tous droits réservés.",
+    "address": "123 Rue du Marbre\n75001 Paris, France"
+  },
+  "errors": {
+    "notFound": "Page non trouvée",
+    "serverError": "Erreur du serveur",
+    "networkError": "Erreur réseau. Veuillez vérifier votre connexion.",
+    "unauthorized": "Vous n'êtes pas autorisé à voir cette page.",
+    "generic": "Une erreur s'est produite. Veuillez réessayer."
+  },
+  "home": {
+    "welcome": "Bienvenue chez Marmorani",
+    "subtitle": "Marbre de Luxe Sur Mesure"
+  }
+}

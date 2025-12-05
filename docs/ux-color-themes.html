@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marmorani - Color Theme Explorer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fafafa;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: linear-gradient(180deg, #fff 0%, #fafafa 100%);
+        }
+
+        .header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .themes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            padding: 40px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .theme-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            transition: var(--transition);
+        }
+
+        .theme-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 48px rgba(0,0,0,0.12);
+        }
+
+        .theme-header {
+            padding: 32px;
+            text-align: center;
+        }
+
+        .theme-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: 0.05em;
+        }
+
+        .theme-personality {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 16px;
+        }
+
+        .theme-best-for {
+            font-size: 0.8rem;
+            padding: 6px 16px;
+            background: #f5f5f5;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        /* Color Swatches */
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            border-top: 1px solid #eee;
+        }
+
+        .color-swatch {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 8px;
+            font-size: 0.65rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.05);
+            z-index: 10;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .color-swatch span {
+            opacity: 0.8;
+        }
+
+        /* Semantic Colors */
+        .semantic-colors {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            padding: 16px;
+            gap: 8px;
+            background: #fafafa;
+        }
+
+        .semantic-chip {
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* Component Preview */
+        .component-preview {
+            padding: 32px;
+        }
+
+        .preview-section {
+            margin-bottom: 24px;
+        }
+
+        .preview-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #999;
+            margin-bottom: 12px;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            letter-spacing: 0.05em;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1.5px solid;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        /* Form Elements */
+        .form-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .input {
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            width: 160px;
+            transition: var(--transition);
+        }
+
+        .input:focus {
+            outline: none;
+        }
+
+        /* Cards */
+        .sample-card {
+            padding: 24px;
+            border-radius: 8px;
+            max-width: 280px;
+        }
+
+        .card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+        }
+
+        .card-text {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-bottom: 16px;
+        }
+
+        .card-price {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Navigation Sample */
+        .nav-sample {
+            display: flex;
+            gap: 32px;
+            padding: 16px 0;
+            border-bottom: 1px solid;
+            margin-bottom: 16px;
+        }
+
+        .nav-item {
+            font-size: 0.85rem;
+            text-decoration: none;
+            padding-bottom: 8px;
+            transition: var(--transition);
+        }
+
+        .nav-item.active {
+            border-bottom: 2px solid;
+        }
+
+        /* Alert Samples */
+        .alert {
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        /* Theme 1: Carrara Pure */
+        .theme-carrara .theme-header { background: #fff; color: #1a1a1a; }
+        .theme-carrara .swatch-1 { background: #FFFFFF; color: #1a1a1a; }
+        .theme-carrara .swatch-2 { background: #F8F8F8; color: #1a1a1a; }
+        .theme-carrara .swatch-3 { background: #E5E5E5; color: #1a1a1a; }
+        .theme-carrara .swatch-4 { background: #4A4A4A; color: #fff; }
+        .theme-carrara .swatch-5 { background: #1A1A1A; color: #fff; }
+        
+        .theme-carrara .semantic-success { background: #E8F5E9; color: #2E7D32; }
+        .theme-carrara .semantic-warning { background: #FFF8E1; color: #F57C00; }
+        .theme-carrara .semantic-error { background: #FFEBEE; color: #C62828; }
+        .theme-carrara .semantic-info { background: #E3F2FD; color: #1565C0; }
+
+        .theme-carrara .component-preview { background: #fff; }
+        .theme-carrara .btn-primary { background: #1A1A1A; color: #fff; }
+        .theme-carrara .btn-primary:hover { background: #333; }
+        .theme-carrara .btn-secondary { border-color: #1A1A1A; color: #1A1A1A; }
+        .theme-carrara .btn-ghost { color: #1A1A1A; }
+        .theme-carrara .input { background: #F8F8F8; border: 1px solid #E5E5E5; color: #1a1a1a; }
+        .theme-carrara .input:focus { border-color: #1A1A1A; }
+        .theme-carrara .sample-card { background: #F8F8F8; color: #1a1a1a; }
+        .theme-carrara .nav-sample { border-color: #E5E5E5; }
+        .theme-carrara .nav-item { color: #666; }
+        .theme-carrara .nav-item.active { color: #1A1A1A; border-color: #1A1A1A; }
+
+        /* Theme 2: Nero Marquina */
+        .theme-nero .theme-header { background: #0D0D0D; color: #fff; }
+        .theme-nero .swatch-1 { background: #0D0D0D; color: #fff; }
+        .theme-nero .swatch-2 { background: #1A1A1A; color: #fff; }
+        .theme-nero .swatch-3 { background: #2D2D2D; color: #fff; }
+        .theme-nero .swatch-4 { background: #C9A962; color: #0D0D0D; }
+        .theme-nero .swatch-5 { background: #FFFFFF; color: #0D0D0D; }
+        
+        .theme-nero .semantic-success { background: #1B3D2F; color: #4ADE80; }
+        .theme-nero .semantic-warning { background: #3D351B; color: #FBBF24; }
+        .theme-nero .semantic-error { background: #3D1B1B; color: #F87171; }
+        .theme-nero .semantic-info { background: #1B2D3D; color: #60A5FA; }
+
+        .theme-nero .component-preview { background: #0D0D0D; color: #fff; }
+        .theme-nero .btn-primary { background: #C9A962; color: #0D0D0D; }
+        .theme-nero .btn-primary:hover { background: #D4B86A; }
+        .theme-nero .btn-secondary { border-color: #C9A962; color: #C9A962; }
+        .theme-nero .btn-ghost { color: #C9A962; }
+        .theme-nero .input { background: #1A1A1A; border: 1px solid #2D2D2D; color: #fff; }
+        .theme-nero .input:focus { border-color: #C9A962; }
+        .theme-nero .sample-card { background: #1A1A1A; color: #fff; }
+        .theme-nero .nav-sample { border-color: #2D2D2D; }
+        .theme-nero .nav-item { color: #888; }
+        .theme-nero .nav-item.active { color: #C9A962; border-color: #C9A962; }
+
+        /* Theme 3: Calacatta Gold */
+        .theme-calacatta .theme-header { background: #FDFBF7; color: #2C2416; }
+        .theme-calacatta .swatch-1 { background: #FDFBF7; color: #2C2416; }
+        .theme-calacatta .swatch-2 { background: #F5F0E6; color: #2C2416; }
+        .theme-calacatta .swatch-3 { background: #D4C4A8; color: #2C2416; }
+        .theme-calacatta .swatch-4 { background: #8B7355; color: #fff; }
+        .theme-calacatta .swatch-5 { background: #2C2416; color: #fff; }
+        
+        .theme-calacatta .semantic-success { background: #E8F0E4; color: #3D5A3D; }
+        .theme-calacatta .semantic-warning { background: #F5ECD9; color: #8B6914; }
+        .theme-calacatta .semantic-error { background: #F5E0DC; color: #8B3A3A; }
+        .theme-calacatta .semantic-info { background: #E4ECF0; color: #3A5A8B; }
+
+        .theme-calacatta .component-preview { background: #FDFBF7; }
+        .theme-calacatta .btn-primary { background: #2C2416; color: #FDFBF7; }
+        .theme-calacatta .btn-primary:hover { background: #3D3322; }
+        .theme-calacatta .btn-secondary { border-color: #2C2416; color: #2C2416; }
+        .theme-calacatta .btn-ghost { color: #8B7355; }
+        .theme-calacatta .input { background: #F5F0E6; border: 1px solid #D4C4A8; color: #2C2416; }
+        .theme-calacatta .input:focus { border-color: #8B7355; }
+        .theme-calacatta .sample-card { background: #F5F0E6; color: #2C2416; }
+        .theme-calacatta .nav-sample { border-color: #D4C4A8; }
+        .theme-calacatta .nav-item { color: #8B7355; }
+        .theme-calacatta .nav-item.active { color: #2C2416; border-color: #2C2416; }
+
+        /* Theme 4: Emperador Classic */
+        .theme-emperador .theme-header { background: #1E1912; color: #E8DFD0; }
+        .theme-emperador .swatch-1 { background: #1E1912; color: #E8DFD0; }
+        .theme-emperador .swatch-2 { background: #2D261C; color: #E8DFD0; }
+        .theme-emperador .swatch-3 { background: #5C4B3A; color: #E8DFD0; }
+        .theme-emperador .swatch-4 { background: #A68B5B; color: #1E1912; }
+        .theme-emperador .swatch-5 { background: #E8DFD0; color: #1E1912; }
+        
+        .theme-emperador .semantic-success { background: #2D3D2A; color: #8BC77F; }
+        .theme-emperador .semantic-warning { background: #3D3520; color: #D4A84B; }
+        .theme-emperador .semantic-error { background: #3D2525; color: #D47B7B; }
+        .theme-emperador .semantic-info { background: #252D3D; color: #7BA8D4; }
+
+        .theme-emperador .component-preview { background: #1E1912; color: #E8DFD0; }
+        .theme-emperador .btn-primary { background: #A68B5B; color: #1E1912; }
+        .theme-emperador .btn-primary:hover { background: #B89A6A; }
+        .theme-emperador .btn-secondary { border-color: #A68B5B; color: #A68B5B; }
+        .theme-emperador .btn-ghost { color: #A68B5B; }
+        .theme-emperador .input { background: #2D261C; border: 1px solid #5C4B3A; color: #E8DFD0; }
+        .theme-emperador .input:focus { border-color: #A68B5B; }
+        .theme-emperador .sample-card { background: #2D261C; color: #E8DFD0; }
+        .theme-emperador .nav-sample { border-color: #5C4B3A; }
+        .theme-emperador .nav-item { color: #8B7B6B; }
+        .theme-emperador .nav-item.active { color: #A68B5B; border-color: #A68B5B; }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 60px 20px;
+            background: #fff;
+            border-top: 1px solid #eee;
+        }
+
+        .footer h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.75rem;
+            margin-bottom: 16px;
+        }
+
+        .footer p {
+            color: #666;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .themes-grid { padding: 20px; gap: 24px; }
+            .color-palette { grid-template-columns: repeat(5, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Marmorani</h1>
+        <p>Explorez les directions visuelles inspirées des marbres les plus nobles. Chaque thème capture une essence différente du luxe minimaliste moderne.</p>
+    </header>
+
+    <main class="themes-grid">
+        <!-- Theme 1: Carrara Pure -->
+        <article class="theme-card theme-carrara">
+            <div class="theme-header">
+                <h2 class="theme-name">Carrara Pure</h2>
+                <p class="theme-personality">Élégance intemporelle • Pureté absolue</p>
+                <span class="theme-best-for">Idéal pour : Luxe accessible, confiance</span>
+            </div>
+            <div class="color-palette">
+                <div class="color-swatch swatch-1"><span>Background<br>#FFFFFF</span></div>
+                <div class="color-swatch swatch-2"><span>Surface<br>#F8F8F8</span></div>
+                <div class="color-swatch swatch-3"><span>Border<br>#E5E5E5</span></div>
+                <div class="color-swatch swatch-4"><span>Secondary<br>#4A4A4A</span></div>
+                <div class="color-swatch swatch-5"><span>Primary<br>#1A1A1A</span></div>
+            </div>
+            <div class="semantic-colors">
+                <div class="semantic-chip semantic-success">Succès</div>
+                <div class="semantic-chip semantic-warning">Attention</div>
+                <div class="semantic-chip semantic-error">Erreur</div>
+                <div class="semantic-chip semantic-info">Info</div>
+            </div>
+            <div class="component-preview">
+                <div class="preview-section">
+                    <div class="preview-label">Navigation</div>
+                    <nav class="nav-sample">
+                        <a href="#" class="nav-item active">Configurateur</a>
+                        <a href="#" class="nav-item">Inspiration</a>
+                        <a href="#" class="nav-item">Marbres</a>
+                    </nav>
+                </div>
+                <div class="preview-section">
+                    <div class="preview-label">Boutons</div>
+                    <div class="button-group">
+                        <button class="btn btn-primary">Commander</button>
+                        <button class="btn btn-secondary">Voir plus</button>
+                        <button class="btn btn-ghost">Détails</button>
+                    </div>
+                </div>
+                <div class="preview-section">
+                    <div class="preview-label">Formulaire</div>
+                    <div class="form-group">
+                        <input type="text" class="input" placeholder="Hauteur (cm)">
+                        <input type="text" class="input" placeholder="Largeur (cm)">
+                    </div>
+                </div>
+                <div class="preview-section">
+                    <div class="preview-label">Carte produit</div>
+                    <div class="sample-card">
+                        <h3 class="card-title">Cube Carrara</h3>
+                        <p class="card-text">30×30×30 cm • Poli</p>
+                        <span class="card-price">890 €</span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Theme 2: Nero Marquina -->
+        <article class="theme-card theme-nero">
+            <div class="theme-header">
+                <h2 class="theme-name">Nero Marquina</h2>
+                <p class="theme-personality">Sophistication audacieuse • Prestige absolu</p>
+                <span class="theme-best-for" style="background: #2D2D2D; color: #C9A962;">Idéal pour : Impact maximal, exclusivité</span>
+            </div>
+            <div class="color-palette">
+                <div class="color-swatch swatch-1"><span>Background<br>#0D0D0D</span></div>
+                <div class="color-swatch swatch-2"><span>Surface<br>#1A1A1A</span></div>
+                <div class="color-swatch swatch-3"><span>Border<br>#2D2D2D</span></div>
+                <div class="color-swatch swatch-4"><span>Accent<br>#C9A962</span></div>
+                <div class="color-swatch swatch-5"><span>Text<br>#FFFFFF</span></div>
+            </div>
+            <div class="semantic-colors" style="background: #1A1A1A;">
+                <div class="semantic-chip semantic-success">Succès</div>
+                <div class="semantic-chip semantic-warning">Attention</div>
+                <div class="semantic-chip semantic-error">Erreur</div>
+                <div class="semantic-chip semantic-info">Info</div>
+            </div>
+            <div class="component-preview">
+                <div class="preview-section">
+                    <div class="preview-label" style="color: #666;">Navigation</div>
+                    <nav class="nav-sample">
+                        <a href="#" class="nav-item active">Configurateur</a>
+                        <a href="#" class="nav-item">Inspiration</a>
+                        <a href="#" class="nav-item">Marbres</a>
+                    </nav>
+                </div>
+                <div class="preview-section">
+                    <div class="preview-label" style="color: #666;">Boutons</div>
+                    <div class="button-group">
+                        <button class="btn btn-primary">Commander</button>
+                        <button class="btn btn-secondary">Voir plus</button>
+                        <button class="btn btn-ghost">Détails</button>
+                    </div>
+                </div>
+                <div class="preview-section">
+                    <div class="preview-label" style="color: #666;">Formulaire</div>
+                    <div class="form-group">
+                        <input type="text" class="input" placeholder="Hauteur (cm)">
+                        <input type="text" class="input" placeholder="Largeur (cm)">
+                    </div>
+                </div>
+                <div class="preview-section">
+                    <div class="preview-label" style="color: #666;">Carte produit</div>
+                    <div class="sample-card">
+                        <h3 class="card-title">Cube Nero</h3>
+                        <p class="card-text">30×30×30 cm • Poli</p>
+                        <span class="card-price" style="color: #C9A962;">1 290 €</span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Theme 3: Calacatta Gold -->
+        <article class="theme-card theme-calacatta">
+            <div class="theme-header">
+                <h2 class="theme-name">Calacatta Gold</h2>
+                <p class="theme-personality">Chaleur raffinée • Luxe naturel</p>
+                <span class="theme-best-for">Idéal pour : Accueil chaleureux, artisanat</span>
+            </div>
+            <div class="color-palette">
+                <div class="color-swatch swatch-1"><span>Background<br>#FDFBF7</span></div>
+                <div class="color-swatch swatch-2"><span>Surface<br>#F5F0E6</span></div>
+                <div class="color-swatch swatch-3"><span>Accent<br>#D4C4A8</span></div>
+                <div class="color-swatch swatch-4"><span>Secondary<br>#8B7355</span></div>
+                <div class="color-swatch swatch-5"><span>Primary<br>#2C2416</span></div>
+            </div>
+            <div class="semantic-colors" style="background: #F5F0E6;">
+                <div class="semantic-chip semantic-success">Succès</div>
+                <div class="semantic-chip semantic-warning">Attention</div>
+                <div class="semantic-chip semantic-error">Erreur</div>
+                <div class="semantic-chip semantic-info">Info</div>
+            </div>
+            <div class="component-preview">
+                <div class="preview-section">
+                    <div class="preview-label">Navigation</div>
+                    <nav class="nav-sample">
+                        <a href="#" class="nav-item active">Configurateur</a>
+                        <a href="#" class="nav-item">Inspiration</a>
+                        <a href="#" class="nav-item">Marbres</a>
+                    </nav>
+                </div>
+                <div class="preview-section">
+                    <div class="preview-label">Boutons</div>
+                    <div class="button-group">
+                        <button class="btn btn-primary">Commander</button>
+                        <button class="btn btn-secondary">Voir plus</button>
+                        <button class="btn btn-ghost">Détails</button>
+                    </div>
+                </div>
+                <div class="preview-section">
+                    <div class="preview-label">Formulaire</div>
+                    <div class="form-group">
+                        <input type="text" class="input" placeholder="Hauteur (cm)">
+                        <input type="text" class="input" placeholder="Largeur (cm)">
+                    </div>
+                </div>
+                <div class="preview-section">
+                    <div class="preview-label">Carte produit</div>
+                    <div class="sample-card">
+                        <h3 class="card-title">Cube Calacatta</h3>
+                        <p class="card-text">30×30×30 cm • Poli</p>
+                        <span class="card-price">1 450 €</span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Theme 4: Emperador Classic -->
+        <article class="theme-card theme-emperador">
+            <div class="theme-header">
+                <h2 class="theme-name">Emperador Classic</h2>
+                <p class="theme-personality">Richesse terreuse • Noblesse ancestrale</p>
+                <span class="theme-best-for" style="background: #2D261C; color: #A68B5B;">Idéal pour : Tradition, authenticité</span>
+            </div>
+            <div class="color-palette">
+                <div class="color-swatch swatch-1"><span>Background<br>#1E1912</span></div>
+                <div class="color-swatch swatch-2"><span>Surface<br>#2D261C</span></div>
+                <div class="color-swatch swatch-3"><span>Border<br>#5C4B3A</span></div>
+                <div class="color-swatch swatch-4"><span>Accent<br>#A68B5B</span></div>
+                <div class="color-swatch swatch-5"><span>Text<br>#E8DFD0</span></div>
+            </div>
+            <div class="semantic-colors" style="background: #2D261C;">
+                <div class="semantic-chip semantic-success">Succès</div>
+                <div class="semantic-chip semantic-warning">Attention</div>
+                <div class="semantic-chip semantic-error">Erreur</div>
+                <div class="semantic-chip semantic-info">Info</div>
+            </div>
+            <div class="component-preview">
+                <div class="preview-section">
+                    <div class="preview-label" style="color: #5C4B3A;">Navigation</div>
+                    <nav class="nav-sample">
+                        <a href="#" class="nav-item active">Configurateur</a>
+                        <a href="#" class="nav-item">Inspiration</a>
+                        <a href="#" class="nav-item">Marbres</a>
+                    </nav>
+                </div>
+                <div class="preview-section">
+                    <div class="preview-label" style="color: #5C4B3A;">Boutons</div>
+                    <div class="button-group">
+                        <button class="btn btn-primary">Commander</button>
+                        <button class="btn btn-secondary">Voir plus</button>
+                        <button class="btn btn-ghost">Détails</button>
+                    </div>
+                </div>
+                <div class="preview-section">
+                    <div class="preview-label" style="color: #5C4B3A;">Formulaire</div>
+                    <div class="form-group">
+                        <input type="text" class="input" placeholder="Hauteur (cm)">
+                        <input type="text" class="input" placeholder="Largeur (cm)">
+                    </div>
+                </div>
+                <div class="preview-section">
+                    <div class="preview-label" style="color: #5C4B3A;">Carte produit</div>
+                    <div class="sample-card">
+                        <h3 class="card-title">Cube Emperador</h3>
+                        <p class="card-text">30×30×30 cm • Poli</p>
+                        <span class="card-price" style="color: #A68B5B;">1 180 €</span>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <h2>Quel thème vous parle ?</h2>
+        <p>Choisissez la direction qui capture le mieux l'essence de Marmorani. Vous pouvez aussi combiner des éléments de plusieurs thèmes.</p>
+    </footer>
+</body>
+</html>
+

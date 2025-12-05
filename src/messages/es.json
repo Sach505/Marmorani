@@ -1,0 +1,47 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "error": "Se produjo un error",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "submit": "Enviar",
+    "search": "Buscar",
+    "viewAll": "Ver todo",
+    "learnMore": "Más información"
+  },
+  "header": {
+    "gallery": "Galería",
+    "configurator": "Configurador",
+    "account": "Cuenta",
+    "cart": "Carrito",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú",
+    "shoppingCart": "Carrito de compras",
+    "currentLanguage": "Idioma actual: {language}. Haz clic para cambiar el idioma."
+  },
+  "footer": {
+    "tagline": "Artesanía de mármol de lujo, diseñada según tu visión. Dimensiones personalizadas, calidad excepcional.",
+    "contact": "Contacto",
+    "legal": "Legal",
+    "privacy": "Política de privacidad",
+    "terms": "Términos de servicio",
+    "cookies": "Política de cookies",
+    "copyright": "© {year} Marmorani. Todos los derechos reservados.",
+    "address": "123 Rue du Marbre\n75001 París, Francia"
+  },
+  "errors": {
+    "notFound": "Página no encontrada",
+    "serverError": "Error del servidor",
+    "networkError": "Error de red. Comprueba tu conexión.",
+    "unauthorized": "No estás autorizado para ver esta página.",
+    "generic": "Algo salió mal. Por favor, inténtalo de nuevo."
+  },
+  "home": {
+    "welcome": "Bienvenido a Marmorani",
+    "subtitle": "Mármol de Lujo Personalizado"
+  }
+}
+

@@ -1,0 +1,108 @@
+# generated: 2025-12-04
+# project: Marmorani
+# project_key: marmorani
+# tracking_system: file-system
+# story_location: docs/sprint-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic exists in epic file but not contexted
+#   - contexted: Next epic tech context created by *epic-tech-context (required)
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - drafted: Story file created in stories folder by *create-story
+#   - ready-for-dev: Draft approved and story context created by *story-ready
+#   - in-progress: Developer actively working on implementation by *dev-story
+#   - review: Implementation complete, ready for review by *code-review
+#   - done: Story completed by *story-done
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - completed: Retrospective has been done by *retrospective
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epics should be 'contexted' before stories can be 'drafted'
+# - SM typically drafts next story ONLY after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', dev reviews, then Dev moves to 'done'
+
+generated: 2025-12-04
+project: Marmorani
+project_key: marmorani
+tracking_system: file-system
+story_location: docs/sprint-artifacts
+
+development_status:
+  # Epic 1: Foundation & Project Setup
+  epic-1: contexted
+  1-1-project-initialization-core-dependencies: done
+  1-2-database-schema-prisma-setup: done
+  1-3-design-system-layout-foundation: done
+  1-4-internationalization-setup: done
+  1-5-deployment-pipeline-environment-configuration: in-progress
+  epic-1-retrospective: optional
+
+  # Epic 2: Marble Catalog & Discovery
+  epic-2: backlog
+  2-1-marble-data-seeding-constants: backlog
+  2-2-marble-texture-assets: backlog
+  2-3-inspiration-gallery-page: backlog
+  2-4-gallery-filtering: backlog
+  2-5-marble-detail-page: backlog
+  2-6-gallery-to-configurator-navigation: backlog
+  epic-2-retrospective: optional
+
+  # Epic 3: 3D Configurator Core
+  epic-3: backlog
+  3-1-configurator-page-shell-theme: backlog
+  3-2-zustand-configuration-store: backlog
+  3-3-3d-cube-viewer-component: backlog
+  3-4-3d-interaction-controls: backlog
+  3-5-dimension-input-controls: backlog
+  3-6-marble-type-selector: backlog
+  3-7-finish-picker: backlog
+  3-8-price-weight-display: backlog
+  epic-3-retrospective: optional
+
+  # Epic 4: User Authentication & Profile
+  epic-4: backlog
+  4-1-anonymous-browsing-configuration: backlog
+  4-2-email-registration: backlog
+  4-3-login-session-management: backlog
+  4-4-password-reset-flow: backlog
+  4-5-profile-management: backlog
+  4-6-address-management: backlog
+  epic-4-retrospective: optional
+
+  # Epic 5: Shopping Cart & Checkout
+  epic-5: backlog
+  5-1-add-to-cart-from-configurator: backlog
+  5-2-cart-page-item-management: backlog
+  5-3-cart-persistence-logged-in-users: backlog
+  5-4-checkout-address-selection: backlog
+  5-5-checkout-shipping-calculation: backlog
+  5-6-stripe-payment-integration: backlog
+  5-7-invoice-generation: backlog
+  5-8-order-confirmation: backlog
+  epic-5-retrospective: optional
+
+  # Epic 6: Order Management
+  epic-6: backlog
+  6-1-order-dashboard: backlog
+  6-2-order-detail-view: backlog
+  6-3-order-status-timeline: backlog
+  6-4-order-status-email-notifications: backlog
+  6-5-invoice-download-shipment-tracking: backlog
+  epic-6-retrospective: optional
+
+  # Epic 7: Admin Dashboard
+  epic-7: backlog
+  7-1-admin-authentication-layout: backlog
+  7-2-marble-catalog-management: backlog
+  7-3-marble-pricing-update: backlog
+  7-4-gallery-content-management: backlog
+  7-5-order-management-analytics: backlog
+  epic-7-retrospective: optional
+

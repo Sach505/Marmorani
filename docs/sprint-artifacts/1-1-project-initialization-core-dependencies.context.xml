@@ -1,0 +1,238 @@
+<story-context id="1-1-project-initialization-core-dependencies" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>1</storyId>
+    <title>Project Initialization &amp; Core Dependencies</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-04</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/1-1-project-initialization-core-dependencies.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>developer</asA>
+    <iWant>the Next.js 15 project scaffolded with all core dependencies installed</iWant>
+    <soThat>I have a consistent, configured development environment to build upon</soThat>
+    <tasks>
+      <task id="1" name="Create Next.js 15 project" ac="1">
+        <subtask>1.1: Execute npx create-next-app@latest marmorani --typescript --tailwind --eslint --app --src-dir</subtask>
+        <subtask>1.2: Verify TypeScript strict mode is enabled in tsconfig.json</subtask>
+        <subtask>1.3: Confirm src/ directory structure is created</subtask>
+        <subtask>1.4: Test npm run dev starts successfully</subtask>
+      </task>
+      <task id="2" name="Configure TypeScript &amp; ESLint" ac="1,4">
+        <subtask>2.1: Add path aliases to tsconfig.json (@/components/*, @/lib/*, @/stores/*, @/hooks/*, @/types/*, @/constants/*, @/actions/*)</subtask>
+        <subtask>2.2: Verify ESLint configuration passes with npm run lint</subtask>
+      </task>
+      <task id="3" name="Install UI dependencies" ac="2">
+        <subtask>3.1: Initialize shadcn/ui: npx shadcn@latest init</subtask>
+        <subtask>3.2: Select "New York" style, slate base color, CSS variables enabled</subtask>
+        <subtask>3.3: Verify shadcn/ui components directory created at src/components/ui/</subtask>
+      </task>
+      <task id="4" name="Install 3D rendering dependencies" ac="2">
+        <subtask>4.1: Install Three.js ecosystem: npm install three @react-three/fiber @react-three/drei &amp;&amp; npm install -D @types/three</subtask>
+        <subtask>4.2: Verify TypeScript recognizes Three.js types</subtask>
+      </task>
+      <task id="5" name="Install database &amp; auth dependencies" ac="2">
+        <subtask>5.1: Install Prisma and Supabase: npm install @prisma/client @supabase/supabase-js &amp;&amp; npm install -D prisma</subtask>
+        <subtask>5.2: Initialize Prisma with npx prisma init</subtask>
+        <subtask>5.3: Verify prisma/schema.prisma created</subtask>
+      </task>
+      <task id="6" name="Install state management" ac="2">
+        <subtask>6.1: Install Zustand: npm install zustand</subtask>
+      </task>
+      <task id="7" name="Install form &amp; validation dependencies" ac="2">
+        <subtask>7.1: Install form libraries: npm install react-hook-form @hookform/resolvers zod</subtask>
+      </task>
+      <task id="8" name="Install i18n dependencies" ac="2">
+        <subtask>8.1: Install next-intl: npm install next-intl</subtask>
+      </task>
+      <task id="9" name="Install payment dependencies" ac="2">
+        <subtask>9.1: Install Stripe: npm install stripe @stripe/stripe-js</subtask>
+      </task>
+      <task id="10" name="Install email dependencies" ac="2">
+        <subtask>10.1: Install Resend and React Email: npm install resend &amp;&amp; npm install -D react-email @react-email/components</subtask>
+      </task>
+      <task id="11" name="Install PDF generation" ac="2">
+        <subtask>11.1: Install @react-pdf/renderer: npm install @react-pdf/renderer</subtask>
+      </task>
+      <task id="12" name="Install utility dependencies" ac="2">
+        <subtask>12.1: Install utilities: npm install date-fns clsx tailwind-merge</subtask>
+      </task>
+      <task id="13" name="Create environment template" ac="3">
+        <subtask>13.1: Create .env.example with all required keys (DATABASE_URL, DIRECT_URL, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY, STRIPE_SECRET_KEY, NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY, STRIPE_WEBHOOK_SECRET, RESEND_API_KEY, NEXT_PUBLIC_APP_URL)</subtask>
+        <subtask>13.2: Add descriptive comments for each variable</subtask>
+      </task>
+      <task id="14" name="Configure next.config.ts" ac="1">
+        <subtask>14.1: Configure image optimization domains</subtask>
+        <subtask>14.2: Add any required transpilePackages</subtask>
+      </task>
+      <task id="15" name="Create lib utilities" ac="2">
+        <subtask>15.1: Create src/lib/utils.ts with cn() helper (clsx + tailwind-merge)</subtask>
+        <subtask>15.2: Create src/lib/prisma.ts singleton (placeholder for Story 1.2)</subtask>
+      </task>
+      <task id="16" name="Final verification" ac="5,6">
+        <subtask>16.1: Run npm run dev - verify starts without errors</subtask>
+        <subtask>16.2: Run npm run build - verify builds successfully</subtask>
+        <subtask>16.3: Run npm run lint - verify no linting errors</subtask>
+        <subtask>16.4: Verify all dependencies in package.json</subtask>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC1">A Next.js 15 App Router project is created with TypeScript strict mode enabled, Tailwind CSS configured, ESLint configured, and src/ directory structure</criterion>
+    <criterion id="AC2">All core dependencies are installed and configured per the Architecture document: shadcn/ui, React Three Fiber + Drei, Prisma ORM, Supabase client, Zustand, React Hook Form + Zod, next-intl, Stripe, Resend + React Email, @react-pdf/renderer, date-fns, clsx, tailwind-merge</criterion>
+    <criterion id="AC3">Environment variable template (.env.example) is created with all required keys documented</criterion>
+    <criterion id="AC4">Path aliases are configured in tsconfig.json (@/components, @/lib, etc.)</criterion>
+    <criterion id="AC5">npm run dev starts without errors</criterion>
+    <criterion id="AC6">npm run build completes successfully</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Marmorani Architecture</title>
+        <section>Project Initialization</section>
+        <snippet>Execute npx create-next-app@latest marmorani --typescript --tailwind --eslint --app --src-dir. This establishes base with Next.js 15 App Router, TypeScript strict mode, Tailwind CSS, ESLint.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Marmorani Architecture</title>
+        <section>Decision Summary</section>
+        <snippet>Complete technology stack decisions: Next.js 15.x, TypeScript 5.x, Tailwind CSS 3.x, shadcn/ui, React Three Fiber + Drei, Supabase, Prisma 5.x, Zustand 4.x, Stripe, Resend, next-intl.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Marmorani Architecture</title>
+        <section>Project Structure</section>
+        <snippet>Target structure: marmorani/ with src/app/, src/components/ui/, src/lib/, prisma/, public/textures/. All application code in src/ for clean organization.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Marmorani Architecture</title>
+        <section>Environment Variables</section>
+        <snippet>Required env vars: DATABASE_URL, DIRECT_URL, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY, STRIPE_SECRET_KEY, NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY, STRIPE_WEBHOOK_SECRET, RESEND_API_KEY, NEXT_PUBLIC_APP_URL.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-1.md</path>
+        <title>Epic Technical Specification: Foundation &amp; Project Setup</title>
+        <section>NPM Dependencies</section>
+        <snippet>Complete dependency list with versions: next 15.x, react 19.x, typescript 5.x, tailwindcss 3.x, @prisma/client 5.x, zustand 4.x, next-intl, stripe, resend, @react-pdf/renderer.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-1.md</path>
+        <title>Epic Technical Specification</title>
+        <section>Acceptance Criteria Story 1.1</section>
+        <snippet>AC1.1.1-AC1.1.9: Next.js 15 App Router with src/ structure, TypeScript strict mode, Tailwind CSS, ESLint, core dependencies, shadcn/ui, .env.example, path aliases, npm run dev works.</snippet>
+      </doc>
+      <doc>
+        <path>docs/prd.md</path>
+        <title>Marmorani PRD</title>
+        <section>Project Classification</section>
+        <snippet>Technical Type: web_app, Domain: e-commerce, Complexity: low. Greenfield e-commerce web application with specialized 3D visualization capabilities.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Marmorani Epic Breakdown</title>
+        <section>Epic 1: Foundation &amp; Project Setup</section>
+        <snippet>Goal: Establish technical infrastructure. Story 1.1 is first story with no prerequisites. Execute create-next-app, configure path aliases, all core dependencies per Architecture doc.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <!-- This is a greenfield project - no existing code. Story 1.1 creates the initial codebase. -->
+      <note>Greenfield project: Story 1.1 initializes the entire codebase from scratch. No existing code artifacts.</note>
+    </code>
+    <dependencies>
+      <ecosystem name="node">
+        <package name="next" version="15.x" purpose="Framework" />
+        <package name="react" version="19.x" purpose="UI Library" />
+        <package name="react-dom" version="19.x" purpose="UI Library" />
+        <package name="typescript" version="5.x" purpose="Type safety" />
+        <package name="tailwindcss" version="3.x" purpose="Styling" />
+        <package name="@prisma/client" version="5.x" purpose="Database ORM" />
+        <package name="prisma" version="5.x" devDep="true" purpose="Schema &amp; migrations" />
+        <package name="@supabase/supabase-js" version="latest" purpose="Auth &amp; realtime" />
+        <package name="next-intl" version="latest" purpose="i18n" />
+        <package name="zustand" version="4.x" purpose="State management" />
+        <package name="react-hook-form" version="latest" purpose="Form handling" />
+        <package name="@hookform/resolvers" version="latest" purpose="Zod integration" />
+        <package name="zod" version="latest" purpose="Validation" />
+        <package name="three" version="latest" purpose="3D engine" />
+        <package name="@react-three/fiber" version="latest" purpose="React Three.js" />
+        <package name="@react-three/drei" version="latest" purpose="Three.js helpers" />
+        <package name="@types/three" version="latest" devDep="true" purpose="Three.js types" />
+        <package name="stripe" version="latest" purpose="Payment backend" />
+        <package name="@stripe/stripe-js" version="latest" purpose="Payment frontend" />
+        <package name="resend" version="latest" purpose="Email API" />
+        <package name="react-email" version="latest" devDep="true" purpose="Email templates" />
+        <package name="@react-email/components" version="latest" devDep="true" purpose="Email components" />
+        <package name="@react-pdf/renderer" version="latest" purpose="PDF generation" />
+        <package name="date-fns" version="latest" purpose="Date utilities" />
+        <package name="clsx" version="latest" purpose="Class names" />
+        <package name="tailwind-merge" version="latest" purpose="Tailwind utilities" />
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint category="architecture">
+      Next.js 15 App Router with Server Components by default for optimal performance.
+    </constraint>
+    <constraint category="architecture">
+      TypeScript strict mode MUST be enabled for type safety across codebase.
+    </constraint>
+    <constraint category="architecture">
+      src/ directory structure required - all application code in src/ for clean organization.
+    </constraint>
+    <constraint category="patterns">
+      Path aliases configured: @/* maps to ./src/* for clean imports.
+    </constraint>
+    <constraint category="patterns">
+      shadcn/ui "New York" style with slate base color and CSS variables enabled.
+    </constraint>
+    <constraint category="environment">
+      No secrets committed to repository. Use .env.local for actual values, .env.example for documentation.
+    </constraint>
+    <constraint category="versions">
+      Target versions: Next.js 15.x, React 19.x, TypeScript 5.x, Tailwind CSS 3.x.
+    </constraint>
+  </constraints>
+
+  <interfaces>
+    <interface name="cn() utility" kind="function signature">
+      <signature>function cn(...inputs: ClassValue[]): string</signature>
+      <path>src/lib/utils.ts</path>
+      <description>Combines clsx and tailwind-merge for conditional class name handling.</description>
+    </interface>
+    <interface name="Prisma singleton" kind="module export">
+      <signature>export const prisma: PrismaClient</signature>
+      <path>src/lib/prisma.ts</path>
+      <description>Placeholder singleton for database client. Full implementation in Story 1.2.</description>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Story 1.1 focuses on setup verification only. Use npm commands as acceptance tests: npm run dev (starts without errors), npm run build (completes successfully), npm run lint (no linting errors). Future stories will add unit testing framework.
+    </standards>
+    <locations>
+      <location>tests/unit/</location>
+      <location>tests/components/</location>
+      <location>tests/e2e/</location>
+    </locations>
+    <ideas>
+      <idea ac="AC1">Verify TypeScript strict mode by checking tsconfig.json contains "strict": true</idea>
+      <idea ac="AC1">Confirm src/ directory exists with app/ subdirectory</idea>
+      <idea ac="AC2">Validate all dependencies present in package.json dependencies and devDependencies</idea>
+      <idea ac="AC2">Verify shadcn/ui initialized by checking src/components/ui/ directory exists</idea>
+      <idea ac="AC2">Confirm prisma/schema.prisma exists after initialization</idea>
+      <idea ac="AC3">Check .env.example contains all 10 required environment variable keys</idea>
+      <idea ac="AC4">Verify tsconfig.json paths configuration includes @/* alias</idea>
+      <idea ac="AC5">Run npm run dev and confirm server starts on localhost:3000</idea>
+      <idea ac="AC6">Run npm run build and confirm exit code 0</idea>
+    </ideas>
+  </tests>
+</story-context>
+

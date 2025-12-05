@@ -1,0 +1,25 @@
+installation:
+  version: 6.0.0-alpha.12
+  installDate: '2025-11-25T17:48:10.141Z'
+  lastUpdated: '2025-11-25T17:48:10.141Z'
+modules:
+  - core
+  - bmm
+  - cis
+ides:
+  - claude-code
+  - codex
+  - cursor
+  - github-copilot
+  - opencode
+  - windsurf
+  - auggie
+  - cline
+  - crush
+  - gemini
+  - antigravity
+  - iflow
+  - kilo
+  - qwen
+  - roo
+  - trae

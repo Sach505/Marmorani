@@ -1,0 +1,188 @@
+<story-context id="1-2-database-schema-prisma-setup" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>2</storyId>
+    <title>Database Schema &amp; Prisma Setup</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-04</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/1-2-database-schema-prisma-setup.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>developer</asA>
+    <iWant>the complete database schema defined in Prisma with Supabase PostgreSQL connection</iWant>
+    <soThat>all data models are ready for the application features</soThat>
+    <tasks>
+      <task id="1" ac="1">Configure Prisma datasource for Supabase
+        <subtask id="1.1">Update prisma/schema.prisma datasource block with PostgreSQL provider</subtask>
+        <subtask id="1.2">Configure url = env("DATABASE_URL") for pooled connection</subtask>
+        <subtask id="1.3">Configure directUrl = env("DIRECT_URL") for direct connection (migrations)</subtask>
+        <subtask id="1.4">Add connection pooling settings if needed</subtask>
+      </task>
+      <task id="2" ac="2">Define User model
+        <subtask id="2.1">Create User model with id (uuid), email (unique), name (optional), role (enum), timestamps</subtask>
+        <subtask id="2.2">Add relations to Address[] and Order[]</subtask>
+        <subtask id="2.3">Add appropriate indexes (@unique on email)</subtask>
+      </task>
+      <task id="3" ac="2">Define Address model
+        <subtask id="3.1">Create Address model with id, userId, label, street, city, postalCode, country, isDefault</subtask>
+        <subtask id="3.2">Add relation to User (many-to-one with onDelete cascade consideration)</subtask>
+        <subtask id="3.3">Add createdAt timestamp</subtask>
+      </task>
+      <task id="4" ac="2">Define Marble model
+        <subtask id="4.1">Create Marble model with id, slug (unique), name (Json), description (Json), density (Float), basePricePerCm3 (Int in cents), origin, available, textureFolder</subtask>
+        <subtask id="4.2">Add relations to MarbleFinish[] and OrderItem[]</subtask>
+        <subtask id="4.3">Add timestamps (createdAt, updatedAt)</subtask>
+      </task>
+      <task id="5" ac="2">Define MarbleFinish model
+        <subtask id="5.1">Create MarbleFinish model with id, marbleId, type (FinishType enum), priceModifier (Float, default 1.0)</subtask>
+        <subtask id="5.2">Add relation to Marble (many-to-one)</subtask>
+      </task>
+      <task id="6" ac="2">Define Order model
+        <subtask id="6.1">Create Order model with id, userId, status (OrderStatus enum), shippingAddress (Json), subtotal/shippingCost/total (Int in cents), locale, stripePaymentId</subtask>
+        <subtask id="6.2">Add date fields: paidAt, shippedAt, deliveredAt (optional DateTime)</subtask>
+        <subtask id="6.3">Add trackingNumber (optional String)</subtask>
+        <subtask id="6.4">Add relation to User and OrderItem[]</subtask>
+        <subtask id="6.5">Add timestamps (createdAt, updatedAt)</subtask>
+      </task>
+      <task id="7" ac="2">Define OrderItem model
+        <subtask id="7.1">Create OrderItem model with id, orderId, marbleId, width/height/depth (Int in cm), finish (FinishType), weight (Float in kg), unitPrice (Int in cents), quantity</subtask>
+        <subtask id="7.2">Add relations to Order and Marble</subtask>
+      </task>
+      <task id="8" ac="2">Define GalleryItem model
+        <subtask id="8.1">Create GalleryItem model with id, marbleId (optional), title (Json), description (Json), imageUrl, useCase, featured, order (Int for display order)</subtask>
+        <subtask id="8.2">Add createdAt timestamp</subtask>
+      </task>
+      <task id="9" ac="3">Define all enums
+        <subtask id="9.1">Define Role enum with CUSTOMER, ADMIN</subtask>
+        <subtask id="9.2">Define OrderStatus enum with PENDING, PAID, IN_PRODUCTION, SHIPPED, DELIVERED, CANCELLED</subtask>
+        <subtask id="9.3">Define FinishType enum with POLISHED, HONED, RAW, BRUSHED</subtask>
+      </task>
+      <task id="10" ac="6">Implement Prisma singleton
+        <subtask id="10.1">Update src/lib/prisma.ts with proper singleton pattern for Next.js</subtask>
+        <subtask id="10.2">Handle hot reloading in development (avoid multiple instances)</subtask>
+        <subtask id="10.3">Export typed PrismaClient instance</subtask>
+        <subtask id="10.4">Add proper TypeScript types</subtask>
+      </task>
+      <task id="11" ac="4,5">Generate and push schema
+        <subtask id="11.1">Run npx prisma generate - verify success</subtask>
+        <subtask id="11.2">Configure Supabase project (if not done already)</subtask>
+        <subtask id="11.3">Add DATABASE_URL and DIRECT_URL to .env.local</subtask>
+        <subtask id="11.4">Run npx prisma db push - verify schema applied</subtask>
+        <subtask id="11.5">Verify tables created in Supabase dashboard</subtask>
+      </task>
+      <task id="12" ac="7">Verify client usage
+        <subtask id="12.1">Create a test import in a Server Component</subtask>
+        <subtask id="12.2">Verify TypeScript autocomplete works for models</subtask>
+        <subtask id="12.3">Run npm run build to verify no type errors</subtask>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC1">Prisma is configured with Supabase PostgreSQL connection using DATABASE_URL and DIRECT_URL environment variables</criterion>
+    <criterion id="AC2">All models are defined per Architecture schema: User, Address, Marble, MarbleFinish, Order, OrderItem, GalleryItem</criterion>
+    <criterion id="AC3">All enums are defined: Role (CUSTOMER, ADMIN), OrderStatus (PENDING, PAID, IN_PRODUCTION, SHIPPED, DELIVERED, CANCELLED), FinishType (POLISHED, HONED, RAW, BRUSHED)</criterion>
+    <criterion id="AC4">prisma generate runs successfully and generates typed client</criterion>
+    <criterion id="AC5">prisma db push applies schema to Supabase database</criterion>
+    <criterion id="AC6">src/lib/prisma.ts singleton is fully implemented with connection pooling</criterion>
+    <criterion id="AC7">Prisma client is properly typed and importable in application code</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/architecture.md" title="Marmorani Architecture" section="Data Architecture">
+        <snippet>Complete Prisma schema specification with all 7 models (User, Address, Marble, MarbleFinish, Order, OrderItem, GalleryItem) and 3 enums (Role, OrderStatus, FinishType). Defines UUID primary keys, JSON fields for i18n, prices in cents, timestamps pattern.</snippet>
+      </doc>
+      <doc path="docs/architecture.md" title="Marmorani Architecture" section="Implementation Patterns">
+        <snippet>Prisma singleton pattern for Next.js: globalForPrisma pattern with development hot-reload handling. Connection pooling configuration for Supabase.</snippet>
+      </doc>
+      <doc path="docs/architecture.md" title="Marmorani Architecture" section="Environment Variables">
+        <snippet>DATABASE_URL for pooled connection (port 6543, pgbouncer=true), DIRECT_URL for direct connection (port 5432). Supabase connection string format documented.</snippet>
+      </doc>
+      <doc path="docs/sprint-artifacts/tech-spec-epic-1.md" title="Epic Technical Specification" section="Data Models and Contracts">
+        <snippet>Full Prisma schema definition with generator configuration (provider prisma-client-js), datasource (postgresql with url/directUrl), complete model definitions matching architecture spec.</snippet>
+      </doc>
+      <doc path="docs/sprint-artifacts/tech-spec-epic-1.md" title="Epic Technical Specification" section="Story 1.2 Acceptance Criteria">
+        <snippet>AC1.2.1-7: Prisma initialized with Supabase, all 7 models defined, all 3 enums defined, generate runs, db push applies schema, singleton created, client typed.</snippet>
+      </doc>
+      <doc path="docs/prd.md" title="Marmorani PRD" section="Functional Requirements">
+        <snippet>Data model requirements: User accounts (FR2-7), Order management (FR35-40), Marble catalog (FR29-34), Shopping cart (FR19-28) - all requiring database schema.</snippet>
+      </doc>
+      <doc path="docs/epics.md" title="Marmorani Epics" section="Story 1.2: Database Schema &amp; Prisma Setup">
+        <snippet>Story definition with Given/When/Then acceptance criteria. Models and enums must match architecture specification exactly.</snippet>
+      </doc>
+      <doc path="docs/sprint-artifacts/1-1-project-initialization-core-dependencies.md" title="Story 1.1 (Completed)" section="Dev Agent Record">
+        <snippet>Prisma 7.1.0 installed, client generated to src/generated/prisma/ with new API. Placeholder singleton in src/lib/prisma.ts needs full implementation. Path alias @/* configured.</snippet>
+      </doc>
+    </docs>
+
+    <code>
+      <artifact path="prisma/schema.prisma" kind="schema" symbol="datasource, generator" lines="1-14" reason="Empty Prisma schema requiring full model definitions. Currently has generator outputting to src/generated/prisma/ and empty datasource block."/>
+      <artifact path="src/lib/prisma.ts" kind="singleton" symbol="prisma" lines="1-28" reason="Placeholder singleton requiring full implementation with proper pattern for Next.js hot-reload and connection pooling."/>
+      <artifact path="src/generated/prisma/client.ts" kind="generated" symbol="PrismaClient" reason="Generated Prisma client - will be regenerated after schema is defined. Import path: @/generated/prisma"/>
+      <artifact path="src/generated/prisma/enums.ts" kind="generated" symbol="Role, OrderStatus, FinishType" reason="Enum exports will be generated here after schema defines enums."/>
+      <artifact path="package.json" kind="config" symbol="dependencies" lines="11-49" reason="Prisma 7.1.0 (@prisma/client) and prisma CLI already installed. No additional dependencies needed."/>
+    </code>
+
+    <dependencies>
+      <ecosystem name="node">
+        <package name="@prisma/client" version="^7.1.0" purpose="Prisma ORM client"/>
+        <package name="prisma" version="^7.1.0" dev="true" purpose="Prisma CLI for migrations and generation"/>
+      </ecosystem>
+      <services>
+        <service name="Supabase PostgreSQL" purpose="Database backend - requires project setup and connection strings"/>
+      </services>
+    </dependencies>
+  </artifacts>
+
+  <interfaces>
+    <interface name="PrismaClient" kind="class interface" path="src/generated/prisma/client.ts">
+      <signature>class PrismaClient { user: UserDelegate; address: AddressDelegate; marble: MarbleDelegate; marbleFinish: MarbleFinishDelegate; order: OrderDelegate; orderItem: OrderItemDelegate; galleryItem: GalleryItemDelegate; }</signature>
+    </interface>
+    <interface name="prisma singleton" kind="module export" path="src/lib/prisma.ts">
+      <signature>export const prisma: PrismaClient</signature>
+    </interface>
+    <interface name="Datasource config" kind="Prisma datasource" path="prisma/schema.prisma">
+      <signature>datasource db { provider = "postgresql" url = env("DATABASE_URL") directUrl = env("DIRECT_URL") }</signature>
+    </interface>
+  </interfaces>
+
+  <constraints>
+    <constraint source="Architecture">UUID Primary Keys: All models use @id @default(uuid()) for globally unique identifiers</constraint>
+    <constraint source="Architecture">JSON Fields for i18n: name and description fields use Json type for multilingual content { en: "...", fr: "...", ... }</constraint>
+    <constraint source="Architecture">Prices in Cents: All monetary values stored as Int (cents) to avoid floating point issues</constraint>
+    <constraint source="Architecture">Timestamps: All models with user-facing data have createdAt; mutable models also have updatedAt</constraint>
+    <constraint source="Architecture">Connection Pooling: Supabase requires separate URLs for pooled (transactions) and direct (migrations) connections</constraint>
+    <constraint source="Story 1.1">Prisma 7.x Configuration: Client generated to src/generated/prisma/ by default with new Prisma 7 API</constraint>
+    <constraint source="Story 1.1">Path Aliases: @/* maps to ./src/* - use for imports like @/generated/prisma</constraint>
+    <constraint source="Tech Spec">Singleton Pattern: Must prevent multiple PrismaClient instances during Next.js hot reload</constraint>
+  </constraints>
+
+  <tests>
+    <standards>
+      Acceptance testing via Prisma CLI commands and build verification:
+      - prisma generate must complete without errors
+      - prisma db push must apply schema to Supabase
+      - npm run build must pass with typed client
+      - TypeScript autocomplete must work for all models
+      
+      No unit tests required for this story per dev notes - schema validation is the test.
+    </standards>
+    <locations>
+      <location>prisma/schema.prisma - validate with prisma validate</location>
+      <location>npm run build - TypeScript compilation check</location>
+    </locations>
+    <ideas>
+      <idea ac="AC1">Verify DATABASE_URL and DIRECT_URL are read correctly by attempting connection</idea>
+      <idea ac="AC2">Use prisma validate to verify schema syntax and relations</idea>
+      <idea ac="AC3">Check generated enums in src/generated/prisma/enums.ts</idea>
+      <idea ac="AC4">Run prisma generate and verify exit code 0</idea>
+      <idea ac="AC5">Run prisma db push and verify tables in Supabase dashboard</idea>
+      <idea ac="AC6">Import prisma singleton in a Server Component and verify no runtime errors</idea>
+      <idea ac="AC7">Use TypeScript autocomplete for prisma.user.findMany() in IDE</idea>
+    </ideas>
+  </tests>
+</story-context>
+

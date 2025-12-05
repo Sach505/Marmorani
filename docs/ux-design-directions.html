@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marmorani - Design Directions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Carrara Pure */
+            --carrara-bg: #FFFFFF;
+            --carrara-surface: #F8F8F8;
+            --carrara-border: #E5E5E5;
+            --carrara-secondary: #4A4A4A;
+            --carrara-primary: #1A1A1A;
+            
+            /* Nero Marquina */
+            --nero-bg: #0D0D0D;
+            --nero-surface: #1A1A1A;
+            --nero-border: #2D2D2D;
+            --nero-accent: #C9A962;
+            --nero-text: #FFFFFF;
+            
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--carrara-bg);
+            color: var(--carrara-primary);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .main-header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: linear-gradient(180deg, #fff 0%, #fafafa 100%);
+            border-bottom: 1px solid var(--carrara-border);
+        }
+
+        .main-header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .main-header p {
+            font-size: 1rem;
+            color: var(--carrara-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Navigation */
+        .direction-nav {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 24px;
+            background: var(--carrara-surface);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            border: 1px solid var(--carrara-border);
+            background: var(--carrara-bg);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border-radius: 4px;
+        }
+
+        .nav-btn:hover {
+            border-color: var(--carrara-primary);
+        }
+
+        .nav-btn.active {
+            background: var(--carrara-primary);
+            color: var(--carrara-bg);
+            border-color: var(--carrara-primary);
+        }
+
+        /* Direction Container */
+        .direction {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .direction.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Direction Header */
+        .direction-header {
+            padding: 40px;
+            background: var(--carrara-surface);
+            border-bottom: 1px solid var(--carrara-border);
+        }
+
+        .direction-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .direction-subtitle {
+            color: var(--carrara-secondary);
+            margin-bottom: 24px;
+        }
+
+        .direction-meta {
+            display: flex;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            font-size: 0.85rem;
+        }
+
+        .meta-label {
+            color: var(--carrara-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.7rem;
+            margin-bottom: 4px;
+        }
+
+        /* Mockup Container */
+        .mockup-container {
+            background: #f0f0f0;
+            padding: 32px;
+            min-height: 80vh;
+        }
+
+        .mockup-frame {
+            background: var(--carrara-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.15);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Shared Mockup Elements */
+        .mock-nav {
+            display: flex;
+            align-items: center;
+            padding: 16px 32px;
+            border-bottom: 1px solid var(--carrara-border);
+        }
+
+        .mock-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .mock-nav-links {
+            display: flex;
+            gap: 32px;
+            margin-left: auto;
+        }
+
+        .mock-nav-link {
+            font-size: 0.85rem;
+            color: var(--carrara-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .mock-nav-link:hover,
+        .mock-nav-link.active {
+            color: var(--carrara-primary);
+        }
+
+        .mock-btn {
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .mock-btn-primary {
+            background: var(--carrara-primary);
+            color: var(--carrara-bg);
+        }
+
+        .mock-btn-secondary {
+            background: transparent;
+            border: 1px solid var(--carrara-primary);
+            color: var(--carrara-primary);
+        }
+
+        .mock-btn-gold {
+            background: var(--nero-accent);
+            color: var(--nero-bg);
+        }
+
+        /* Cube Placeholder */
+        .cube-placeholder {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #e8e8e8 0%, #f5f5f5 50%, #e0e0e0 100%);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #999;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cube-placeholder::before {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, rgba(255,255,255,0.8) 0%, rgba(200,200,200,0.4) 100%);
+            transform: rotate(45deg);
+        }
+
+        .cube-placeholder-dark {
+            background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 50%, #252525 100%);
+        }
+
+        .cube-placeholder-dark::before {
+            background: linear-gradient(45deg, rgba(100,100,100,0.3) 0%, rgba(60,60,60,0.2) 100%);
+        }
+
+        /* ===== DIRECTION 1: Immersive Full-Screen ===== */
+        .dir1 .mock-nav {
+            background: var(--nero-bg);
+            border: none;
+        }
+
+        .dir1 .mock-logo {
+            color: var(--nero-text);
+        }
+
+        .dir1 .mock-nav-link {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .dir1 .mock-nav-link:hover,
+        .dir1 .mock-nav-link.active {
+            color: var(--nero-text);
+        }
+
+        .dir1-content {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            min-height: 600px;
+        }
+
+        .dir1-viewport {
+            background: var(--nero-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .dir1-viewport .cube-placeholder {
+            width: 400px;
+            height: 400px;
+        }
+
+        .dir1-controls {
+            background: var(--nero-surface);
+            padding: 32px;
+            color: var(--nero-text);
+        }
+
+        .dir1-section {
+            margin-bottom: 32px;
+        }
+
+        .dir1-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 12px;
+        }
+
+        .dir1-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--nero-border);
+            border: 1px solid var(--nero-border);
+            color: var(--nero-text);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .dir1-marble-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .dir1-marble {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #888 0%, #aaa 100%);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .dir1-marble:hover {
+            transform: scale(1.05);
+        }
+
+        .dir1-marble.selected {
+            border-color: var(--nero-accent);
+        }
+
+        .dir1-marble:nth-child(2) { background: linear-gradient(135deg, #222 0%, #444 100%); }
+        .dir1-marble:nth-child(3) { background: linear-gradient(135deg, #d4c4a8 0%, #e8dfd0 100%); }
+        .dir1-marble:nth-child(4) { background: linear-gradient(135deg, #5c4b3a 0%, #8b7355 100%); }
+        .dir1-marble:nth-child(5) { background: linear-gradient(135deg, #c0c0c0 0%, #e0e0e0 100%); }
+        .dir1-marble:nth-child(6) { background: linear-gradient(135deg, #2d4a3d 0%, #3d5a4d 100%); }
+
+        .dir1-price {
+            background: var(--nero-bg);
+            padding: 24px;
+            border-radius: 4px;
+            text-align: center;
+            margin-top: 32px;
+        }
+
+        .dir1-price-value {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--nero-accent);
+            margin-bottom: 8px;
+        }
+
+        .dir1-price-note {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* ===== DIRECTION 2: Split Hero ===== */
+        .dir2-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 600px;
+        }
+
+        .dir2-left {
+            padding: 80px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .dir2-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        .dir2-subtitle {
+            font-size: 1.1rem;
+            color: var(--carrara-secondary);
+            margin-bottom: 40px;
+            max-width: 400px;
+        }
+
+        .dir2-cta {
+            display: flex;
+            gap: 16px;
+        }
+
+        .dir2-right {
+            background: var(--nero-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dir2-right .cube-placeholder {
+            width: 350px;
+            height: 350px;
+        }
+
+        .dir2-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-top: 1px solid var(--carrara-border);
+        }
+
+        .dir2-feature {
+            padding: 48px 40px;
+            text-align: center;
+            border-right: 1px solid var(--carrara-border);
+        }
+
+        .dir2-feature:last-child {
+            border-right: none;
+        }
+
+        .dir2-feature-icon {
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+
+        .dir2-feature-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+        }
+
+        .dir2-feature-text {
+            font-size: 0.85rem;
+            color: var(--carrara-secondary);
+        }
+
+        /* ===== DIRECTION 3: Centered Minimal ===== */
+        .dir3-hero {
+            min-height: 700px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 40px;
+            background: linear-gradient(180deg, var(--carrara-bg) 0%, var(--carrara-surface) 100%);
+        }
+
+        .dir3-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        .dir3-subtitle {
+            font-size: 1.1rem;
+            color: var(--carrara-secondary);
+            margin-bottom: 48px;
+            max-width: 500px;
+        }
+
+        .dir3-cube-container {
+            position: relative;
+            margin-bottom: 48px;
+        }
+
+        .dir3-cube-container .cube-placeholder {
+            width: 320px;
+            height: 320px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.15);
+        }
+
+        .dir3-config-bar {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+            padding: 24px 48px;
+            background: var(--carrara-bg);
+            border-radius: 60px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+        }
+
+        .dir3-config-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dir3-config-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--carrara-secondary);
+            margin-bottom: 8px;
+        }
+
+        .dir3-config-value {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .dir3-config-divider {
+            width: 1px;
+            height: 40px;
+            background: var(--carrara-border);
+        }
+
+        /* ===== DIRECTION 4: Gallery First ===== */
+        .dir4-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            background: var(--carrara-border);
+        }
+
+        .dir4-item {
+            aspect-ratio: 1;
+            background: var(--carrara-surface);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dir4-item:hover {
+            background: var(--carrara-bg);
+        }
+
+        .dir4-item:hover .dir4-overlay {
+            opacity: 1;
+        }
+
+        .dir4-item .cube-placeholder {
+            width: 60%;
+            height: 60%;
+        }
+
+        .dir4-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .dir4-overlay-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+        }
+
+        .dir4-overlay-price {
+            color: var(--nero-accent);
+            font-weight: 600;
+        }
+
+        .dir4-header {
+            text-align: center;
+            padding: 60px 40px;
+        }
+
+        .dir4-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+
+        .dir4-header p {
+            color: var(--carrara-secondary);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* ===== DIRECTION 5: Sidebar Navigation ===== */
+        .dir5-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 700px;
+        }
+
+        .dir5-sidebar {
+            background: var(--carrara-surface);
+            border-right: 1px solid var(--carrara-border);
+            padding: 32px;
+        }
+
+        .dir5-sidebar-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 48px;
+        }
+
+        .dir5-sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .dir5-nav-item {
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--carrara-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .dir5-nav-item:hover {
+            background: var(--carrara-bg);
+            color: var(--carrara-primary);
+        }
+
+        .dir5-nav-item.active {
+            background: var(--carrara-primary);
+            color: var(--carrara-bg);
+        }
+
+        .dir5-main {
+            background: var(--nero-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .dir5-main .cube-placeholder {
+            width: 400px;
+            height: 400px;
+        }
+
+        .dir5-floating-panel {
+            position: absolute;
+            right: 32px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--nero-surface);
+            padding: 24px;
+            border-radius: 8px;
+            width: 200px;
+        }
+
+        .dir5-panel-title {
+            color: var(--nero-text);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 16px;
+            opacity: 0.6;
+        }
+
+        .dir5-panel-price {
+            color: var(--nero-accent);
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        /* ===== DIRECTION 6: Cinematic Hero ===== */
+        .dir6-hero {
+            min-height: 700px;
+            background: var(--nero-bg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dir6-nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            padding: 24px 48px;
+            z-index: 10;
+        }
+
+        .dir6-nav .mock-logo {
+            color: var(--nero-text);
+        }
+
+        .dir6-nav-links {
+            display: flex;
+            gap: 40px;
+            margin-left: auto;
+        }
+
+        .dir6-nav-link {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .dir6-nav-link:hover {
+            color: var(--nero-text);
+        }
+
+        .dir6-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 700px;
+            padding: 100px 48px;
+        }
+
+        .dir6-cube-showcase {
+            position: relative;
+        }
+
+        .dir6-cube-showcase .cube-placeholder {
+            width: 450px;
+            height: 450px;
+        }
+
+        .dir6-text {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: var(--nero-text);
+        }
+
+        .dir6-text h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .dir6-cta-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .dir6-scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.4);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* Footer */
+        .main-footer {
+            text-align: center;
+            padding: 60px 20px;
+            background: var(--carrara-surface);
+            border-top: 1px solid var(--carrara-border);
+        }
+
+        .main-footer h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.75rem;
+            margin-bottom: 16px;
+        }
+
+        .main-footer p {
+            color: var(--carrara-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dir1-content { grid-template-columns: 1fr; }
+            .dir2-hero { grid-template-columns: 1fr; }
+            .dir5-layout { grid-template-columns: 1fr; }
+            .dir5-sidebar { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .direction-nav { gap: 4px; padding: 16px; }
+            .nav-btn { padding: 8px 16px; font-size: 0.75rem; }
+            .dir4-gallery { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <h1>Marmorani</h1>
+        <p>Explorez 6 directions design différentes. Chaque approche capture une facette du "Luxe Minimaliste Moderne" avec l'alternance Carrara Pure / Nero Marquina.</p>
+    </header>
+
+    <nav class="direction-nav">
+        <button class="nav-btn active" onclick="showDirection(1)">1. Immersif Full-Screen</button>
+        <button class="nav-btn" onclick="showDirection(2)">2. Split Hero</button>
+        <button class="nav-btn" onclick="showDirection(3)">3. Centré Minimal</button>
+        <button class="nav-btn" onclick="showDirection(4)">4. Galerie First</button>
+        <button class="nav-btn" onclick="showDirection(5)">5. Sidebar Nav</button>
+        <button class="nav-btn" onclick="showDirection(6)">6. Cinématique</button>
+    </nav>
+
+    <!-- Direction 1: Immersive Full-Screen -->
+    <section class="direction active" id="dir1">
+        <div class="direction-header">
+            <h2 class="direction-title">1. Immersif Full-Screen</h2>
+            <p class="direction-subtitle">Le configurateur occupe tout l'écran. Style Rolex. Maximum impact.</p>
+            <div class="direction-meta">
+                <div class="meta-item">
+                    <div class="meta-label">Layout</div>
+                    <div>Viewport + Panel latéral</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Densité</div>
+                    <div>Spacieux</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Navigation</div>
+                    <div>Top bar minimaliste</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Best for</div>
+                    <div>Power users, impact maximal</div>
+                </div>
+            </div>
+        </div>
+        <div class="mockup-container">
+            <div class="mockup-frame dir1">
+                <nav class="mock-nav">
+                    <span class="mock-logo">Marmorani</span>
+                    <div class="mock-nav-links">
+                        <a href="#" class="mock-nav-link active">Configurateur</a>
+                        <a href="#" class="mock-nav-link">Inspiration</a>
+                        <a href="#" class="mock-nav-link">Marbres</a>
+                        <a href="#" class="mock-nav-link">Mon compte</a>
+                    </div>
+                </nav>
+                <div class="dir1-content">
+                    <div class="dir1-viewport">
+                        <div class="cube-placeholder cube-placeholder-dark">
+                            <span style="color: #666; z-index: 1;">Cube 3D Marbre</span>
+                        </div>
+                    </div>
+                    <div class="dir1-controls">
+                        <div class="dir1-section">
+                            <div class="dir1-label">Dimensions</div>
+                            <input type="text" class="dir1-input" placeholder="Hauteur: 30 cm">
+                            <input type="text" class="dir1-input" placeholder="Largeur: 30 cm">
+                            <input type="text" class="dir1-input" placeholder="Profondeur: 30 cm">
+                        </div>
+                        <div class="dir1-section">
+                            <div class="dir1-label">Type de marbre</div>
+                            <div class="dir1-marble-grid">
+                                <div class="dir1-marble selected"></div>
+                                <div class="dir1-marble"></div>
+                                <div class="dir1-marble"></div>
+                                <div class="dir1-marble"></div>
+                                <div class="dir1-marble"></div>
+                                <div class="dir1-marble"></div>
+                            </div>
+                        </div>
+                        <div class="dir1-section">
+                            <div class="dir1-label">Finition</div>
+                            <input type="text" class="dir1-input" placeholder="Poli">
+                        </div>
+                        <div class="dir1-price">
+                            <div class="dir1-price-value">890 €</div>
+                            <div class="dir1-price-note">Livraison 4 semaines</div>
+                            <button class="mock-btn mock-btn-gold" style="margin-top: 16px; width: 100%;">Ajouter au panier</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Direction 2: Split Hero -->
+    <section class="direction" id="dir2">
+        <div class="direction-header">
+            <h2 class="direction-title">2. Split Hero</h2>
+            <p class="direction-subtitle">Homepage divisée : texte à gauche, cube à droite. Équilibre parfait.</p>
+            <div class="direction-meta">
+                <div class="meta-item">
+                    <div class="meta-label">Layout</div>
+                    <div>50/50 split</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Densité</div>
+                    <div>Balanced</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Navigation</div>
+                    <div>Top bar classique</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Best for</div>
+                    <div>Nouveaux visiteurs, clarté</div>
+                </div>
+            </div>
+        </div>
+        <div class="mockup-container">
+            <div class="mockup-frame">
+                <nav class="mock-nav">
+                    <span class="mock-logo">Marmorani</span>
+                    <div class="mock-nav-links">
+                        <a href="#" class="mock-nav-link">Créer</a>
+                        <a href="#" class="mock-nav-link">Inspiration</a>
+                        <a href="#" class="mock-nav-link">À propos</a>
+                        <button class="mock-btn mock-btn-primary">Commander</button>
+                    </div>
+                </nav>
+                <div class="dir2-hero">
+                    <div class="dir2-left">
+                        <h1 class="dir2-title">Votre cube de marbre,<br>sur mesure</h1>
+                        <p class="dir2-subtitle">Créez une pièce unique en quelques clics. Visualisez-la en 3D. Recevez-la chez vous.</p>
+                        <div class="dir2-cta">
+                            <button class="mock-btn mock-btn-primary">Créer mon cube</button>
+                            <button class="mock-btn mock-btn-secondary">Voir l'inspiration</button>
+                        </div>
+                    </div>
+                    <div class="dir2-right">
+                        <div class="cube-placeholder cube-placeholder-dark">
+                            <span style="color: #666; z-index: 1;">Cube 3D Marbre</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="dir2-features">
+                    <div class="dir2-feature">
+                        <div class="dir2-feature-icon">🎨</div>
+                        <div class="dir2-feature-title">Sur mesure</div>
+                        <div class="dir2-feature-text">Dimensions, marbre et finition à votre choix</div>
+                    </div>
+                    <div class="dir2-feature">
+                        <div class="dir2-feature-icon">✨</div>
+                        <div class="dir2-feature-title">Visualisation 3D</div>
+                        <div class="dir2-feature-text">Voyez exactement ce que vous allez recevoir</div>
+                    </div>
+                    <div class="dir2-feature">
+                        <div class="dir2-feature-icon">🚚</div>
+                        <div class="dir2-feature-title">Livraison 4 semaines</div>
+                        <div class="dir2-feature-text">Fabrication artisanale, livraison internationale</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Direction 3: Centered Minimal -->
+    <section class="direction" id="dir3">
+        <div class="direction-header">
+            <h2 class="direction-title">3. Centré Minimal</h2>
+            <p class="direction-subtitle">Le cube au centre de tout. Maximum de whitespace. Ultra-luxe.</p>
+            <div class="direction-meta">
+                <div class="meta-item">
+                    <div class="meta-label">Layout</div>
+                    <div>Centré, vertical</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Densité</div>
+                    <div>Très spacieux</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Navigation</div>
+                    <div>Minimaliste</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Best for</div>
+                    <div>Positionnement luxe, Armani-style</div>
+                </div>
+            </div>
+        </div>
+        <div class="mockup-container">
+            <div class="mockup-frame">
+                <nav class="mock-nav" style="border: none;">
+                    <span class="mock-logo">Marmorani</span>
+                    <div class="mock-nav-links">
+                        <a href="#" class="mock-nav-link">Créer</a>
+                        <a href="#" class="mock-nav-link">Inspiration</a>
+                        <a href="#" class="mock-nav-link">Contact</a>
+                    </div>
+                </nav>
+                <div class="dir3-hero">
+                    <h1 class="dir3-title">L'art du marbre,<br>à votre mesure</h1>
+                    <p class="dir3-subtitle">Des cubes de marbre sur mesure, fabriqués avec passion.</p>
+                    <div class="dir3-cube-container">
+                        <div class="cube-placeholder">
+                            <span style="color: #999; z-index: 1;">Cube 3D Marbre</span>
+                        </div>
+                    </div>
+                    <div class="dir3-config-bar">
+                        <div class="dir3-config-item">
+                            <span class="dir3-config-label">Dimensions</span>
+                            <span class="dir3-config-value">30 × 30 × 30 cm</span>
+                        </div>
+                        <div class="dir3-config-divider"></div>
+                        <div class="dir3-config-item">
+                            <span class="dir3-config-label">Marbre</span>
+                            <span class="dir3-config-value">Carrara</span>
+                        </div>
+                        <div class="dir3-config-divider"></div>
+                        <div class="dir3-config-item">
+                            <span class="dir3-config-label">Finition</span>
+                            <span class="dir3-config-value">Poli</span>
+                        </div>
+                        <div class="dir3-config-divider"></div>
+                        <button class="mock-btn mock-btn-primary">890 € — Commander</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Direction 4: Gallery First -->
+    <section class="direction" id="dir4">
+        <div class="direction-header">
+            <h2 class="direction-title">4. Galerie First</h2>
+            <p class="direction-subtitle">Inspiration d'abord. Le catalogue comme point d'entrée.</p>
+            <div class="direction-meta">
+                <div class="meta-item">
+                    <div class="meta-label">Layout</div>
+                    <div>Grid gallery</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Densité</div>
+                    <div>Dense, visuel</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Navigation</div>
+                    <div>Top bar simple</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Best for</div>
+                    <div>Découverte, inspiration</div>
+                </div>
+            </div>
+        </div>
+        <div class="mockup-container">
+            <div class="mockup-frame">
+                <nav class="mock-nav">
+                    <span class="mock-logo">Marmorani</span>
+                    <div class="mock-nav-links">
+                        <a href="#" class="mock-nav-link active">Galerie</a>
+                        <a href="#" class="mock-nav-link">Créer</a>
+                        <a href="#" class="mock-nav-link">À propos</a>
+                    </div>
+                </nav>
+                <div class="dir4-header">
+                    <h2>Inspiration</h2>
+                    <p>Explorez nos créations et laissez-vous inspirer pour votre propre cube.</p>
+                </div>
+                <div class="dir4-gallery">
+                    <div class="dir4-item">
+                        <div class="cube-placeholder"></div>
+                        <div class="dir4-overlay">
+                            <div class="dir4-overlay-title">Carrara Classic</div>
+                            <div class="dir4-overlay-price">À partir de 890 €</div>
+                        </div>
+                    </div>
+                    <div class="dir4-item">
+                        <div class="cube-placeholder" style="background: linear-gradient(135deg, #222 0%, #444 100%);"></div>
+                        <div class="dir4-overlay">
+                            <div class="dir4-overlay-title">Nero Marquina</div>
+                            <div class="dir4-overlay-price">À partir de 1 290 €</div>
+                        </div>
+                    </div>
+                    <div class="dir4-item">
+                        <div class="cube-placeholder" style="background: linear-gradient(135deg, #d4c4a8 0%, #e8dfd0 100%);"></div>
+                        <div class="dir4-overlay">
+                            <div class="dir4-overlay-title">Calacatta Gold</div>
+                            <div class="dir4-overlay-price">À partir de 1 450 €</div>
+                        </div>
+                    </div>
+                    <div class="dir4-item">
+                        <div class="cube-placeholder" style="background: linear-gradient(135deg, #5c4b3a 0%, #8b7355 100%);"></div>
+                        <div class="dir4-overlay">
+                            <div class="dir4-overlay-title">Emperador</div>
+                            <div class="dir4-overlay-price">À partir de 1 180 €</div>
+                        </div>
+                    </div>
+                    <div class="dir4-item">
+                        <div class="cube-placeholder" style="background: linear-gradient(135deg, #c0c0c0 0%, #e0e0e0 100%);"></div>
+                        <div class="dir4-overlay">
+                            <div class="dir4-overlay-title">Bardiglio</div>
+                            <div class="dir4-overlay-price">À partir de 980 €</div>
+                        </div>
+                    </div>
+                    <div class="dir4-item">
+                        <div class="cube-placeholder" style="background: linear-gradient(135deg, #2d4a3d 0%, #3d5a4d 100%);"></div>
+                        <div class="dir4-overlay">
+                            <div class="dir4-overlay-title">Verde Guatemala</div>
+                            <div class="dir4-overlay-price">À partir de 1 350 €</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Direction 5: Sidebar Navigation -->
+    <section class="direction" id="dir5">
+        <div class="direction-header">
+            <h2 class="direction-title">5. Navigation Sidebar</h2>
+            <p class="direction-subtitle">Navigation persistante à gauche. Maximum d'espace pour le 3D.</p>
+            <div class="direction-meta">
+                <div class="meta-item">
+                    <div class="meta-label">Layout</div>
+                    <div>Sidebar + Main</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Densité</div>
+                    <div>Spacieux</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Navigation</div>
+                    <div>Sidebar fixe</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Best for</div>
+                    <div>Apps, dashboard-style</div>
+                </div>
+            </div>
+        </div>
+        <div class="mockup-container">
+            <div class="mockup-frame">
+                <div class="dir5-layout">
+                    <aside class="dir5-sidebar">
+                        <div class="dir5-sidebar-logo">Marmorani</div>
+                        <nav class="dir5-sidebar-nav">
+                            <div class="dir5-nav-item active">🎨 Configurateur</div>
+                            <div class="dir5-nav-item">✨ Inspiration</div>
+                            <div class="dir5-nav-item">📦 Mes commandes</div>
+                            <div class="dir5-nav-item">💎 Marbres</div>
+                            <div class="dir5-nav-item">📞 Contact</div>
+                        </nav>
+                    </aside>
+                    <main class="dir5-main">
+                        <div class="cube-placeholder cube-placeholder-dark">
+                            <span style="color: #666; z-index: 1;">Cube 3D Marbre</span>
+                        </div>
+                        <div class="dir5-floating-panel">
+                            <div class="dir5-panel-title">Votre cube</div>
+                            <div class="dir5-panel-price">890 €</div>
+                            <div style="color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-bottom: 16px;">
+                                30×30×30 cm<br>
+                                Carrara • Poli
+                            </div>
+                            <button class="mock-btn mock-btn-gold" style="width: 100%;">Commander</button>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Direction 6: Cinematic Hero -->
+    <section class="direction" id="dir6">
+        <div class="direction-header">
+            <h2 class="direction-title">6. Cinématique</h2>
+            <p class="direction-subtitle">Full-screen dark. Impact visuel maximum. Style BoConcept vidéo.</p>
+            <div class="direction-meta">
+                <div class="meta-item">
+                    <div class="meta-label">Layout</div>
+                    <div>Full-screen hero</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Densité</div>
+                    <div>Très spacieux</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Navigation</div>
+                    <div>Overlay transparent</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Best for</div>
+                    <div>Impact émotionnel, wow-effect</div>
+                </div>
+            </div>
+        </div>
+        <div class="mockup-container">
+            <div class="mockup-frame">
+                <div class="dir6-hero">
+                    <nav class="dir6-nav">
+                        <span class="mock-logo">Marmorani</span>
+                        <div class="dir6-nav-links">
+                            <a href="#" class="dir6-nav-link">Créer</a>
+                            <a href="#" class="dir6-nav-link">Inspiration</a>
+                            <a href="#" class="dir6-nav-link">Histoire</a>
+                        </div>
+                    </nav>
+                    <div class="dir6-content">
+                        <div class="dir6-cube-showcase">
+                            <div class="cube-placeholder cube-placeholder-dark" style="width: 400px; height: 400px;">
+                                <span style="color: #555; z-index: 1;">Cube 3D Marbre</span>
+                            </div>
+                            <div class="dir6-text">
+                                <h2>Sculptez votre vision</h2>
+                                <div class="dir6-cta-group">
+                                    <button class="mock-btn mock-btn-gold">Créer mon cube</button>
+                                    <button class="mock-btn" style="background: transparent; border: 1px solid rgba(255,255,255,0.3); color: white;">Explorer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dir6-scroll-hint">Scroll pour découvrir</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <h2>Quelle direction vous parle ?</h2>
+        <p>Choisissez la direction qui capture le mieux l'essence de Marmorani, ou combinez des éléments de plusieurs directions.</p>
+    </footer>
+
+    <script>
+        function showDirection(num) {
+            // Hide all directions
+            document.querySelectorAll('.direction').forEach(d => d.classList.remove('active'));
+            // Remove active from all buttons
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            // Show selected direction
+            document.getElementById('dir' + num).classList.add('active');
+            // Add active to clicked button
+            document.querySelectorAll('.nav-btn')[num - 1].classList.add('active');
+            // Scroll to top of direction
+            document.getElementById('dir' + num).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+</body>
+</html>
+

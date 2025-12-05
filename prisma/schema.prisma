@@ -1,0 +1,153 @@
+// Marmorani Prisma Schema
+// Database: Supabase PostgreSQL
+// Story: 1-2-database-schema-prisma-setup
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  // Connection URLs configured in prisma.config.ts (Prisma 7.x)
+}
+
+// ============================================================================
+// ENUMS
+// ============================================================================
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  IN_PRODUCTION
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum FinishType {
+  POLISHED
+  HONED
+  RAW
+  BRUSHED
+}
+
+// ============================================================================
+// MODELS
+// ============================================================================
+
+model User {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  name      String?
+  role      Role      @default(CUSTOMER)
+  addresses Address[]
+  orders    Order[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Address {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  label      String?
+  street     String
+  city       String
+  postalCode String
+  country    String
+  isDefault  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Marble {
+  id              String         @id @default(uuid())
+  slug            String         @unique
+  name            Json // { en: "Carrara", fr: "Carrare", ... }
+  description     Json // Multilingual
+  density         Float // kg/m³
+  basePricePerCm3 Int // cents
+  origin          String
+  available       Boolean        @default(true)
+  textureFolder   String // e.g., "carrara"
+  finishes        MarbleFinish[]
+  orderItems      OrderItem[]
+  galleryItems    GalleryItem[]
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+model MarbleFinish {
+  id            String     @id @default(uuid())
+  marbleId      String
+  marble        Marble     @relation(fields: [marbleId], references: [id], onDelete: Cascade)
+  type          FinishType
+  priceModifier Float      @default(1.0) // multiplier
+
+  @@unique([marbleId, type])
+  @@index([marbleId])
+}
+
+model Order {
+  id              String      @id @default(uuid())
+  userId          String
+  user            User        @relation(fields: [userId], references: [id])
+  status          OrderStatus @default(PENDING)
+  items           OrderItem[]
+  shippingAddress Json
+  subtotal        Int // cents
+  shippingCost    Int // cents
+  total           Int // cents
+  locale          String // Order language for emails/invoice
+  stripePaymentId String?
+  paidAt          DateTime?
+  shippedAt       DateTime?
+  deliveredAt     DateTime?
+  trackingNumber  String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+model OrderItem {
+  id        String     @id @default(uuid())
+  orderId   String
+  order     Order      @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  marbleId  String
+  marble    Marble     @relation(fields: [marbleId], references: [id])
+  width     Int // cm
+  height    Int // cm
+  depth     Int // cm
+  finish    FinishType
+  weight    Float // kg (calculated)
+  unitPrice Int // cents
+  quantity  Int        @default(1)
+
+  @@index([orderId])
+  @@index([marbleId])
+}
+
+model GalleryItem {
+  id          String   @id @default(uuid())
+  marbleId    String?
+  marble      Marble?  @relation(fields: [marbleId], references: [id], onDelete: SetNull)
+  title       Json // Multilingual
+  description Json // Multilingual
+  imageUrl    String
+  useCase     String?
+  featured    Boolean  @default(false)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  @@index([marbleId])
+  @@index([featured])
+}

@@ -1,0 +1,47 @@
+{
+  "common": {
+    "loading": "Laden...",
+    "error": "Ein Fehler ist aufgetreten",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "close": "Schließen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "submit": "Absenden",
+    "search": "Suchen",
+    "viewAll": "Alle anzeigen",
+    "learnMore": "Mehr erfahren"
+  },
+  "header": {
+    "gallery": "Galerie",
+    "configurator": "Konfigurator",
+    "account": "Konto",
+    "cart": "Warenkorb",
+    "openMenu": "Menü öffnen",
+    "closeMenu": "Menü schließen",
+    "shoppingCart": "Einkaufswagen",
+    "currentLanguage": "Aktuelle Sprache: {language}. Klicken Sie, um die Sprache zu ändern."
+  },
+  "footer": {
+    "tagline": "Luxuriöse Marmorhandwerkskunst, nach Ihrer Vision gefertigt. Maßgeschneiderte Dimensionen, außergewöhnliche Qualität.",
+    "contact": "Kontakt",
+    "legal": "Rechtliches",
+    "privacy": "Datenschutzrichtlinie",
+    "terms": "Nutzungsbedingungen",
+    "cookies": "Cookie-Richtlinie",
+    "copyright": "© {year} Marmorani. Alle Rechte vorbehalten.",
+    "address": "123 Rue du Marbre\n75001 Paris, Frankreich"
+  },
+  "errors": {
+    "notFound": "Seite nicht gefunden",
+    "serverError": "Serverfehler",
+    "networkError": "Netzwerkfehler. Bitte überprüfen Sie Ihre Verbindung.",
+    "unauthorized": "Sie sind nicht berechtigt, diese Seite anzuzeigen.",
+    "generic": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
+  },
+  "home": {
+    "welcome": "Willkommen bei Marmorani",
+    "subtitle": "Maßgeschneiderter Luxusmarmor"
+  }
+}
+

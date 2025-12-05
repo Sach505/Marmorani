@@ -1,0 +1,360 @@
+<story-context id="1-5-deployment-pipeline-environment-configuration" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>5</storyId>
+    <title>Deployment Pipeline &amp; Environment Configuration</title>
+    <status>ready-for-dev</status>
+    <generatedAt>2025-12-04</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/1-5-deployment-pipeline-environment-configuration.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>developer</asA>
+    <iWant>the project deployed to Vercel with proper environment configuration</iWant>
+    <soThat>changes are automatically deployed and the production environment is ready</soThat>
+    <tasks>
+      <task id="1" ac="2">
+        <name>Set up Supabase project</name>
+        <subtasks>
+          <subtask>1.1: Create Supabase project (or verify existing project)</subtask>
+          <subtask>1.2: Navigate to Project Settings → Database → Connection string</subtask>
+          <subtask>1.3: Copy DATABASE_URL (pooled connection - Transaction mode)</subtask>
+          <subtask>1.4: Copy DIRECT_URL (direct connection - Session mode)</subtask>
+          <subtask>1.5: Navigate to Project Settings → API → Copy Supabase URL</subtask>
+          <subtask>1.6: Copy anon/public key (NEXT_PUBLIC_SUPABASE_ANON_KEY)</subtask>
+          <subtask>1.7: Copy service_role key (SUPABASE_SERVICE_ROLE_KEY)</subtask>
+          <subtask>1.8: Document all connection strings securely</subtask>
+        </subtasks>
+      </task>
+      <task id="2" ac="2">
+        <name>Obtain Stripe API keys</name>
+        <subtasks>
+          <subtask>2.1: Log into Stripe Dashboard (create account if needed)</subtask>
+          <subtask>2.2: Use test mode for initial setup</subtask>
+          <subtask>2.3: Navigate to Developers → API keys</subtask>
+          <subtask>2.4: Copy Publishable key (NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)</subtask>
+          <subtask>2.5: Copy Secret key (STRIPE_SECRET_KEY)</subtask>
+          <subtask>2.6: Navigate to Developers → Webhooks → Add endpoint (placeholder for now)</subtask>
+          <subtask>2.7: Note: STRIPE_WEBHOOK_SECRET will be set up in Epic 5</subtask>
+        </subtasks>
+      </task>
+      <task id="3" ac="2">
+        <name>Obtain Resend API key</name>
+        <subtasks>
+          <subtask>3.1: Log into Resend Dashboard (create account if needed)</subtask>
+          <subtask>3.2: Navigate to API Keys section</subtask>
+          <subtask>3.3: Create new API key with appropriate permissions</subtask>
+          <subtask>3.4: Copy RESEND_API_KEY</subtask>
+        </subtasks>
+      </task>
+      <task id="4" ac="4">
+        <name>Configure postinstall script for Prisma</name>
+        <subtasks>
+          <subtask>4.1: Open package.json</subtask>
+          <subtask>4.2: Add "postinstall": "prisma generate" to scripts section</subtask>
+          <subtask>4.3: Verify prisma is in dependencies (not just devDependencies) for Vercel</subtask>
+          <subtask>4.4: Test locally: run npm install and verify Prisma client generates</subtask>
+        </subtasks>
+      </task>
+      <task id="5" ac="2">
+        <name>Create/update .env.example</name>
+        <subtasks>
+          <subtask>5.1: Ensure .env.example has all required keys documented</subtask>
+          <subtask>5.2: Add comments explaining each variable</subtask>
+          <subtask>5.3: Verify .env.local is in .gitignore</subtask>
+        </subtasks>
+      </task>
+      <task id="6" ac="1">
+        <name>Connect GitHub repo to Vercel</name>
+        <subtasks>
+          <subtask>6.1: Log into Vercel Dashboard</subtask>
+          <subtask>6.2: Click "Add New..." → "Project"</subtask>
+          <subtask>6.3: Import the marmorani GitHub repository</subtask>
+          <subtask>6.4: Select Framework Preset: Next.js</subtask>
+          <subtask>6.5: Configure Root Directory if needed (should be project root)</subtask>
+          <subtask>6.6: Set Build Command: npm run build (default)</subtask>
+          <subtask>6.7: Set Output Directory: .next (default)</subtask>
+        </subtasks>
+      </task>
+      <task id="7" ac="2">
+        <name>Configure environment variables in Vercel</name>
+        <subtasks>
+          <subtask>7.1: In Vercel Project Settings → Environment Variables</subtask>
+          <subtask>7.2: Add DATABASE_URL (Production, Preview, Development)</subtask>
+          <subtask>7.3: Add DIRECT_URL (Production, Preview, Development)</subtask>
+          <subtask>7.4: Add NEXT_PUBLIC_SUPABASE_URL (all environments)</subtask>
+          <subtask>7.5: Add NEXT_PUBLIC_SUPABASE_ANON_KEY (all environments)</subtask>
+          <subtask>7.6: Add SUPABASE_SERVICE_ROLE_KEY (Production only for security)</subtask>
+          <subtask>7.7: Add STRIPE_SECRET_KEY (Production, Preview)</subtask>
+          <subtask>7.8: Add NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY (all environments)</subtask>
+          <subtask>7.9: Add STRIPE_WEBHOOK_SECRET (Production - placeholder or real if set up)</subtask>
+          <subtask>7.10: Add RESEND_API_KEY (Production, Preview)</subtask>
+          <subtask>7.11: Add NEXT_PUBLIC_APP_URL (Production: final domain, Preview: use VERCEL_URL)</subtask>
+        </subtasks>
+      </task>
+      <task id="8" ac="1,5,6">
+        <name>Deploy to production</name>
+        <subtasks>
+          <subtask>8.1: Push latest code to main branch (or trigger deploy from Vercel)</subtask>
+          <subtask>8.2: Monitor build logs in Vercel Dashboard</subtask>
+          <subtask>8.3: Verify build completes successfully</subtask>
+          <subtask>8.4: Verify Prisma generate runs during postinstall</subtask>
+          <subtask>8.5: Check deployment is marked as "Ready"</subtask>
+        </subtasks>
+      </task>
+      <task id="9" ac="5">
+        <name>Verify production deployment</name>
+        <subtasks>
+          <subtask>9.1: Access production URL from Vercel Dashboard</subtask>
+          <subtask>9.2: Verify homepage loads with correct layout (Header, Footer)</subtask>
+          <subtask>9.3: Test locale routing: /en/, /fr/, /it/, /es/, /de/</subtask>
+          <subtask>9.4: Verify language switcher works in production</subtask>
+          <subtask>9.5: Check browser console for errors</subtask>
+        </subtasks>
+      </task>
+      <task id="10" ac="3">
+        <name>Test preview deployments</name>
+        <subtasks>
+          <subtask>10.1: Create a test branch with a minor change</subtask>
+          <subtask>10.2: Open a pull request to main</subtask>
+          <subtask>10.3: Verify Vercel automatically creates preview deployment</subtask>
+          <subtask>10.4: Access preview URL and verify it loads correctly</subtask>
+          <subtask>10.5: Verify environment variables work in preview</subtask>
+          <subtask>10.6: Close/merge the test PR</subtask>
+        </subtasks>
+      </task>
+      <task id="11" ac="all">
+        <name>Final verification</name>
+        <subtasks>
+          <subtask>11.1: Run npm run build locally - no errors</subtask>
+          <subtask>11.2: Run npm run lint locally - no errors</subtask>
+          <subtask>11.3: Production site loads and functions correctly</subtask>
+          <subtask>11.4: Document production URL in project README or docs</subtask>
+        </subtasks>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC1">GitHub repository is connected to Vercel project; Vercel project created and linked to the marmorani GitHub repository; Automatic deployments triggered on push to main branch</criterion>
+    <criterion id="AC2">All environment variables configured in Vercel: DATABASE_URL, DIRECT_URL, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY, STRIPE_SECRET_KEY, NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY, STRIPE_WEBHOOK_SECRET, RESEND_API_KEY, NEXT_PUBLIC_APP_URL</criterion>
+    <criterion id="AC3">Preview deployments work for pull requests; PR branches automatically trigger preview deployments; Preview URLs are accessible and functional; Environment variables are available in preview deployments</criterion>
+    <criterion id="AC4">Prisma client generation runs during build; postinstall script configured in package.json with prisma generate; Build process successfully generates Prisma client; No Prisma-related build errors</criterion>
+    <criterion id="AC5">Production URL is accessible and serves the base layout; Production deployment accessible via Vercel URL; Homepage loads with Header, Footer, and locale routing; All 5 locales (/en/, /fr/, /it/, /es/, /de/) work in production</criterion>
+    <criterion id="AC6">Build completes without errors; npm run build succeeds on Vercel; No TypeScript errors; No ESLint errors</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Marmorani Architecture</title>
+        <section>Deployment Architecture, Environment Variables</section>
+        <snippet>Vercel Deployment with native Next.js hosting, automatic CDN, serverless functions. Environment variables defined for DATABASE_URL, DIRECT_URL, Supabase keys, Stripe keys, Resend API key.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Story 1.5 Deployment, Non-Functional Requirements</section>
+        <snippet>AC1.5.1-6 acceptance criteria for deployment. NFR22 (99.5% uptime), NFR24 (data persistence). Vercel managed infrastructure deployment with all environment variables.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epic Breakdown</title>
+        <section>Story 1.5: Deployment Pipeline &amp; Environment Configuration</section>
+        <snippet>Connect GitHub repo to Vercel, configure environment variables in Vercel dashboard, verify Prisma migrations run on deploy, add postinstall script for Prisma generate.</snippet>
+      </doc>
+      <doc>
+        <path>docs/prd.md</path>
+        <title>Product Requirements Document</title>
+        <section>Non-Functional Requirements NFR22, NFR24</section>
+        <snippet>NFR22: 99.5% uptime target. NFR24: Data persistence and backup requirements.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <file>
+        <path>package.json</path>
+        <kind>configuration</kind>
+        <symbol>scripts</symbol>
+        <lines>1-53</lines>
+        <reason>Must add postinstall script for Prisma generate; prisma is currently in devDependencies - needs verification for Vercel build</reason>
+      </file>
+      <file>
+        <path>prisma/schema.prisma</path>
+        <kind>database schema</kind>
+        <symbol>datasource db, generator client</symbol>
+        <lines>1-154</lines>
+        <reason>Complete Prisma schema must be deployable; generator outputs to src/generated/prisma; datasource configured for PostgreSQL</reason>
+      </file>
+      <file>
+        <path>prisma.config.ts</path>
+        <kind>configuration</kind>
+        <symbol>defineConfig</symbol>
+        <lines>1-21</lines>
+        <reason>Prisma 7.x configuration with datasource URL from DATABASE_URL env variable; migrations path configured</reason>
+      </file>
+      <file>
+        <path>src/lib/prisma.ts</path>
+        <kind>library</kind>
+        <symbol>prisma singleton, createPool</symbol>
+        <lines>1-83</lines>
+        <reason>Prisma client singleton using pg adapter and connection pool; requires DATABASE_URL environment variable</reason>
+      </file>
+      <file>
+        <path>next.config.ts</path>
+        <kind>configuration</kind>
+        <symbol>nextConfig</symbol>
+        <lines>1-26</lines>
+        <reason>Next.js configuration with next-intl plugin, image optimization for Supabase, transpilePackages for Three.js</reason>
+      </file>
+      <file>
+        <path>src/middleware.ts</path>
+        <kind>middleware</kind>
+        <symbol>middleware, config</symbol>
+        <reason>i18n middleware for locale detection; must work in production Vercel environment</reason>
+      </file>
+      <file>
+        <path>src/i18n/config.ts</path>
+        <kind>configuration</kind>
+        <symbol>locales, defaultLocale</symbol>
+        <reason>5 locales configured (en, fr, it, es, de); must work in production routing</reason>
+      </file>
+      <file>
+        <path>src/components/layout/Header.tsx</path>
+        <kind>component</kind>
+        <symbol>Header</symbol>
+        <reason>Must render correctly in production with i18n translations</reason>
+      </file>
+      <file>
+        <path>src/components/layout/Footer.tsx</path>
+        <kind>component</kind>
+        <symbol>Footer</symbol>
+        <reason>Must render correctly in production with i18n translations</reason>
+      </file>
+      <file>
+        <path>src/components/layout/LocaleSwitcher.tsx</path>
+        <kind>component</kind>
+        <symbol>LocaleSwitcher</symbol>
+        <reason>Language switcher must work in production environment</reason>
+      </file>
+      <file>
+        <path>src/app/[locale]/layout.tsx</path>
+        <kind>layout</kind>
+        <symbol>LocaleLayout</symbol>
+        <reason>Root locale layout with NextIntlClientProvider; must function in production</reason>
+      </file>
+      <file>
+        <path>src/app/[locale]/page.tsx</path>
+        <kind>page</kind>
+        <symbol>HomePage</symbol>
+        <reason>Homepage that must be accessible at all 5 locale paths in production</reason>
+      </file>
+    </code>
+    <dependencies>
+      <ecosystem name="node">
+        <package name="next" version="16.0.7" />
+        <package name="react" version="19.2.0" />
+        <package name="react-dom" version="19.2.0" />
+        <package name="next-intl" version="^4.5.8" />
+        <package name="@prisma/client" version="^7.1.0" />
+        <package name="@prisma/adapter-pg" version="^7.1.0" />
+        <package name="pg" version="^8.16.3" />
+        <package name="prisma" version="^7.1.0" note="devDependency - may need to move for Vercel" />
+        <package name="@supabase/supabase-js" version="^2.86.2" />
+        <package name="stripe" version="^20.0.0" />
+        <package name="@stripe/stripe-js" version="^8.5.3" />
+        <package name="resend" version="^6.5.2" />
+        <package name="three" version="^0.181.2" />
+        <package name="@react-three/fiber" version="^9.4.2" />
+        <package name="@react-three/drei" version="^10.7.7" />
+        <package name="zustand" version="^5.0.9" />
+        <package name="zod" version="^4.1.13" />
+        <package name="tailwindcss" version="^4" />
+        <package name="typescript" version="^5" />
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="architecture">Vercel Deployment: Native Next.js hosting with automatic CDN, serverless functions, and edge caching</constraint>
+    <constraint type="architecture">Supabase Integration: Managed PostgreSQL with connection pooling required for serverless environment</constraint>
+    <constraint type="architecture">Environment Isolation: All secrets via environment variables, never committed to repo</constraint>
+    <constraint type="architecture">Prisma in Serverless: Requires postinstall script to generate client during build</constraint>
+    <constraint type="database">Supabase provides two connection strings: Pooled (Transaction mode) for DATABASE_URL, Direct (Session mode) for DIRECT_URL</constraint>
+    <constraint type="security">SUPABASE_SERVICE_ROLE_KEY must be Production only for security</constraint>
+    <constraint type="security">STRIPE_WEBHOOK_SECRET is Production only (placeholder acceptable for now)</constraint>
+    <constraint type="build">npm run build must succeed without TypeScript or ESLint errors</constraint>
+    <constraint type="build">Prisma generate must run during postinstall for Vercel compatibility</constraint>
+    <constraint type="i18n">All 5 locales (/en/, /fr/, /it/, /es/, /de/) must work in production</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface name="Environment Variables" kind="configuration">
+      <signature>
+        DATABASE_URL: PostgreSQL pooled connection string (Supabase Transaction mode)
+        DIRECT_URL: PostgreSQL direct connection string (Supabase Session mode)
+        NEXT_PUBLIC_SUPABASE_URL: Supabase project URL (public)
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: Supabase anonymous key (public)
+        SUPABASE_SERVICE_ROLE_KEY: Supabase service role key (server-only)
+        STRIPE_SECRET_KEY: Stripe secret key (server-only)
+        NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: Stripe publishable key (public)
+        STRIPE_WEBHOOK_SECRET: Stripe webhook signing secret (server-only)
+        RESEND_API_KEY: Resend email API key (server-only)
+        NEXT_PUBLIC_APP_URL: Application base URL (public)
+      </signature>
+      <path>Vercel Dashboard → Project Settings → Environment Variables</path>
+    </interface>
+    <interface name="Vercel Build Process" kind="build workflow">
+      <signature>
+        1. npm install runs → triggers postinstall → prisma generate runs
+        2. npm run build runs → Next.js builds the application
+        3. Deployment serves static assets from CDN, API routes as serverless functions
+      </signature>
+      <path>Vercel automatic deployment</path>
+    </interface>
+    <interface name="Prisma Database Configuration" kind="database config">
+      <signature>
+        prisma.config.ts: defineConfig({ datasource: { url: env("DATABASE_URL") } })
+        schema.prisma: generator client { provider = "prisma-client", output = "../src/generated/prisma" }
+      </signature>
+      <path>prisma.config.ts, prisma/schema.prisma</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Manual verification primarily for this deployment story. Local build must pass before Vercel deployment. Production URL must be accessible and functional with all 5 locales. Console should have no errors.
+    </standards>
+    <locations>
+      <location>Vercel Dashboard (build logs, deployment status)</location>
+      <location>Browser DevTools (console errors, network requests)</location>
+      <location>Local terminal (npm run build, npm run lint)</location>
+    </locations>
+    <ideas>
+      <idea ac="AC1">Verify Vercel project is linked to GitHub repo by checking Vercel Dashboard</idea>
+      <idea ac="AC1">Push a commit to main and verify automatic deployment triggers</idea>
+      <idea ac="AC2">Check all environment variables are set in Vercel Dashboard</idea>
+      <idea ac="AC3">Create test PR branch, verify preview deployment is created with unique URL</idea>
+      <idea ac="AC4">Check Vercel build logs for "prisma generate" output during postinstall</idea>
+      <idea ac="AC4">Verify Prisma client is generated (no runtime errors about missing client)</idea>
+      <idea ac="AC5">Navigate to production URL, verify Header and Footer render</idea>
+      <idea ac="AC5">Test all 5 locale paths: /en/, /fr/, /it/, /es/, /de/</idea>
+      <idea ac="AC5">Test LocaleSwitcher changes URL and content language</idea>
+      <idea ac="AC6">Run npm run build locally before deploying</idea>
+      <idea ac="AC6">Run npm run lint locally before deploying</idea>
+      <idea ac="AC6">Check Vercel build logs for any TypeScript or ESLint errors</idea>
+    </ideas>
+  </tests>
+
+  <learnings source="1-4-internationalization-setup">
+    <learning>i18n Fully Configured: next-intl v4.5.8 with 5 locales working</learning>
+    <learning>Locale Routing Active: /[locale]/ dynamic segment pattern functional</learning>
+    <learning>Middleware Active: Browser locale detection via src/middleware.ts</learning>
+    <learning>Build Verified: npm run build passes without errors locally</learning>
+    <learning>Next.js 16 shows deprecation warning for middleware convention - informational only, no action required</learning>
+    <learning>Header/Footer using useTranslations hook, all text localized</learning>
+    <learning>LocaleSwitcher uses router.replace with useTransition for smooth navigation</learning>
+  </learnings>
+</story-context>
+

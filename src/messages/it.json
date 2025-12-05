@@ -1,0 +1,47 @@
+{
+  "common": {
+    "loading": "Caricamento...",
+    "error": "Si è verificato un errore",
+    "save": "Salva",
+    "cancel": "Annulla",
+    "close": "Chiudi",
+    "back": "Indietro",
+    "next": "Avanti",
+    "submit": "Invia",
+    "search": "Cerca",
+    "viewAll": "Vedi tutto",
+    "learnMore": "Scopri di più"
+  },
+  "header": {
+    "gallery": "Galleria",
+    "configurator": "Configuratore",
+    "account": "Account",
+    "cart": "Carrello",
+    "openMenu": "Apri menu",
+    "closeMenu": "Chiudi menu",
+    "shoppingCart": "Carrello",
+    "currentLanguage": "Lingua attuale: {language}. Clicca per cambiare lingua."
+  },
+  "footer": {
+    "tagline": "Artigianato del marmo di lusso, su misura per la tua visione. Dimensioni personalizzate, qualità eccezionale.",
+    "contact": "Contatti",
+    "legal": "Legale",
+    "privacy": "Informativa sulla privacy",
+    "terms": "Termini di servizio",
+    "cookies": "Politica sui cookie",
+    "copyright": "© {year} Marmorani. Tutti i diritti riservati.",
+    "address": "123 Rue du Marbre\n75001 Parigi, Francia"
+  },
+  "errors": {
+    "notFound": "Pagina non trovata",
+    "serverError": "Errore del server",
+    "networkError": "Errore di rete. Controlla la tua connessione.",
+    "unauthorized": "Non sei autorizzato a visualizzare questa pagina.",
+    "generic": "Qualcosa è andato storto. Riprova."
+  },
+  "home": {
+    "welcome": "Benvenuto da Marmorani",
+    "subtitle": "Marmo di Lusso Personalizzato"
+  }
+}
+

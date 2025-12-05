@@ -1,0 +1,46 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "search": "Search",
+    "viewAll": "View All",
+    "learnMore": "Learn More"
+  },
+  "header": {
+    "gallery": "Gallery",
+    "configurator": "Configurator",
+    "account": "Account",
+    "cart": "Cart",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "shoppingCart": "Shopping cart",
+    "currentLanguage": "Current language: {language}. Click to change language."
+  },
+  "footer": {
+    "tagline": "Luxury marble craftsmanship, tailored to your vision. Custom dimensions, exceptional quality.",
+    "contact": "Contact",
+    "legal": "Legal",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Policy",
+    "copyright": "© {year} Marmorani. All rights reserved.",
+    "address": "123 Rue du Marbre\n75001 Paris, France"
+  },
+  "errors": {
+    "notFound": "Page not found",
+    "serverError": "Server error",
+    "networkError": "Network error. Please check your connection.",
+    "unauthorized": "You are not authorized to view this page.",
+    "generic": "Something went wrong. Please try again."
+  },
+  "home": {
+    "welcome": "Welcome to Marmorani",
+    "subtitle": "Luxury Custom Marble"
+  }
+}
