@@ -1,6 +1,6 @@
 # Story 1.5: Deployment Pipeline & Environment Configuration
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -84,43 +84,43 @@ So that **changes are automatically deployed and the production environment is r
   - [x] 5.2: Add comments explaining each variable
   - [x] 5.3: Verify .env.local is in .gitignore
 
-- [ ] **Task 6: Connect GitHub repo to Vercel** (AC: #1)
-  - [ ] 6.1: Log into Vercel Dashboard
-  - [ ] 6.2: Click "Add New..." → "Project"
-  - [ ] 6.3: Import the marmorani GitHub repository
-  - [ ] 6.4: Select Framework Preset: Next.js
-  - [ ] 6.5: Configure Root Directory if needed (should be project root)
-  - [ ] 6.6: Set Build Command: `npm run build` (default)
-  - [ ] 6.7: Set Output Directory: `.next` (default)
+- [x] **Task 6: Connect GitHub repo to Vercel** (AC: #1)
+  - [x] 6.1: Log into Vercel Dashboard
+  - [x] 6.2: Click "Add New..." → "Project"
+  - [x] 6.3: Import the marmorani GitHub repository
+  - [x] 6.4: Select Framework Preset: Next.js
+  - [x] 6.5: Configure Root Directory if needed (should be project root)
+  - [x] 6.6: Set Build Command: `npm run build` (default)
+  - [x] 6.7: Set Output Directory: `.next` (default)
 
-- [ ] **Task 7: Configure environment variables in Vercel** (AC: #2)
-  - [ ] 7.1: In Vercel Project Settings → Environment Variables
-  - [ ] 7.2: Add DATABASE_URL (Production, Preview, Development)
-  - [ ] 7.3: Add DIRECT_URL (Production, Preview, Development)
-  - [ ] 7.4: Add NEXT_PUBLIC_SUPABASE_URL (all environments)
-  - [ ] 7.5: Add NEXT_PUBLIC_SUPABASE_ANON_KEY (all environments)
-  - [ ] 7.6: Add SUPABASE_SERVICE_ROLE_KEY (Production only for security)
-  - [ ] 7.7: Add STRIPE_SECRET_KEY (Production, Preview)
-  - [ ] 7.8: Add NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY (all environments)
-  - [ ] 7.9: Add STRIPE_WEBHOOK_SECRET (Production - placeholder or real if set up)
-  - [ ] 7.10: Add RESEND_API_KEY (Production, Preview)
-  - [ ] 7.11: Add NEXT_PUBLIC_APP_URL (Production: final domain, Preview: use VERCEL_URL)
+- [x] **Task 7: Configure environment variables in Vercel** (AC: #2)
+  - [x] 7.1: In Vercel Project Settings → Environment Variables
+  - [x] 7.2: Add DATABASE_URL (Production, Preview, Development)
+  - [x] 7.3: Add DIRECT_URL (Production, Preview, Development)
+  - [x] 7.4: Add NEXT_PUBLIC_SUPABASE_URL (all environments)
+  - [x] 7.5: Add NEXT_PUBLIC_SUPABASE_ANON_KEY (all environments)
+  - [x] 7.6: Add SUPABASE_SERVICE_ROLE_KEY (Production only for security)
+  - [ ] 7.7: Add STRIPE_SECRET_KEY (Production, Preview) ⏳ *Deferred to Epic 5*
+  - [ ] 7.8: Add NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY (all environments) ⏳ *Deferred to Epic 5*
+  - [ ] 7.9: Add STRIPE_WEBHOOK_SECRET (Production - placeholder or real if set up) ⏳ *Deferred to Epic 5*
+  - [x] 7.10: Add RESEND_API_KEY (Production, Preview)
+  - [x] 7.11: Add NEXT_PUBLIC_APP_URL (Production: final domain, Preview: use VERCEL_URL)
 
-- [ ] **Task 8: Deploy to production** (AC: #1, #5, #6)
-  - [ ] 8.1: Push latest code to main branch (or trigger deploy from Vercel)
-  - [ ] 8.2: Monitor build logs in Vercel Dashboard
-  - [ ] 8.3: Verify build completes successfully
-  - [ ] 8.4: Verify Prisma generate runs during postinstall
-  - [ ] 8.5: Check deployment is marked as "Ready"
+- [x] **Task 8: Deploy to production** (AC: #1, #5, #6)
+  - [x] 8.1: Push latest code to main branch (or trigger deploy from Vercel)
+  - [x] 8.2: Monitor build logs in Vercel Dashboard
+  - [x] 8.3: Verify build completes successfully
+  - [x] 8.4: Verify Prisma generate runs during postinstall
+  - [x] 8.5: Check deployment is marked as "Ready"
 
-- [ ] **Task 9: Verify production deployment** (AC: #5)
-  - [ ] 9.1: Access production URL from Vercel Dashboard
-  - [ ] 9.2: Verify homepage loads with correct layout (Header, Footer)
-  - [ ] 9.3: Test locale routing: /en/, /fr/, /it/, /es/, /de/
-  - [ ] 9.4: Verify language switcher works in production
-  - [ ] 9.5: Check browser console for errors
+- [x] **Task 9: Verify production deployment** (AC: #5)
+  - [x] 9.1: Access production URL from Vercel Dashboard
+  - [x] 9.2: Verify homepage loads with correct layout (Header, Footer)
+  - [x] 9.3: Test locale routing: /en/, /fr/, /it/, /es/, /de/
+  - [x] 9.4: Verify language switcher works in production
+  - [x] 9.5: Check browser console for errors
 
-- [ ] **Task 10: Test preview deployments** (AC: #3)
+- [ ] **Task 10: Test preview deployments** (AC: #3) ⏳ *To be tested with next PR*
   - [ ] 10.1: Create a test branch with a minor change
   - [ ] 10.2: Open a pull request to main
   - [ ] 10.3: Verify Vercel automatically creates preview deployment
@@ -128,11 +128,11 @@ So that **changes are automatically deployed and the production environment is r
   - [ ] 10.5: Verify environment variables work in preview
   - [ ] 10.6: Close/merge the test PR
 
-- [ ] **Task 11: Final verification** (AC: all)
-  - [ ] 11.1: Run `npm run build` locally - no errors
-  - [ ] 11.2: Run `npm run lint` locally - no errors
-  - [ ] 11.3: Production site loads and functions correctly
-  - [ ] 11.4: Document production URL in project README or docs
+- [x] **Task 11: Final verification** (AC: all)
+  - [x] 11.1: Run `npm run build` locally - no errors
+  - [x] 11.2: Run `npm run lint` locally - no errors
+  - [x] 11.3: Production site loads and functions correctly
+  - [x] 11.4: Document production URL in project README or docs
 
 ## Dev Notes
 
@@ -244,13 +244,26 @@ Claude Opus 4.5
 
 ### Completion Notes List
 
-- ✅ Task 4 & 5 completed - code changes for Prisma postinstall and .env.example documentation
-- ⏳ Tasks 1-3, 6-11 require manual user action in external dashboards (Supabase, Stripe, Resend, Vercel)
+- ✅ Task 1: Supabase project configured with DATABASE_URL, DIRECT_URL, and API keys
+- ⏳ Task 2: Stripe deferred to Epic 5 (no account yet)
+- ✅ Task 3: Resend API key obtained and configured
+- ✅ Task 4: postinstall script added to package.json for Prisma generate
+- ✅ Task 5: .env.example enhanced with scope annotations and source comments
+- ✅ Task 6: GitHub repo created (Sach505/Marmorani) and connected to Vercel
+- ✅ Task 7: Environment variables configured in Vercel (except Stripe - deferred)
+- ✅ Task 8: Production deployment successful
+- ✅ Task 9: All 5 locales verified working (/en, /fr, /it, /es, /de)
+- ⏳ Task 10: Preview deployments to be tested with next PR
+- ✅ Task 11: Build and lint pass, production site functional
+
+**Production URL:** https://marmorani.vercel.app
 
 ### File List
 
 - `package.json` - Added postinstall script for Prisma generate
 - `.env.example` - Enhanced with detailed comments, scope annotations, and source references
+- `.git/` - Git repository initialized
+- Remote: https://github.com/Sach505/Marmorani.git
 
 ## Change Log
 
@@ -258,4 +271,5 @@ Claude Opus 4.5
 |------|--------|--------|
 | 2025-12-04 | Story drafted from epics, architecture, tech spec, and previous story learnings | SM Agent (Bob) |
 | 2025-12-05 | Completed Task 4 (postinstall script) and Task 5 (.env.example enhancement) | Dev Agent (Amelia) |
+| 2025-12-05 | Completed Tasks 1, 3, 6-9, 11. Deployed to production: https://marmorani.vercel.app | Dev Agent (Amelia) + Sacha |
 
