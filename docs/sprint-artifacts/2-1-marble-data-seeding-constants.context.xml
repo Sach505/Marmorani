@@ -1,0 +1,262 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>1</storyId>
+    <title>Marble Data Seeding &amp; Constants</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-05</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/2-1-marble-data-seeding-constants.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>developer</asA>
+    <iWant>the initial marble catalog data seeded in the database with manufacturing constraints defined as constants</iWant>
+    <soThat>the gallery and configurator have real marble data to display and validate against</soThat>
+    <tasks>
+      <task id="1" name="Create manufacturing constants file">
+        <subtask id="1.1">Create src/constants/marbles.ts</subtask>
+        <subtask id="1.2">Define MANUFACTURING_CONSTRAINTS with MIN/MAX dimensions</subtask>
+        <subtask id="1.3">Define FINISH_TYPES array from FinishType enum</subtask>
+        <subtask id="1.4">Define USE_CASES array for gallery filtering</subtask>
+        <subtask id="1.5">Export all constants with proper TypeScript types</subtask>
+      </task>
+      <task id="2" name="Create marble type definitions">
+        <subtask id="2.1">Create src/types/marble.ts if not exists</subtask>
+        <subtask id="2.2">Define MarbleLocalized interface for resolved locale data</subtask>
+        <subtask id="2.3">Define FinishOption interface</subtask>
+        <subtask id="2.4">Define MarbleSeedData interface for seed input</subtask>
+      </task>
+      <task id="3" name="Create Prisma seed script">
+        <subtask id="3.1">Create prisma/seed.ts</subtask>
+        <subtask id="3.2">Import Prisma client and types</subtask>
+        <subtask id="3.3">Implement main seed function with logging</subtask>
+        <subtask id="3.4">Add cleanup logic for idempotent seeding (delete existing data)</subtask>
+        <subtask id="3.5">Configure prisma.seed in package.json</subtask>
+      </task>
+      <task id="4" name="Define marble catalog data">
+        <subtask id="4.1">Create marble data for Carrara White (Italy)</subtask>
+        <subtask id="4.2">Create marble data for Nero Marquina (Spain)</subtask>
+        <subtask id="4.3">Create marble data for Calacatta Gold (Italy)</subtask>
+        <subtask id="4.4">Create marble data for Emperador Dark (Spain)</subtask>
+        <subtask id="4.5">Create marble data for Statuario (Italy)</subtask>
+        <subtask id="4.6">Create marble data for Verde Guatemala (Guatemala)</subtask>
+        <subtask id="4.7">Create marble data for Rosa Portogallo (Portugal)</subtask>
+        <subtask id="4.8">Create marble data for Sahara Noir (Tunisia)</subtask>
+        <subtask id="4.9">Create marble data for Bianco Sivec (North Macedonia)</subtask>
+        <subtask id="4.10">Create marble data for Travertino Romano (Italy)</subtask>
+      </task>
+      <task id="5" name="Implement marble seeding logic">
+        <subtask id="5.1">Loop through marble definitions and create records</subtask>
+        <subtask id="5.2">Create MarbleFinish records for each marble</subtask>
+        <subtask id="5.3">Add transaction wrapper for atomicity</subtask>
+        <subtask id="5.4">Log creation results with counts</subtask>
+      </task>
+      <task id="6" name="Add seed script to package.json">
+        <subtask id="6.1">Add "db:seed": "prisma db seed" to scripts</subtask>
+        <subtask id="6.2">Add "prisma": { "seed": "npx tsx prisma/seed.ts" } to package.json</subtask>
+        <subtask id="6.3">Ensure tsx is installed for TypeScript execution</subtask>
+      </task>
+      <task id="7" name="Test seeding locally">
+        <subtask id="7.1">Run npm run db:seed and verify no errors</subtask>
+        <subtask id="7.2">Use Prisma Studio (npx prisma studio) to inspect data</subtask>
+        <subtask id="7.3">Verify all 10 marbles created with finishes</subtask>
+        <subtask id="7.4">Run seed again to verify idempotency</subtask>
+        <subtask id="7.5">Query marbles via Prisma client in REPL</subtask>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC1" title="Running npm run db:seed creates 10 marble types">
+      <conditions>
+        <condition>Seed script executes without errors</condition>
+        <condition>10 distinct marbles are created with unique slugs</condition>
+        <condition>Marbles can be queried via Prisma after seeding</condition>
+      </conditions>
+    </criterion>
+    <criterion id="AC2" title="Each marble has multilingual names and descriptions">
+      <conditions>
+        <condition>JSON fields contain all 5 locale keys (en, fr, it, es, de)</condition>
+        <condition>Names are properly translated (e.g., "Carrara" / "Carrare")</condition>
+        <condition>Descriptions include origin story and characteristics</condition>
+      </conditions>
+    </criterion>
+    <criterion id="AC3" title="Each marble has accurate technical specifications">
+      <conditions>
+        <condition>Density value in kg/m³ (typically ~2700 for most marbles)</condition>
+        <condition>Base price per cm³ in cents (integer value)</condition>
+        <condition>Origin country as string</condition>
+        <condition>textureFolder matching future /public/textures/{slug}/ pattern</condition>
+      </conditions>
+    </criterion>
+    <criterion id="AC4" title="Each marble has 2-4 finishes with price modifiers">
+      <conditions>
+        <condition>MarbleFinish records created for each marble</condition>
+        <condition>Finishes include at least POLISHED and HONED</condition>
+        <condition>Price modifiers are decimals (e.g., 1.0, 1.1, 0.9)</condition>
+      </conditions>
+    </criterion>
+    <criterion id="AC5" title="Manufacturing constraints defined in constants">
+      <conditions>
+        <condition>MANUFACTURING_CONSTRAINTS.MIN_DIMENSION = 5 (cm)</condition>
+        <condition>MANUFACTURING_CONSTRAINTS.MAX_DIMENSION = 100 (cm)</condition>
+        <condition>FINISH_TYPES array with all FinishType enum values</condition>
+        <condition>Constants are properly typed with as const</condition>
+      </conditions>
+    </criterion>
+    <criterion id="AC6" title="Seed script is idempotent">
+      <conditions>
+        <condition>Running seed multiple times doesn't create duplicates</condition>
+        <condition>Uses upsert or delete-then-create pattern</condition>
+        <condition>Script logs progress and result count</condition>
+      </conditions>
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Marmorani Architecture</title>
+        <section>Data Architecture / Core Models (Prisma Schema)</section>
+        <snippet>Marble model: id, slug, name[JSON], description[JSON], density, basePricePerCm3, origin, available, textureFolder, finishes. MarbleFinish: id, marbleId, type, priceModifier. FinishType enum: POLISHED, HONED, RAW, BRUSHED.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Marmorani Architecture</title>
+        <section>Implementation Patterns / Naming Conventions</section>
+        <snippet>Constants use SCREAMING_SNAKE case. Prisma enums use SCREAMING_SNAKE. Development scripts include db:seed via prisma db seed command.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Marble Catalog &amp; Discovery</title>
+        <section>Story 2.1 Acceptance Criteria</section>
+        <snippet>AC-2.1.1: Running npm run db:seed creates 10 marbles. AC-2.1.2: Accurate density, base price, origin. AC-2.1.3: textureFolder matching pattern. AC-2.1.4: 2-4 finishes with modifiers. AC-2.1.5: Constants export MIN/MAX dimensions.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification</title>
+        <section>Constants Definition</section>
+        <snippet>MANUFACTURING_CONSTRAINTS = { MIN_DIMENSION: 5, MAX_DIMENSION: 100 } as const. FINISH_TYPES = ['POLISHED', 'HONED', 'RAW', 'BRUSHED'] as const. USE_CASES = ['coffee-table', 'side-table', 'column', 'decorative'] as const.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification</title>
+        <section>TypeScript Types</section>
+        <snippet>MarbleLocalized interface with id, slug, name (resolved), description (resolved), density, basePricePerCm3, origin, textureFolder, finishes: FinishOption[]. FinishOption: { type: FinishType, priceModifier: number }.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Marmorani Epic Breakdown</title>
+        <section>Story 2.1: Marble Data Seeding &amp; Constants</section>
+        <snippet>Seed ~10 marbles: Carrara White, Nero Marquina, Calacatta Gold, Emperador Dark, Statuario, Verde Guatemala, Rosa Portogallo, Sahara Noir, Bianco Sivec, Travertino Romano. Constants define manufacturing constraints.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/1-5-deployment-pipeline-environment-configuration.md</path>
+        <title>Previous Story Learnings</title>
+        <section>Dev Agent Record</section>
+        <snippet>Prisma postinstall configured. Database connected via DATABASE_URL/DIRECT_URL. Use tsx preferred over ts-node for faster TypeScript execution. Production URL: https://marmorani.vercel.app.</snippet>
+      </doc>
+    </docs>
+
+    <code>
+      <file>
+        <path>prisma/schema.prisma</path>
+        <kind>schema</kind>
+        <symbol>Marble, MarbleFinish, FinishType</symbol>
+        <lines>70-96</lines>
+        <reason>Defines the database models that seed script will populate. Marble has JSON fields for name/description, density, basePricePerCm3. MarbleFinish links type and priceModifier. FinishType enum defines available finish options.</reason>
+      </file>
+      <file>
+        <path>src/lib/prisma.ts</path>
+        <kind>library</kind>
+        <symbol>prisma (PrismaClient singleton)</symbol>
+        <lines>74-78</lines>
+        <reason>Prisma client singleton with pg adapter that seed script will import to interact with database. Uses Pool with connection pooling.</reason>
+      </file>
+      <file>
+        <path>src/generated/prisma/enums.ts</path>
+        <kind>generated</kind>
+        <symbol>FinishType enum</symbol>
+        <reason>Generated TypeScript enum for finish types (POLISHED, HONED, RAW, BRUSHED). Constants file should reference or align with this.</reason>
+      </file>
+      <file>
+        <path>src/generated/prisma/models/Marble.ts</path>
+        <kind>generated</kind>
+        <symbol>Marble model type</symbol>
+        <reason>Generated TypeScript type for Marble model. Seed data structure must match this type.</reason>
+      </file>
+      <file>
+        <path>src/generated/prisma/models/MarbleFinish.ts</path>
+        <kind>generated</kind>
+        <symbol>MarbleFinish model type</symbol>
+        <reason>Generated TypeScript type for MarbleFinish. Seed script creates these records with type and priceModifier.</reason>
+      </file>
+      <file>
+        <path>package.json</path>
+        <kind>config</kind>
+        <symbol>scripts, dependencies</symbol>
+        <reason>Need to add db:seed script and prisma.seed configuration. Currently missing tsx dependency for TypeScript seed execution.</reason>
+      </file>
+    </code>
+
+    <dependencies>
+      <ecosystem name="node">
+        <package name="prisma" version="^7.1.0" type="dev" />
+        <package name="@prisma/client" version="^7.1.0" type="prod" />
+        <package name="@prisma/adapter-pg" version="^7.1.0" type="prod" />
+        <package name="pg" version="^8.16.3" type="prod" />
+        <package name="tsx" version="(to install)" type="dev" note="Required for TypeScript seed script execution" />
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <interfaces>
+    <interface name="Marble Prisma Model">
+      <kind>ORM Model</kind>
+      <signature>prisma.marble.create({ data: { slug, name, description, density, basePricePerCm3, origin, textureFolder, finishes: { create: [...] } } })</signature>
+      <path>src/generated/prisma/client</path>
+    </interface>
+    <interface name="MarbleFinish Prisma Model">
+      <kind>ORM Relation</kind>
+      <signature>finishes: { create: [{ type: FinishType, priceModifier: number }] }</signature>
+      <path>src/generated/prisma/client</path>
+    </interface>
+    <interface name="MANUFACTURING_CONSTRAINTS">
+      <kind>Constant Object</kind>
+      <signature>export const MANUFACTURING_CONSTRAINTS = { MIN_DIMENSION: 5, MAX_DIMENSION: 100 } as const</signature>
+      <path>src/constants/marbles.ts (to create)</path>
+    </interface>
+  </interfaces>
+
+  <constraints>
+    <constraint category="data">JSON fields for name/description must contain all 5 locales: en, fr, it, es, de</constraint>
+    <constraint category="data">textureFolder must match slug pattern for /public/textures/{slug}/ asset structure</constraint>
+    <constraint category="data">basePricePerCm3 stored as integer (cents) for precision</constraint>
+    <constraint category="data">Density values typically ~2400-2750 kg/m³ for marble types</constraint>
+    <constraint category="pattern">Use as const for compile-time type safety on constants</constraint>
+    <constraint category="pattern">Seed script must be idempotent - use delete-then-create or upsert</constraint>
+    <constraint category="pattern">Use transaction wrapper for atomicity during seeding</constraint>
+    <constraint category="pattern">Log progress and result counts for debugging</constraint>
+    <constraint category="dependency">Use tsx (not ts-node) for faster TypeScript execution</constraint>
+    <constraint category="dependency">Seed script uses DIRECT_URL (not pooled connection) for local execution</constraint>
+  </constraints>
+
+  <tests>
+    <standards>Unit tests verify seed script creates correct marble count with all required fields. Integration tests run seed against test database and query results via Prisma. Test idempotency by running seed twice and asserting same marble count. Use Vitest as test framework per tech-spec.</standards>
+    <locations>
+      <location>tests/unit/seed.test.ts</location>
+      <location>tests/integration/marbles.test.ts</location>
+    </locations>
+    <ideas>
+      <idea ac="AC1">Test that seed creates exactly 10 marbles with unique slugs</idea>
+      <idea ac="AC2">Test that each marble name JSON has all 5 locale keys</idea>
+      <idea ac="AC3">Test marble density is within valid range (2400-2750 kg/m³)</idea>
+      <idea ac="AC4">Test each marble has at least POLISHED and HONED finishes</idea>
+      <idea ac="AC5">Test MANUFACTURING_CONSTRAINTS exports correct MIN/MAX values</idea>
+      <idea ac="AC6">Test running seed twice results in same marble count (no duplicates)</idea>
+    </ideas>
+  </tests>
+</story-context>
+
