@@ -1,0 +1,336 @@
+<story-context id="3-4-3d-interaction-controls" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>4</storyId>
+    <title>3D Interaction Controls</title>
+    <status>ready-for-dev</status>
+    <generatedAt>2025-12-06</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/3-4-3d-interaction-controls.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>to rotate and zoom the 3D marble cube with natural gestures</iWant>
+    <soThat>I can examine my cube from every angle and build purchase confidence before ordering</soThat>
+    <tasks>
+      <task id="1" name="Add OrbitControls to CubeViewer" acs="#1, #2, #3, #7">
+        <subtask>Import OrbitControls from @react-three/drei</subtask>
+        <subtask>Add OrbitControls inside Canvas, after camera setup</subtask>
+        <subtask>Configure enablePan={false} to disable panning</subtask>
+        <subtask>Set minDistance and maxDistance for zoom limits</subtask>
+        <subtask>Set minPolarAngle and maxPolarAngle for vertical limits</subtask>
+        <subtask>Test horizontal rotation (full 360°)</subtask>
+        <subtask>Test vertical rotation (limited arc)</subtask>
+      </task>
+      <task id="2" name="Configure zoom limits based on cube dimensions" acs="#3">
+        <subtask>Calculate dynamic minDistance based on max cube dimension</subtask>
+        <subtask>Calculate dynamic maxDistance based on cube size</subtask>
+        <subtask>Ensure cube never clips through camera at any dimension</subtask>
+        <subtask>Test zoom with min (5cm) and max (100cm) cube sizes</subtask>
+      </task>
+      <task id="3" name="Implement double-click/tap reset" acs="#4">
+        <subtask>Create Controls.tsx wrapper component for OrbitControls</subtask>
+        <subtask>Store default camera position in ref</subtask>
+        <subtask>Add event listener for double-click</subtask>
+        <subtask>On double-click, animate camera to default position using GSAP or lerp</subtask>
+        <subtask>Test reset on desktop (double-click) and mobile (double-tap)</subtask>
+      </task>
+      <task id="4" name="Implement auto-rotate feature" acs="#5">
+        <subtask>Enable autoRotate prop on OrbitControls</subtask>
+        <subtask>Set autoRotateSpeed to subtle value (0.5-1.0)</subtask>
+        <subtask>Implement idle detection (track last interaction time)</subtask>
+        <subtask>Pause auto-rotate on any user interaction</subtask>
+        <subtask>Resume auto-rotate after 3 seconds of inactivity</subtask>
+        <subtask>Test auto-rotate behavior with interactions</subtask>
+      </task>
+      <task id="5" name="Verify touch gesture support" acs="#6">
+        <subtask>Test single-finger drag rotation on mobile/touch</subtask>
+        <subtask>Test pinch-to-zoom on mobile/touch</subtask>
+        <subtask>Test double-tap reset on mobile/touch</subtask>
+        <subtask>Verify no page scroll conflicts (touch-action CSS)</subtask>
+        <subtask>Test on iOS Safari and Android Chrome</subtask>
+      </task>
+      <task id="6" name="Create interaction hint overlay" acs="#8">
+        <subtask>Create InteractionHint.tsx component</subtask>
+        <subtask>Display "Drag to rotate" text with icon/animation</subtask>
+        <subtask>Position hint centered over 3D canvas</subtask>
+        <subtask>Check localStorage for configurator_hint_shown flag</subtask>
+        <subtask>Fade out hint on first interaction or after 3 seconds</subtask>
+        <subtask>Set localStorage flag after hint dismissed</subtask>
+        <subtask>Add appropriate ARIA attributes for accessibility</subtask>
+        <subtask>Add i18n translation keys for hint text</subtask>
+      </task>
+      <task id="7" name="Performance verification" acs="#9">
+        <subtask>Verify frameloop="demand" works with OrbitControls</subtask>
+        <subtask>Test rotation at 60fps (use browser DevTools)</subtask>
+        <subtask>Test zoom smoothness at various speeds</subtask>
+        <subtask>Profile for any memory leaks during extended interaction</subtask>
+        <subtask>Test on lower-end device if available</subtask>
+      </task>
+      <task id="8" name="Integration and testing" acs="#1-#9">
+        <subtask>Test all interactions on desktop (1440px viewport)</subtask>
+        <subtask>Test all interactions on mobile (375px viewport)</subtask>
+        <subtask>Test with different marble textures loaded</subtask>
+        <subtask>Test with different cube dimensions</subtask>
+        <subtask>Verify TypeScript compiles without errors</subtask>
+        <subtask>Verify production build succeeds</subtask>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC1" name="Horizontal rotation (360° orbit)">
+      <requirement>Dragging left/right rotates the camera around the cube horizontally</requirement>
+      <requirement>Full 360° rotation allowed (no horizontal limits)</requirement>
+      <requirement>Rotation is smooth and responsive (&lt; 16ms input lag)</requirement>
+      <requirement>Works with mouse drag on desktop</requirement>
+    </criterion>
+    <criterion id="AC2" name="Vertical rotation (limited arc)">
+      <requirement>Dragging up/down rotates the camera vertically</requirement>
+      <requirement>Limited to prevent flipping over the cube (minPolarAngle/maxPolarAngle)</requirement>
+      <requirement>Cannot see the bottom of the cube (contact shadow remains grounded)</requirement>
+      <requirement>Reasonable vertical range: ~15° to ~85° from vertical axis</requirement>
+    </criterion>
+    <criterion id="AC3" name="Zoom in/out functionality">
+      <requirement>Scroll wheel zooms on desktop</requirement>
+      <requirement>Pinch gesture zooms on mobile/touch devices</requirement>
+      <requirement>Sensible zoom limits (minDistance/maxDistance)</requirement>
+      <requirement>Cube should not clip through camera (min zoom)</requirement>
+      <requirement>Cube should remain visible and detailed at max zoom out</requirement>
+    </criterion>
+    <criterion id="AC4" name="Reset view to default position">
+      <requirement>Double-click (desktop) or double-tap (mobile) resets camera to default angle</requirement>
+      <requirement>Reset animates smoothly to default position</requirement>
+      <requirement>Default position: same as initial load (front-facing, slightly elevated)</requirement>
+    </criterion>
+    <criterion id="AC5" name="Auto-rotate when idle (optional, stoppable)">
+      <requirement>Cube slowly auto-rotates when user is not interacting</requirement>
+      <requirement>Auto-rotation pauses immediately on any user interaction</requirement>
+      <requirement>Auto-rotation resumes after ~3 seconds of inactivity</requirement>
+      <requirement>Rotation speed is subtle and elegant (not distracting)</requirement>
+    </criterion>
+    <criterion id="AC6" name="Touch gesture support">
+      <requirement>Single finger drag rotates the cube (same as mouse drag)</requirement>
+      <requirement>Pinch zooms in/out</requirement>
+      <requirement>Double-tap resets view</requirement>
+      <requirement>All gestures feel natural on mobile devices</requirement>
+      <requirement>No conflicts with scrolling the page</requirement>
+    </criterion>
+    <criterion id="AC7" name="Panning disabled">
+      <requirement>Pan/translation is disabled (cube stays centered)</requirement>
+      <requirement>Right-click drag does not pan</requirement>
+      <requirement>Two-finger drag (non-pinch) does not pan</requirement>
+    </criterion>
+    <criterion id="AC8" name="Visual interaction hint for first-time users">
+      <requirement>On first visit to configurator, display hint: "Drag to rotate"</requirement>
+      <requirement>Hint fades out after user's first interaction or after 3 seconds</requirement>
+      <requirement>Hint stored in localStorage to not show again</requirement>
+      <requirement>Hint is accessible (aria-label)</requirement>
+    </criterion>
+    <criterion id="AC9" name="Performance maintained">
+      <requirement>Interactions at 60fps (NFR2)</requirement>
+      <requirement>No jank or stuttering during rotation</requirement>
+      <requirement>frameloop="demand" still works (re-renders on interaction)</requirement>
+      <requirement>Input lag &lt; 16ms for responsive feel</requirement>
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Marmorani Architecture</title>
+        <section>Technology Stack Details - React Three Fiber + Drei</section>
+        <snippet>OrbitControls for camera manipulation, useTexture for marble texture loading with Suspense, Environment for realistic lighting</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Marmorani Architecture</title>
+        <section>Project Structure - src/components/3d/</section>
+        <snippet>CubeViewer.tsx, MarbleMaterial.tsx, SceneLighting.tsx, and Controls.tsx listed in architecture</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epic Breakdown</title>
+        <section>Story 3.4: 3D Interaction Controls</section>
+        <snippet>Use Drei OrbitControls component. Configure: enablePan={false}, minDistance, maxDistance. Auto-rotate: autoRotate prop, pause on user interaction.</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>UX Design Specification</title>
+        <section>8.1 Touch Interactions</section>
+        <snippet>Drag on cube → Rotate 3D view, Pinch → Zoom in/out. All gestures feel natural on mobile devices.</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>UX Design Specification</title>
+        <section>6.1 Component Strategy - Custom Components</section>
+        <snippet>Cube3DViewer: Three.js viewport with rotation, zoom, lighting. States: Loading, Ready, Error.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/3-3-3d-cube-viewer-component.md</path>
+        <title>Story 3-3: 3D Cube Viewer Component</title>
+        <section>Dev Agent Record - File List</section>
+        <snippet>CubeViewer uses frameloop="demand", Canvas with dpr={[1, 2]}, camera position calculated dynamically.</snippet>
+      </doc>
+    </docs>
+
+    <code>
+      <file>
+        <path>src/components/3d/CubeViewer.tsx</path>
+        <kind>component</kind>
+        <symbol>CubeViewer, SceneContent, MarbleCube</symbol>
+        <lines>239-287</lines>
+        <reason>Main 3D Canvas component where OrbitControls must be integrated. Contains camera configuration and frameloop="demand" setup.</reason>
+      </file>
+      <file>
+        <path>src/components/3d/index.ts</path>
+        <kind>index</kind>
+        <symbol>exports</symbol>
+        <lines>1-14</lines>
+        <reason>Need to export new Controls component when created.</reason>
+      </file>
+      <file>
+        <path>src/components/3d/SceneLighting.tsx</path>
+        <kind>component</kind>
+        <symbol>SceneLighting</symbol>
+        <reason>Sibling component within Canvas - understand scene structure for Controls placement.</reason>
+      </file>
+      <file>
+        <path>src/stores/configStore.ts</path>
+        <kind>store</kind>
+        <symbol>useConfigStore, useDimensions</symbol>
+        <lines>445-475</lines>
+        <reason>Configuration state selectors - needed to read cube dimensions for dynamic zoom limits calculation.</reason>
+      </file>
+      <file>
+        <path>src/components/configurator/ThreeDViewport.tsx</path>
+        <kind>component</kind>
+        <symbol>ThreeDViewport</symbol>
+        <reason>Parent wrapper component that loads CubeViewer - InteractionHint overlay should be placed here.</reason>
+      </file>
+      <file>
+        <path>src/components/configurator/ConfiguratorClient.tsx</path>
+        <kind>component</kind>
+        <symbol>ConfiguratorClient</symbol>
+        <reason>Main configurator page component - context for how 3D viewer integrates with configuration UI.</reason>
+      </file>
+      <file>
+        <path>src/messages/en.json</path>
+        <kind>translations</kind>
+        <symbol>JSON</symbol>
+        <reason>English translations - need to add "configurator.hint.dragToRotate" key.</reason>
+      </file>
+      <file>
+        <path>src/messages/fr.json</path>
+        <kind>translations</kind>
+        <symbol>JSON</symbol>
+        <reason>French translations - need to add "configurator.hint.dragToRotate" key.</reason>
+      </file>
+    </code>
+
+    <dependencies>
+      <ecosystem name="Node.js">
+        <package name="@react-three/fiber" version="^9.4.2">React Three Fiber - declarative Three.js</package>
+        <package name="@react-three/drei" version="^10.7.7">Drei - OrbitControls, ContactShadows, useTexture, Environment</package>
+        <package name="three" version="^0.181.2">Three.js core library</package>
+        <package name="zustand" version="^5.0.9">State management with persist middleware</package>
+        <package name="next-intl" version="^4.5.8">Internationalization for hint text</package>
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <interfaces>
+    <interface>
+      <name>OrbitControls (Drei)</name>
+      <kind>React Three Fiber component</kind>
+      <signature><![CDATA[<OrbitControls
+  enablePan={boolean}
+  enableZoom={boolean}
+  enableRotate={boolean}
+  minDistance={number}
+  maxDistance={number}
+  minPolarAngle={number}
+  maxPolarAngle={number}
+  autoRotate={boolean}
+  autoRotateSpeed={number}
+  makeDefault={boolean}
+/>]]></signature>
+      <path>@react-three/drei</path>
+    </interface>
+    <interface>
+      <name>useThree hook</name>
+      <kind>React hook</kind>
+      <signature>const { camera, invalidate, gl } = useThree()</signature>
+      <path>@react-three/fiber</path>
+    </interface>
+    <interface>
+      <name>CubeViewerProps</name>
+      <kind>TypeScript interface</kind>
+      <signature><![CDATA[interface CubeViewerProps {
+  marbleSlug: string;
+  width: number;
+  height: number;
+  depth: number;
+  finish: FinishType;
+}]]></signature>
+      <path>src/components/3d/CubeViewer.tsx</path>
+    </interface>
+  </interfaces>
+
+  <constraints>
+    <constraint type="architecture">
+      <rule>3D components in src/components/3d/</rule>
+      <rule>Controls.tsx matches architecture.md structure: src/components/3d/Controls.tsx</rule>
+      <rule>UI overlays like InteractionHint in src/components/configurator/</rule>
+    </constraint>
+    <constraint type="performance">
+      <rule>NFR2: Configurator interactions render at 60fps</rule>
+      <rule>NFR3: All changes reflect within 500ms</rule>
+      <rule>Input lag target: &lt; 16ms (single frame at 60fps)</rule>
+      <rule>frameloop="demand" must continue working - OrbitControls triggers invalidate automatically</rule>
+    </constraint>
+    <constraint type="pattern">
+      <rule>Component Pattern: Hooks first, derived state, event handlers, render</rule>
+      <rule>Use Zustand selectors (useConfigStore) for state access</rule>
+      <rule>Dynamic import with ssr: false for 3D components</rule>
+    </constraint>
+    <constraint type="naming">
+      <rule>React Components: PascalCase (Controls.tsx, InteractionHint.tsx)</rule>
+      <rule>Event handlers: handle + Event (handleInteractionStart)</rule>
+      <rule>Constants: SCREAMING_SNAKE (HINT_SHOWN_KEY)</rule>
+    </constraint>
+    <constraint type="accessibility">
+      <rule>WCAG 2.1 AA compliance required</rule>
+      <rule>Hint must have aria-label for screen readers</rule>
+      <rule>Touch targets minimum 44×44px on mobile</rule>
+    </constraint>
+  </constraints>
+
+  <tests>
+    <standards>
+      Testing follows Next.js 15 conventions. Unit tests with Vitest for utilities and hooks. 
+      Component tests with @testing-library/react for React components. 
+      E2E tests with Playwright for user flows. 
+      3D components tested via integration (canvas interactions harder to unit test).
+    </standards>
+    <locations>
+      <location>tests/unit/ - Unit tests for calculations and utilities</location>
+      <location>tests/components/ - Component tests</location>
+      <location>tests/e2e/ - End-to-end Playwright tests</location>
+    </locations>
+    <ideas>
+      <idea ac="AC1">Test horizontal rotation fires invalidate, camera azimuth changes 360°</idea>
+      <idea ac="AC2">Test vertical rotation is bounded (Math.PI/12 to Math.PI/2-0.1)</idea>
+      <idea ac="AC3">Test zoom limits with min (5cm) and max (100cm) cube dimensions</idea>
+      <idea ac="AC4">Test double-click event resets camera to initial position</idea>
+      <idea ac="AC5">Test auto-rotate state toggles on interaction start/end with 3s delay</idea>
+      <idea ac="AC7">Test enablePan={false} prevents translation</idea>
+      <idea ac="AC8">Test InteractionHint shows/hides based on localStorage and interaction</idea>
+      <idea ac="AC8">Test i18n keys resolve correctly in all 5 locales</idea>
+      <idea ac="AC9">Performance test: verify 60fps during rotation with React DevTools Profiler</idea>
+    </ideas>
+  </tests>
+</story-context>
+

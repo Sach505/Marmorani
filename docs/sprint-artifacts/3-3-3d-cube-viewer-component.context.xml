@@ -1,0 +1,235 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>3</storyId>
+    <title>3D Cube Viewer Component</title>
+    <status>ready-for-dev</status>
+    <generatedAt>2025-12-06</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/3-3-3d-cube-viewer-component.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>to see a photo-realistic 3D marble cube that responds to my configuration in real-time</iWant>
+    <soThat>I can visualize exactly what my custom marble cube will look like and feel confident in my purchase decision</soThat>
+    <tasks>
+      <task id="1" acs="#1,#6,#8">Create CubeViewer component with React Three Fiber
+        <subtask>1.1: Create src/components/3d/CubeViewer.tsx with Canvas setup</subtask>
+        <subtask>1.2: Configure Canvas with frameloop="demand" for performance</subtask>
+        <subtask>1.3: Set scene background to #0D0D0D (Nero Marquina)</subtask>
+        <subtask>1.4: Wrap with Suspense and provide loading fallback</subtask>
+        <subtask>1.5: Accept width, height, depth props from store</subtask>
+        <subtask>1.6: Create MarbleCube mesh with BoxGeometry using store dimensions</subtask>
+      </task>
+      <task id="2" acs="#2">Implement marble texture loading
+        <subtask>2.1: Create src/components/3d/MarbleMaterial.tsx for PBR material</subtask>
+        <subtask>2.2: Use Drei useTexture hook for loading diffuse, normal, roughness maps</subtask>
+        <subtask>2.3: Configure texture paths dynamically based on marbleSlug</subtask>
+        <subtask>2.4: Implement texture tiling/repeat based on cube dimensions</subtask>
+        <subtask>2.5: Add texture loading error handling with fallback</subtask>
+        <subtask>2.6: Implement texture crossfade on marble change (optional)</subtask>
+      </task>
+      <task id="3" acs="#3">Implement finish-based material properties
+        <subtask>3.1: Create roughness value mapping: POLISHED(0.1), HONED(0.5), RAW(0.9), BRUSHED(0.7)</subtask>
+        <subtask>3.2: Apply roughness to MeshStandardMaterial based on store finish</subtask>
+        <subtask>3.3: Adjust metalness and envMapIntensity per finish type</subtask>
+        <subtask>3.4: Test all four finish types visually</subtask>
+      </task>
+      <task id="4" acs="#4">Configure studio lighting environment
+        <subtask>4.1: Create src/components/3d/SceneLighting.tsx for lights setup</subtask>
+        <subtask>4.2: Use Drei Environment component with "studio" preset</subtask>
+        <subtask>4.3: Add ambient light for base fill (low intensity)</subtask>
+        <subtask>4.4: Add directional key light for shadows</subtask>
+        <subtask>4.5: Fine-tune lighting for "private atelier" aesthetic</subtask>
+      </task>
+      <task id="5" acs="#5">Implement contact shadow
+        <subtask>5.1: Use Drei ContactShadow component beneath cube</subtask>
+        <subtask>5.2: Configure shadow opacity, blur, and scale</subtask>
+        <subtask>5.3: Position shadow to scale with cube dimensions</subtask>
+        <subtask>5.4: Match shadow color to Nero Marquina theme</subtask>
+      </task>
+      <task id="6" acs="#1,#2,#3">Connect to Zustand configuration store
+        <subtask>6.1: Import selectors from configStore (useMarbleSlug, useWidth, etc.)</subtask>
+        <subtask>6.2: Subscribe CubeViewer to relevant state changes</subtask>
+        <subtask>6.3: Trigger re-render on dimension, marble, or finish changes</subtask>
+        <subtask>6.4: Verify reactivity - changes update 3D view in real-time</subtask>
+      </task>
+      <task id="7" acs="#8">Integrate with ThreeDViewport
+        <subtask>7.1: Update ThreeDViewport.tsx to render CubeViewer instead of placeholder</subtask>
+        <subtask>7.2: Pass necessary props from store to CubeViewer</subtask>
+        <subtask>7.3: Maintain Suspense loading state during texture load</subtask>
+        <subtask>7.4: Test responsive behavior at desktop and mobile breakpoints</subtask>
+      </task>
+      <task id="8" acs="#7">Performance optimization
+        <subtask>8.1: Implement frameloop="demand" to render only on changes</subtask>
+        <subtask>8.2: Use useFrame invalidation for smooth updates</subtask>
+        <subtask>8.3: Profile initial load time (target &lt; 3s)</subtask>
+        <subtask>8.4: Profile frame rate during interaction (target 60fps)</subtask>
+        <subtask>8.5: Add texture compression notes for production optimization</subtask>
+      </task>
+      <task id="9" acs="#1-#8">Testing and verification
+        <subtask>9.1: Visual test with each marble type (10 marbles)</subtask>
+        <subtask>9.2: Visual test with each finish type (4 finishes)</subtask>
+        <subtask>9.3: Test dimension changes (min 5cm, max 100cm, various sizes)</subtask>
+        <subtask>9.4: Test on desktop (1440px) and mobile (375px)</subtask>
+        <subtask>9.5: Verify TypeScript compiles with no errors</subtask>
+        <subtask>9.6: Verify build succeeds (npm run build)</subtask>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC1">3D cube renders with accurate dimensions from configuration store
+      - Cube geometry updates when width, height, or depth change
+      - Dimensions displayed in real-world scale (1 unit = 1 cm)
+      - Cube remains centered in viewport regardless of dimensions
+      - Dimension changes reflect within 500ms (NFR3)
+    </criterion>
+    <criterion id="AC2">Photo-realistic marble textures with proper PBR materials
+      - Diffuse texture (color/pattern) loads from /public/textures/{marble-slug}/diffuse.png
+      - Normal map loads from /public/textures/{marble-slug}/normal.png
+      - Roughness map loads from /public/textures/{marble-slug}/roughness.png
+      - Textures tile appropriately based on cube scale
+      - Texture swapping when marble type changes is smooth (crossfade effect)
+    </criterion>
+    <criterion id="AC3">Finish affects material properties visually
+      - POLISHED: Low roughness (0.1), high reflectivity, mirror-like
+      - HONED: Medium roughness (0.5), matte appearance, no sharp reflections
+      - RAW: High roughness (0.9), natural stone texture prominent
+      - BRUSHED: Medium-high roughness (0.7), anisotropic appearance
+      - Finish changes reflect immediately in 3D view
+    </criterion>
+    <criterion id="AC4">Realistic studio lighting environment
+      - HDRI environment map for realistic reflections (studio preset)
+      - Ambient light for base illumination
+      - Key light for primary shadows and highlights
+      - Lighting consistent with "private atelier" aesthetic
+    </criterion>
+    <criterion id="AC5">Subtle shadow beneath the cube
+      - Contact shadow or ground plane shadow visible
+      - Shadow size scales proportionally with cube dimensions
+      - Shadow soft and realistic (not hard-edged)
+      - Shadow color blends with Nero Marquina background
+    </criterion>
+    <criterion id="AC6">Scene background matches Nero Marquina theme
+      - Canvas background: #0D0D0D
+      - No distracting elements in scene
+      - Cube is the clear focal point
+    </criterion>
+    <criterion id="AC7">Performance targets met
+      - Initial 3D load &lt; 3 seconds on broadband connection (NFR1)
+      - Rendering at 60fps during idle (NFR2)
+      - Texture loading with Suspense (loading state shown)
+      - frameloop="demand" for battery/CPU efficiency when idle
+    </criterion>
+    <criterion id="AC8">Integration with existing ThreeDViewport placeholder
+      - Replaces loading shimmer with actual 3D canvas
+      - Maintains responsive sizing from Story 3.1 layout
+      - Works in both desktop (70% viewport) and mobile (60% viewport) layouts
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/architecture.md" title="Marmorani Architecture" section="Technology Stack Details / React Three Fiber + Drei">
+        Declarative Three.js rendering, useTexture for marble texture loading with Suspense, OrbitControls for camera manipulation, Environment for realistic lighting (studio HDRI), useFrame for animation loop when needed.
+      </doc>
+      <doc path="docs/architecture.md" title="Marmorani Architecture" section="3D Performance (NFR1-6)">
+        Texture compression (WebP/AVIF for previews, JPG for 3D), progressive texture loading, geometry instancing, requestAnimationFrame throttling on idle, dynamic import with ssr: false.
+      </doc>
+      <doc path="docs/PRD.md" title="PRD" section="FR17-FR18">
+        FR17: 3D renders photo-realistic marble textures with accurate veining. FR18: All configurator changes update 3D view in real-time (&lt; 500ms).
+      </doc>
+      <doc path="docs/PRD.md" title="PRD" section="NFR1-NFR6">
+        NFR1: 3D configurator initial load &lt; 3s. NFR2: Configurator interactions at 60fps. NFR3: Changes reflect within 500ms. NFR6: Performance acceptable on mid-range mobile (2020+).
+      </doc>
+      <doc path="docs/ux-design-specification.md" title="UX Design Specification" section="3.1 Color System / Nero Marquina">
+        Background: Rich Black #0D0D0D, Surface: Dark Gray #1A1A1A, Border: Medium Gray #2D2D2D, Accent: Champagne Gold #C9A962, Text: Pure White #FFFFFF.
+      </doc>
+      <doc path="docs/ux-design-specification.md" title="UX Design Specification" section="6.1 Component Strategy">
+        Cube3DViewer: Three.js viewport with rotation, zoom, lighting. Key states: Loading, Ready, Error.
+      </doc>
+      <doc path="docs/epics.md" title="Epics" section="Story 3.3: 3D Cube Viewer Component">
+        Full story definition with acceptance criteria in BDD format, prerequisites: Story 3.1, 3.2, 2.2.
+      </doc>
+    </docs>
+    <code>
+      <artifact path="src/stores/configStore.ts" kind="store" symbol="useConfigStore, useMarbleSlug, useWidth, useHeight, useDepth, useFinish" lines="1-492" reason="Zustand store with all configuration state and selectors. CubeViewer must use these selectors to get marble, dimensions, and finish values."/>
+      <artifact path="src/components/configurator/ThreeDViewport.tsx" kind="component" symbol="ThreeDViewport" lines="1-140" reason="Placeholder component to be modified. Replace shimmer loading with actual CubeViewer Canvas."/>
+      <artifact path="src/constants/marbles.ts" kind="constants" symbol="MARBLE_DATA, FINISH_PRICE_MODIFIERS, MANUFACTURING_CONSTRAINTS" lines="1-140" reason="Contains marble slugs for texture paths, finish types for material roughness mapping."/>
+      <artifact path="src/lib/calculations/cubeCalculations.ts" kind="utility" symbol="calculateDerivedValues, getMarbleData" lines="1-162" reason="Calculation functions. Useful for understanding marble data structure."/>
+      <artifact path="public/textures/{marble-slug}/" kind="assets" symbol="diffuse.png, normal.png, roughness.png" reason="PBR texture maps for each of the 10 marble types. NOTE: files are PNG format, not JPG as originally specified."/>
+    </code>
+    <dependencies>
+      <package name="@react-three/fiber" version="^9.4.2" purpose="React renderer for Three.js - Canvas, useFrame, useThree"/>
+      <package name="@react-three/drei" version="^10.7.7" purpose="R3F helpers - useTexture, Environment, ContactShadow, OrbitControls"/>
+      <package name="three" version="^0.181.2" purpose="3D library - BoxGeometry, MeshStandardMaterial, TextureLoader"/>
+      <package name="@types/three" version="^0.181.0" purpose="TypeScript types for Three.js"/>
+      <package name="zustand" version="^5.0.9" purpose="State management - configuration store integration"/>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="pattern">React Three Fiber components must use dynamic import with ssr: false to prevent server-side rendering issues</constraint>
+    <constraint type="pattern">Use Drei useTexture hook within Suspense boundary for texture loading</constraint>
+    <constraint type="pattern">Use individual Zustand selectors (useMarbleSlug, useWidth, etc.) to minimize re-renders</constraint>
+    <constraint type="pattern">Follow naming convention: PascalCase for components (CubeViewer.tsx, MarbleMaterial.tsx)</constraint>
+    <constraint type="layer">3D components go in src/components/3d/ directory</constraint>
+    <constraint type="testing">Visual testing only for 3D - no unit tests required for WebGL components</constraint>
+    <constraint type="accessibility">Add aria-label describing configuration for screen readers per UX spec 8.2</constraint>
+    <constraint type="performance">Use frameloop="demand" to only render when state changes</constraint>
+    <constraint type="texture">Textures are PNG format (not JPG) - update texture paths accordingly</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface name="ConfigState" kind="TypeScript interface" path="src/stores/configStore.ts">
+      interface ConfigState {
+        marbleSlug: string;
+        width: number;
+        height: number;
+        depth: number;
+        finish: FinishType;
+        calculatedWeight: number;
+        calculatedPrice: number;
+      }
+    </interface>
+    <interface name="FinishType" kind="enum" path="src/generated/prisma/enums.ts">
+      enum FinishType { POLISHED, HONED, RAW, BRUSHED }
+    </interface>
+    <interface name="MARBLE_DATA" kind="Record" path="src/constants/marbles.ts">
+      Record&lt;string, { density: number; basePricePerCm3: number }&gt;
+      Available slugs: carrara-white, nero-marquina, calacatta-gold, emperador-dark, statuario, verde-guatemala, rosa-portogallo, sahara-noir, bianco-sivec, travertino-romano
+    </interface>
+    <interface name="Selector Hooks" kind="function" path="src/stores/configStore.ts">
+      useMarbleSlug(): string
+      useWidth(): number
+      useHeight(): number
+      useDepth(): number
+      useFinish(): FinishType
+      useConfiguredCube(): { marbleSlug, width, height, depth, finish }
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Visual testing for 3D components. No Jest/Vitest unit tests for WebGL rendering. Verify TypeScript compilation (tsc --noEmit). Verify production build (npm run build). Manual browser testing at different viewports.
+    </standards>
+    <locations>
+      - Browser DevTools for performance profiling (60fps, load time)
+      - Multiple marble types and finish combinations
+      - Responsive testing at 375px (mobile) and 1440px (desktop)
+    </locations>
+    <ideas>
+      <idea acId="AC1">Verify cube dimensions update when configStore values change - test 10x10x10, 50x50x50, 100x100x100</idea>
+      <idea acId="AC2">Load each of 10 marble textures - verify no 404 errors, textures display correctly</idea>
+      <idea acId="AC3">Test all 4 finish types - verify visual difference in roughness/reflectivity</idea>
+      <idea acId="AC4">Verify lighting produces realistic reflections on polished marble</idea>
+      <idea acId="AC5">Verify shadow appears beneath cube, scales with dimensions</idea>
+      <idea acId="AC6">Verify background is #0D0D0D, cube is focal point</idea>
+      <idea acId="AC7">Profile: initial load &lt; 3s, 60fps during idle, no jank during dimension changes</idea>
+      <idea acId="AC8">Test at mobile and desktop breakpoints - cube remains visible and properly sized</idea>
+    </ideas>
+  </tests>
+</story-context>
+

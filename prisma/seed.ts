@@ -310,66 +310,380 @@ const MARBLES: MarbleSeedData[] = [
 ];
 
 // ============================================================================
+// GALLERY ITEM DATA DEFINITIONS
+// ============================================================================
+
+interface GalleryItemSeedData {
+  marbleSlug: string;
+  title: LocalizedString;
+  description: LocalizedString;
+  imageUrl: string;
+  useCase: "coffee-table" | "side-table" | "column" | "decorative";
+  featured: boolean;
+  order: number;
+}
+
+const GALLERY_ITEMS: GalleryItemSeedData[] = [
+  // Featured Items (appear first)
+  {
+    marbleSlug: "calacatta-gold",
+    title: {
+      en: "Luxurious Coffee Table",
+      fr: "Table Basse de Luxe",
+      it: "Tavolino di Lusso",
+      es: "Mesa de Centro de Lujo",
+      de: "Luxus-Couchtisch",
+    },
+    description: {
+      en: "A stunning Calacatta Gold cube as a coffee table centerpiece in a modern living room.",
+      fr: "Un superbe cube en Calacatta Or comme pièce maîtresse de table basse dans un salon moderne.",
+      it: "Un magnifico cubo di Calacatta Oro come centrotavola in un soggiorno moderno.",
+      es: "Un impresionante cubo de Calacatta Oro como pieza central de mesa de centro en una sala moderna.",
+      de: "Ein atemberaubender Calacatta Gold Würfel als Couchtisch-Herzstück in einem modernen Wohnzimmer.",
+    },
+    imageUrl: "/textures/calacatta-gold/hero.jpg",
+    useCase: "coffee-table",
+    featured: true,
+    order: 1,
+  },
+  {
+    marbleSlug: "nero-marquina",
+    title: {
+      en: "Dramatic Side Table",
+      fr: "Table d'Appoint Dramatique",
+      it: "Tavolino Laterale Drammatico",
+      es: "Mesa Auxiliar Dramática",
+      de: "Dramatischer Beistelltisch",
+    },
+    description: {
+      en: "Bold Nero Marquina cube creating a striking contrast against white walls.",
+      fr: "Cube Nero Marquina audacieux créant un contraste saisissant contre les murs blancs.",
+      it: "Cubo Nero Marquina audace che crea un contrasto sorprendente con pareti bianche.",
+      es: "Cubo Nero Marquina audaz que crea un contraste llamativo contra paredes blancas.",
+      de: "Kühner Nero Marquina Würfel, der einen auffälligen Kontrast zu weißen Wänden bildet.",
+    },
+    imageUrl: "/textures/nero-marquina/hero.jpg",
+    useCase: "side-table",
+    featured: true,
+    order: 2,
+  },
+  {
+    marbleSlug: "statuario",
+    title: {
+      en: "Sculptural Column",
+      fr: "Colonne Sculpturale",
+      it: "Colonna Scultorea",
+      es: "Columna Escultural",
+      de: "Skulpturale Säule",
+    },
+    description: {
+      en: "Elegant Statuario column bringing Renaissance grandeur to a contemporary entry.",
+      fr: "Élégante colonne Statuaire apportant la grandeur de la Renaissance à une entrée contemporaine.",
+      it: "Elegante colonna Statuario che porta la grandezza rinascimentale in un ingresso contemporaneo.",
+      es: "Elegante columna Statuario que aporta la grandeza renacentista a una entrada contemporánea.",
+      de: "Elegante Statuario-Säule, die Renaissance-Pracht in einen zeitgenössischen Eingang bringt.",
+    },
+    imageUrl: "/textures/statuario/hero.jpg",
+    useCase: "column",
+    featured: true,
+    order: 3,
+  },
+
+  // Regular Items
+  {
+    marbleSlug: "carrara-white",
+    title: {
+      en: "Classic Living Room",
+      fr: "Salon Classique",
+      it: "Soggiorno Classico",
+      es: "Sala Clásica",
+      de: "Klassisches Wohnzimmer",
+    },
+    description: {
+      en: "Timeless Carrara White cube complementing a minimalist Scandinavian interior.",
+      fr: "Cube Carrare Blanc intemporel complétant un intérieur scandinave minimaliste.",
+      it: "Cubo Bianco Carrara senza tempo che completa un interno scandinavo minimalista.",
+      es: "Cubo Blanco Carrara atemporal que complementa un interior escandinavo minimalista.",
+      de: "Zeitloser Carrara Weiß Würfel, der ein minimalistisches skandinavisches Interieur ergänzt.",
+    },
+    imageUrl: "/textures/carrara-white/hero.jpg",
+    useCase: "coffee-table",
+    featured: false,
+    order: 4,
+  },
+  {
+    marbleSlug: "emperador-dark",
+    title: {
+      en: "Warm Study Corner",
+      fr: "Coin Bureau Chaleureux",
+      it: "Angolo Studio Caldo",
+      es: "Rincón de Estudio Cálido",
+      de: "Warme Studierecke",
+    },
+    description: {
+      en: "Rich Emperador Dark adding warmth to a cozy reading nook.",
+      fr: "Empereur Foncé riche ajoutant de la chaleur à un coin lecture confortable.",
+      it: "Emperador Scuro ricco che aggiunge calore a un accogliente angolo lettura.",
+      es: "Emperador Oscuro rico que añade calidez a un acogedor rincón de lectura.",
+      de: "Reichhaltiger Emperador Dunkel, der einer gemütlichen Leseecke Wärme verleiht.",
+    },
+    imageUrl: "/textures/emperador-dark/hero.jpg",
+    useCase: "side-table",
+    featured: false,
+    order: 5,
+  },
+  {
+    marbleSlug: "verde-guatemala",
+    title: {
+      en: "Botanical Sanctuary",
+      fr: "Sanctuaire Botanique",
+      it: "Santuario Botanico",
+      es: "Santuario Botánico",
+      de: "Botanisches Heiligtum",
+    },
+    description: {
+      en: "Verde Guatemala harmonizing with indoor plants in a nature-inspired space.",
+      fr: "Vert Guatemala en harmonie avec des plantes d'intérieur dans un espace inspiré par la nature.",
+      it: "Verde Guatemala in armonia con piante d'appartamento in uno spazio ispirato alla natura.",
+      es: "Verde Guatemala en armonía con plantas de interior en un espacio inspirado en la naturaleza.",
+      de: "Guatemala Grün in Harmonie mit Zimmerpflanzen in einem von der Natur inspirierten Raum.",
+    },
+    imageUrl: "/textures/verde-guatemala/hero.jpg",
+    useCase: "decorative",
+    featured: false,
+    order: 6,
+  },
+  {
+    marbleSlug: "rosa-portogallo",
+    title: {
+      en: "Romantic Bedroom",
+      fr: "Chambre Romantique",
+      it: "Camera Romantica",
+      es: "Dormitorio Romántico",
+      de: "Romantisches Schlafzimmer",
+    },
+    description: {
+      en: "Soft Rosa Portogallo creating a gentle accent in a serene bedroom.",
+      fr: "Rosa Portugal doux créant un accent délicat dans une chambre sereine.",
+      it: "Dolce Rosa Portogallo che crea un accento delicato in una camera serena.",
+      es: "Suave Rosa Portugal creando un acento delicado en un dormitorio sereno.",
+      de: "Sanftes Rosa Portogallo, das einen zarten Akzent in einem ruhigen Schlafzimmer setzt.",
+    },
+    imageUrl: "/textures/rosa-portogallo/hero.jpg",
+    useCase: "side-table",
+    featured: false,
+    order: 7,
+  },
+  {
+    marbleSlug: "sahara-noir",
+    title: {
+      en: "Gallery Showcase",
+      fr: "Vitrine de Galerie",
+      it: "Vetrina della Galleria",
+      es: "Escaparate de Galería",
+      de: "Galerie-Schaufenster",
+    },
+    description: {
+      en: "Fossil-rich Sahara Noir as an art piece in a contemporary gallery setting.",
+      fr: "Sahara Noir riche en fossiles comme pièce d'art dans un cadre de galerie contemporaine.",
+      it: "Sahara Nero ricco di fossili come pezzo d'arte in un ambiente di galleria contemporanea.",
+      es: "Sahara Negro rico en fósiles como pieza de arte en un entorno de galería contemporánea.",
+      de: "Fossilreicher Sahara Schwarz als Kunstobjekt in einem zeitgenössischen Galerieambiente.",
+    },
+    imageUrl: "/textures/sahara-noir/hero.jpg",
+    useCase: "decorative",
+    featured: false,
+    order: 8,
+  },
+  {
+    marbleSlug: "bianco-sivec",
+    title: {
+      en: "Minimalist Pedestal",
+      fr: "Piédestal Minimaliste",
+      it: "Piedistallo Minimalista",
+      es: "Pedestal Minimalista",
+      de: "Minimalistischer Sockel",
+    },
+    description: {
+      en: "Pure Bianco Sivec elevating a sculpture in an all-white gallery.",
+      fr: "Blanc Sivec pur sublimant une sculpture dans une galerie toute blanche.",
+      it: "Bianco Sivec puro che eleva una scultura in una galleria tutta bianca.",
+      es: "Blanco Sivec puro elevando una escultura en una galería toda blanca.",
+      de: "Reiner Bianco Sivec, der eine Skulptur in einer ganz weißen Galerie erhöht.",
+    },
+    imageUrl: "/textures/bianco-sivec/hero.jpg",
+    useCase: "column",
+    featured: false,
+    order: 9,
+  },
+  {
+    marbleSlug: "travertino-romano",
+    title: {
+      en: "Mediterranean Terrace",
+      fr: "Terrasse Méditerranéenne",
+      it: "Terrazza Mediterranea",
+      es: "Terraza Mediterránea",
+      de: "Mediterrane Terrasse",
+    },
+    description: {
+      en: "Timeless Travertino Romano bringing ancient elegance to an outdoor lounge.",
+      fr: "Travertin Romain intemporel apportant une élégance antique à un salon extérieur.",
+      it: "Travertino Romano senza tempo che porta eleganza antica a un salotto esterno.",
+      es: "Travertino Romano atemporal que aporta elegancia antigua a un salón exterior.",
+      de: "Zeitloser Römischer Travertin, der antike Eleganz in eine Outdoor-Lounge bringt.",
+    },
+    imageUrl: "/textures/travertino-romano/hero.jpg",
+    useCase: "coffee-table",
+    featured: false,
+    order: 10,
+  },
+  // Extra gallery items for variety
+  {
+    marbleSlug: "carrara-white",
+    title: {
+      en: "Spa Retreat",
+      fr: "Retraite Spa",
+      it: "Ritiro Spa",
+      es: "Retiro de Spa",
+      de: "Spa-Rückzugsort",
+    },
+    description: {
+      en: "Carrara White creating a zen atmosphere in a luxury bathroom.",
+      fr: "Carrare Blanc créant une atmosphère zen dans une salle de bain de luxe.",
+      it: "Bianco Carrara che crea un'atmosfera zen in un bagno di lusso.",
+      es: "Blanco Carrara creando una atmósfera zen en un baño de lujo.",
+      de: "Carrara Weiß schafft eine Zen-Atmosphäre in einem Luxus-Badezimmer.",
+    },
+    imageUrl: "/textures/carrara-white/hero.jpg",
+    useCase: "decorative",
+    featured: false,
+    order: 11,
+  },
+  {
+    marbleSlug: "nero-marquina",
+    title: {
+      en: "Executive Office",
+      fr: "Bureau de Direction",
+      it: "Ufficio Dirigenziale",
+      es: "Oficina Ejecutiva",
+      de: "Chefbüro",
+    },
+    description: {
+      en: "Commanding Nero Marquina cube as a statement piece in a CEO's office.",
+      fr: "Cube Nero Marquina imposant comme pièce maîtresse dans le bureau d'un PDG.",
+      it: "Cubo Nero Marquina imponente come pezzo di dichiarazione nell'ufficio di un CEO.",
+      es: "Cubo Nero Marquina imponente como pieza de declaración en la oficina de un CEO.",
+      de: "Eindrucksvoller Nero Marquina Würfel als Statement-Stück im Büro eines CEOs.",
+    },
+    imageUrl: "/textures/nero-marquina/hero.jpg",
+    useCase: "side-table",
+    featured: false,
+    order: 12,
+  },
+];
+
+// ============================================================================
 // SEED FUNCTION
 // ============================================================================
 
 async function seed() {
-  console.log("🌱 Starting marble seeding...\n");
+  console.log("🌱 Starting database seeding...\n");
 
   try {
-    // Use transaction for atomicity
-    await prisma.$transaction(async (tx) => {
-      // Step 1: Clean up existing data (idempotent pattern)
-      console.log("🧹 Cleaning existing marble finishes...");
-      const deletedFinishes = await tx.marbleFinish.deleteMany();
-      console.log(`   Deleted ${deletedFinishes.count} finish records`);
+    // Step 1: Clean up existing data
+    console.log("🧹 Cleaning existing gallery items...");
+    const deletedGalleryItems = await prisma.galleryItem.deleteMany();
+    console.log(`   Deleted ${deletedGalleryItems.count} gallery item records`);
 
-      console.log("🧹 Cleaning existing marbles...");
-      const deletedMarbles = await tx.marble.deleteMany();
-      console.log(`   Deleted ${deletedMarbles.count} marble records\n`);
+    console.log("🧹 Cleaning existing marble finishes...");
+    const deletedFinishes = await prisma.marbleFinish.deleteMany();
+    console.log(`   Deleted ${deletedFinishes.count} finish records`);
 
-      // Step 2: Create marbles with their finishes
-      console.log("📦 Creating marbles...\n");
+    console.log("🧹 Cleaning existing marbles...");
+    const deletedMarbles = await prisma.marble.deleteMany();
+    console.log(`   Deleted ${deletedMarbles.count} marble records\n`);
 
-      for (const marbleData of MARBLES) {
-        const marble = await tx.marble.create({
-          data: {
-            slug: marbleData.slug,
-            name: marbleData.name as object,
-            description: marbleData.description as object,
-            density: marbleData.density,
-            basePricePerCm3: marbleData.basePricePerCm3,
-            origin: marbleData.origin,
-            textureFolder: marbleData.textureFolder,
-            available: true,
-            finishes: {
-              create: marbleData.finishes.map((finish) => ({
-                type: finish.type,
-                priceModifier: finish.priceModifier,
-              })),
-            },
+    // Step 2: Create marbles with their finishes
+    console.log("📦 Creating marbles...\n");
+
+    const marbleIdMap = new Map<string, string>();
+
+    for (const marbleData of MARBLES) {
+      const marble = await prisma.marble.create({
+        data: {
+          slug: marbleData.slug,
+          name: marbleData.name as object,
+          description: marbleData.description as object,
+          density: marbleData.density,
+          basePricePerCm3: marbleData.basePricePerCm3,
+          origin: marbleData.origin,
+          textureFolder: marbleData.textureFolder,
+          available: true,
+          finishes: {
+            create: marbleData.finishes.map((finish) => ({
+              type: finish.type,
+              priceModifier: finish.priceModifier,
+            })),
           },
-          include: {
-            finishes: true,
-          },
-        });
+        },
+        include: {
+          finishes: true,
+        },
+      });
 
-        console.log(
-          `   ✓ ${(marbleData.name as LocalizedString).en} (${marble.finishes.length} finishes)`
-        );
+      marbleIdMap.set(marbleData.slug, marble.id);
+
+      console.log(
+        `   ✓ ${(marbleData.name as LocalizedString).en} (${marble.finishes.length} finishes)`
+      );
+    }
+
+    // Step 3: Create gallery items
+    console.log("\n🖼️  Creating gallery items...\n");
+
+    for (const galleryData of GALLERY_ITEMS) {
+      const marbleId = marbleIdMap.get(galleryData.marbleSlug);
+      
+      if (!marbleId) {
+        console.log(`   ⚠️  Skipping gallery item - marble not found: ${galleryData.marbleSlug}`);
+        continue;
       }
-    });
 
-    // Step 3: Verify results
+      await prisma.galleryItem.create({
+        data: {
+          marbleId,
+          title: galleryData.title as object,
+          description: galleryData.description as object,
+          imageUrl: galleryData.imageUrl,
+          useCase: galleryData.useCase,
+          featured: galleryData.featured,
+          order: galleryData.order,
+        },
+      });
+
+      console.log(
+        `   ✓ ${(galleryData.title as LocalizedString).en}${galleryData.featured ? " ⭐" : ""}`
+      );
+    }
+
+    // Step 4: Verify results
     console.log("\n📊 Verifying seed results...");
     const marbleCount = await prisma.marble.count();
     const finishCount = await prisma.marbleFinish.count();
+    const galleryCount = await prisma.galleryItem.count();
+    const featuredCount = await prisma.galleryItem.count({ where: { featured: true } });
 
     console.log(`   Total marbles: ${marbleCount}`);
     console.log(`   Total finishes: ${finishCount}`);
+    console.log(`   Total gallery items: ${galleryCount}`);
+    console.log(`   Featured items: ${featuredCount}`);
 
     if (marbleCount !== 10) {
       throw new Error(`Expected 10 marbles, got ${marbleCount}`);
+    }
+
+    if (galleryCount < 10) {
+      throw new Error(`Expected at least 10 gallery items, got ${galleryCount}`);
     }
 
     console.log("\n✅ Seeding completed successfully!");

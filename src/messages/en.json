@@ -12,6 +12,44 @@
     "viewAll": "View All",
     "learnMore": "Learn More"
   },
+  "gallery": {
+    "title": "Inspiration",
+    "subtitle": "Discover our marble creations in real interiors. Find the marble that inspires you before creating your custom cube.",
+    "pageTitle": "Inspiration Gallery",
+    "pageDescription": "Explore our collection of marble cubes and let yourself be inspired by the endless possibilities.",
+    "fromPrice": "From {price}",
+    "featured": "Featured",
+    "noItems": "No inspiration available",
+    "noItemsDescription": "Check back soon to discover our new creations.",
+    "useCases": {
+      "coffee-table": "Coffee Table",
+      "side-table": "Side Table",
+      "column": "Column",
+      "decorative": "Decorative"
+    },
+    "finishes": {
+      "POLISHED": "Polished",
+      "HONED": "Honed",
+      "RAW": "Raw",
+      "BRUSHED": "Brushed"
+    },
+    "filters": {
+      "filterBy": "Filter by",
+      "filter": "Filter",
+      "filterDescription": "Select filters to narrow down your search",
+      "marbleType": "Marble",
+      "finishType": "Finish",
+      "useCase": "Use",
+      "allMarbles": "All marbles",
+      "allFinishes": "All finishes",
+      "allUseCases": "All uses",
+      "clearAll": "Clear filters",
+      "apply": "Apply",
+      "activeFilters": "Active filters",
+      "noResults": "No results match your filters",
+      "noResultsDescription": "Try adjusting or clearing your filters to see more items."
+    }
+  },
   "header": {
     "gallery": "Gallery",
     "configurator": "Configurator",
@@ -42,5 +80,86 @@
   "home": {
     "welcome": "Welcome to Marmorani",
     "subtitle": "Luxury Custom Marble"
+  },
+  "configurator": {
+    "title": "Configurator",
+    "pageTitle": "Marble Cube Configurator",
+    "pageTitleWithMarble": "Configure - {marbleName}",
+    "pageDescription": "Create your custom marble cube. Choose dimensions, marble type, and finish for an instant quote.",
+    "pageDescriptionWithMarble": "Configure your {marbleName} marble cube. Choose dimensions and finish for an instant quote.",
+    "backToGallery": "Back to Gallery",
+    "selectedMarble": "Selected marble",
+    "marbleSelector": "Marble Type",
+    "marbleSelection": "Marble Selection",
+    "selectMarble": "Select marble",
+    "dimensions": "Dimensions",
+    "width": "Width",
+    "height": "Height",
+    "depth": "Depth",
+    "finish": "Finish",
+    "estimatedPrice": "Estimated Price",
+    "priceAndWeight": "Price & Weight",
+    "weightPlaceholder": "Weight: calculating...",
+    "addToCart": "Add to Cart",
+    "viewer3dPlaceholder": "3D Viewer",
+    "loading3d": "Loading 3D view...",
+    "comingSoon": "Coming soon in Epic 3",
+    "panelTitle": "Configuration Panel",
+    "configPanel": "Configuration Options",
+    "expandPanel": "Expand configuration panel",
+    "collapsePanel": "Collapse configuration panel",
+    "tapToExpand": "Tap to expand",
+    "tapToCollapse": "Tap to collapse",
+    "comingSoonStory35": "Dimension controls coming in Story 3.5",
+    "comingSoonStory36": "Marble selector coming in Story 3.6",
+    "comingSoonStory37": "Finish picker coming in Story 3.7",
+    "comingSoonStory38": "Price & weight display coming in Story 3.8",
+    "finishes": {
+      "POLISHED": "Polished",
+      "HONED": "Honed",
+      "RAW": "Raw",
+      "BRUSHED": "Brushed"
+    },
+    "viewer3dLabel": "3D preview of {marble} marble cube, {width}×{height}×{depth} cm, {finish} finish",
+    "hint": {
+      "dragToRotate": "Drag to rotate",
+      "scrollToZoom": "Scroll to zoom",
+      "pinchToZoom": "Pinch to zoom"
+    },
+    "unit": "cm",
+    "incrementDimension": "Increase {dimension}",
+    "decrementDimension": "Decrease {dimension}",
+    "dimensionErrors": {
+      "min": "Minimum {min} cm",
+      "max": "Maximum {max} cm",
+      "invalid": "Invalid value",
+      "required": "Required"
+    },
+    "dimensionWarnings": {
+      "atMin": "Minimum dimension",
+      "atMax": "Maximum dimension"
+    },
+    "viewDetails": "View details",
+    "selected": "Selected: {marble}",
+    "marbleSelectorAriaLabel": "Select marble type"
+  },
+  "marble": {
+    "specifications": "Specifications",
+    "origin": "Origin",
+    "density": "Density",
+    "availableFinishes": "Available Finishes",
+    "priceRange": "Price Range",
+    "priceRangeNote": "Based on cube dimensions from 5×5×5 cm to 100×100×100 cm",
+    "createCube": "Create My Cube",
+    "backToGallery": "Back to Gallery",
+    "interestedTitle": "Interested in this marble?",
+    "interestedDescription": "Configure your custom cube with this exceptional marble and receive an instant quote.",
+    "defaultDescription": "Discover {name}, an exceptional marble for your custom creations.",
+    "finishes": {
+      "POLISHED": "Polished",
+      "HONED": "Honed",
+      "RAW": "Raw",
+      "BRUSHED": "Brushed"
+    }
   }
 }

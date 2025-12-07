@@ -1,0 +1,364 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>4</storyId>
+    <title>Gallery Filtering</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-06</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/2-4-gallery-filtering.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>to filter the gallery by marble type, finish, or use case</iWant>
+    <soThat>I can quickly find items matching my preferences and discover the perfect marble for my project</soThat>
+    <tasks>
+      <task id="1" ac="2,7">
+        <name>Create filter state management with URL sync</name>
+        <subtasks>
+          <subtask id="1.1">Create src/hooks/useGalleryFilters.ts hook to read/write URL params</subtask>
+          <subtask id="1.2">Use useSearchParams and useRouter from next/navigation</subtask>
+          <subtask id="1.3">Implement functions: setFilter, clearFilter, clearAllFilters</subtask>
+          <subtask id="1.4">Add TypeScript types for filter values (GalleryFilters)</subtask>
+        </subtasks>
+      </task>
+      <task id="2" ac="2,3">
+        <name>Update gallery query function for filtering</name>
+        <subtasks>
+          <subtask id="2.1">Modify getGalleryItems() in src/lib/queries/gallery.ts to accept filters</subtask>
+          <subtask id="2.2">Implement Prisma query with AND logic for multiple filters</subtask>
+          <subtask id="2.3">Add getGalleryFilterOptions() function to fetch available filter values</subtask>
+          <subtask id="2.4">Test query with various filter combinations</subtask>
+        </subtasks>
+      </task>
+      <task id="3" ac="1,4">
+        <name>Create FilterPanel component</name>
+        <subtasks>
+          <subtask id="3.1">Create src/components/gallery/FilterPanel.tsx</subtask>
+          <subtask id="3.2">Add marble type dropdown/select using shadcn Select</subtask>
+          <subtask id="3.3">Add finish type dropdown (POLISHED, HONED, RAW, BRUSHED)</subtask>
+          <subtask id="3.4">Add use case dropdown (coffee-table, side-table, column, decorative)</subtask>
+          <subtask id="3.5">Style active filters with gold accent per UX spec</subtask>
+          <subtask id="3.6">Implement role="group" for accessibility</subtask>
+        </subtasks>
+      </task>
+      <task id="4" ac="1,4">
+        <name>Create mobile filter experience</name>
+        <subtasks>
+          <subtask id="4.1">Create src/components/gallery/MobileFilterSheet.tsx using shadcn Sheet</subtask>
+          <subtask id="4.2">Add filter icon button in mobile header with active filter count badge</subtask>
+          <subtask id="4.3">Implement filter controls inside bottom sheet</subtask>
+          <subtask id="4.4">Add "Apply Filters" and "Clear All" buttons in sheet</subtask>
+        </subtasks>
+      </task>
+      <task id="5" ac="4,5">
+        <name>Create active filter chips/pills display</name>
+        <subtasks>
+          <subtask id="5.1">Create src/components/gallery/ActiveFilters.tsx</subtask>
+          <subtask id="5.2">Display chips for each active filter (e.g., "Marble: Carrara White ×")</subtask>
+          <subtask id="5.3">Add remove (×) button on each chip</subtask>
+          <subtask id="5.4">Add "Clear all" button when any filter active</subtask>
+          <subtask id="5.5">Hide component when no filters active</subtask>
+        </subtasks>
+      </task>
+      <task id="6" ac="1,2,6">
+        <name>Update gallery page to integrate filters</name>
+        <subtasks>
+          <subtask id="6.1">Modify src/app/[locale]/gallery/page.tsx to read searchParams</subtask>
+          <subtask id="6.2">Pass filters to getGalleryItems() server-side</subtask>
+          <subtask id="6.3">Add FilterPanel to gallery layout (desktop: above grid)</subtask>
+          <subtask id="6.4">Add MobileFilterSheet for mobile viewport</subtask>
+          <subtask id="6.5">Show GalleryEmpty with filter-specific messaging when no results</subtask>
+        </subtasks>
+      </task>
+      <task id="7" ac="1,5,6">
+        <name>Add filter-related translations</name>
+        <subtasks>
+          <subtask id="7.1">Add translations to all 5 locale files (en, fr, de, es, it)</subtask>
+          <subtask id="7.2">Include: "Filter by", "All marbles", "All finishes", "All uses"</subtask>
+          <subtask id="7.3">Include: "Clear filters", "No results match your filters"</subtask>
+          <subtask id="7.4">Include: finish type names, use case names</subtask>
+        </subtasks>
+      </task>
+      <task id="8" ac="1,2,3,4,5,6,7">
+        <name>Integration testing</name>
+        <subtasks>
+          <subtask id="8.1">Test filter panel visibility on desktop and mobile</subtask>
+          <subtask id="8.2">Test URL param synchronization with filter selection</subtask>
+          <subtask id="8.3">Test AND logic with multiple filters</subtask>
+          <subtask id="8.4">Test clear filters functionality</subtask>
+          <subtask id="8.5">Test empty state display with active filters</subtask>
+          <subtask id="8.6">Test shareable URL with filters applied</subtask>
+          <subtask id="8.7">Test browser back/forward with filter history</subtask>
+        </subtasks>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="1">
+      <summary>Filter controls for marble type, finish, and use case are visible</summary>
+      <details>
+        - Filter panel accessible on gallery page
+        - Desktop: horizontal filter bar or collapsible sidebar
+        - Mobile: filter icon triggers bottom sheet or modal
+      </details>
+    </criterion>
+    <criterion id="2">
+      <summary>Selecting a filter updates URL params and re-fetches results</summary>
+      <details>
+        - URL format: ?marble=carrara-white&amp;finish=polished&amp;useCase=coffee-table
+        - Page data re-fetches server-side on param change
+        - No client-side flash during transition
+      </details>
+    </criterion>
+    <criterion id="3">
+      <summary>Multiple filters combine with AND logic</summary>
+      <details>
+        - Selecting marble + finish shows only items matching BOTH
+        - All three filters can be applied simultaneously
+        - Results narrow with each additional filter
+      </details>
+    </criterion>
+    <criterion id="4">
+      <summary>Active filters are visually indicated</summary>
+      <details>
+        - Selected filter options have distinct styling (gold accent or checked state)
+        - Filter pill/chip shows active filters in filter bar
+        - Badge/count shows number of active filters on mobile filter icon
+      </details>
+    </criterion>
+    <criterion id="5">
+      <summary>"Clear filters" button resets all filters</summary>
+      <details>
+        - Button visible when any filter is active
+        - Clicking clears URL params and shows all items
+        - Button is styled as secondary action (not distracting)
+      </details>
+    </criterion>
+    <criterion id="6">
+      <summary>Empty results show friendly message with clear filters CTA</summary>
+      <details>
+        - Uses existing GalleryEmpty component
+        - Message: "No results match your filters"
+        - Prominent "Clear all filters" button
+        - Optional: suggestion to try different filters
+      </details>
+    </criterion>
+    <criterion id="7">
+      <summary>URL is shareable/bookmarkable with filter state</summary>
+      <details>
+        - Copying URL and opening in new tab reproduces exact filter state
+        - Filters persist through page refresh
+        - Browser back/forward navigates filter history
+      </details>
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/architecture.md" title="Architecture" section="Project Structure">
+        Component and route organization patterns. Server Components by default, Server Actions for mutations (ADR-005).
+      </doc>
+      <doc path="docs/architecture.md" title="Architecture" section="Implementation Patterns">
+        Naming conventions (camelCase for hooks, PascalCase for components), component pattern structure.
+      </doc>
+      <doc path="docs/ux-design-specification.md" title="UX Design" section="3.1 Color System">
+        Gold accent (#C9A962) for active filter states. Filter controls use shadcn Select component.
+      </doc>
+      <doc path="docs/ux-design-specification.md" title="UX Design" section="7.1 Consistency Rules">
+        Form patterns: onBlur validation, inline errors. Filter chips: rounded pill shape, gold background when active.
+      </doc>
+      <doc path="docs/ux-design-specification.md" title="UX Design" section="8.1 Responsive Strategy">
+        Desktop: visible nav, side panels. Mobile: bottom sheet for filters. Breakpoints: Mobile &lt;768px, Tablet 768-1024px, Desktop &gt;1024px.
+      </doc>
+      <doc path="docs/epics.md" title="Epics" section="Story 2.4: Gallery Filtering">
+        Original story definition with acceptance criteria and user story format.
+      </doc>
+      <doc path="docs/sprint-artifacts/tech-spec-epic-2.md" title="Epic 2 Tech Spec" section="Story 2.4">
+        AC-2.4.1 through AC-2.4.7 authoritative acceptance criteria. Filter query logic with Prisma example.
+      </doc>
+      <doc path="docs/sprint-artifacts/2-3-inspiration-gallery-page.md" title="Story 2.3 Completed" section="Dev Agent Record">
+        Learnings: Gallery components created in src/components/gallery/, query function in src/lib/queries/gallery.ts, GalleryEmpty component available for enhancement.
+      </doc>
+    </docs>
+    <code>
+      <file path="src/app/[locale]/gallery/page.tsx" kind="route" reason="Gallery page to be modified for filter integration">
+        <symbol>GalleryPage</symbol>
+        <symbol>GalleryContent</symbol>
+        <lines>1-71</lines>
+        <notes>Add searchParams reading, pass filters to getGalleryItems(), add FilterPanel component</notes>
+      </file>
+      <file path="src/lib/queries/gallery.ts" kind="service" reason="Gallery query function to extend with filter parameters">
+        <symbol>getGalleryItems</symbol>
+        <symbol>getGalleryUseCases</symbol>
+        <lines>66-95</lines>
+        <notes>Modify to accept GalleryFilters parameter, implement Prisma where clause with AND logic</notes>
+      </file>
+      <file path="src/types/gallery.ts" kind="types" reason="GalleryFilters interface already defined, may need enhancement">
+        <symbol>GalleryFilters</symbol>
+        <symbol>GalleryItemLocalized</symbol>
+        <lines>1-55</lines>
+        <notes>GalleryFilters already has marbleType, finish, useCase fields</notes>
+      </file>
+      <file path="src/components/gallery/GalleryEmpty.tsx" kind="component" reason="Enhance for filter-specific empty state messaging">
+        <symbol>GalleryEmpty</symbol>
+        <lines>1-27</lines>
+        <notes>Add optional props for hasActiveFilters, onClearFilters callback</notes>
+      </file>
+      <file path="src/components/gallery/MarbleCard.tsx" kind="component" reason="Existing card component, no modification needed">
+        <symbol>MarbleCard</symbol>
+        <lines>1-120</lines>
+        <notes>Reference only - card already has all needed display logic</notes>
+      </file>
+      <file path="src/components/gallery/MarbleGrid.tsx" kind="component" reason="Existing grid component, no modification needed">
+        <symbol>MarbleGrid</symbol>
+        <lines>1-49</lines>
+        <notes>Reference only - grid layout already responsive</notes>
+      </file>
+      <file path="src/components/gallery/index.ts" kind="barrel" reason="Add new component exports">
+        <lines>1-12</lines>
+        <notes>Export FilterPanel, MobileFilterSheet, ActiveFilters</notes>
+      </file>
+      <file path="src/messages/en.json" kind="i18n" reason="Add filter-related translations">
+        <symbol>gallery</symbol>
+        <lines>16-30</lines>
+        <notes>Add filter strings: filterBy, allMarbles, allFinishes, clearFilters, noResults</notes>
+      </file>
+      <file path="prisma/schema.prisma" kind="schema" reason="GalleryItem model reference for query building">
+        <symbol>GalleryItem</symbol>
+        <symbol>FinishType</symbol>
+        <lines>139-154</lines>
+        <notes>Filter on marbleId (via relation), useCase field. Finish filtering via marble.finishes relation</notes>
+      </file>
+    </code>
+    <dependencies>
+      <node>
+        <package name="next" version="16.0.7">App Router, Server Components, searchParams</package>
+        <package name="next-intl" version="4.5.8">Translations for filter labels</package>
+        <package name="@prisma/client" version="7.1.0">Database queries with filtering</package>
+        <package name="lucide-react" version="0.555.0">Icons for filter controls, clear button</package>
+        <package name="zustand" version="5.0.9">Not needed - URL is state management</package>
+        <package name="tailwindcss" version="4.x">Styling including gold accent</package>
+        <package name="clsx" version="2.1.1">Conditional classes for active states</package>
+        <package name="tailwind-merge" version="3.4.0">Class merging utility</package>
+      </node>
+      <ui-components>
+        <component name="Select" source="shadcn/ui">Dropdown filter controls for marble, finish, use case</component>
+        <component name="Sheet" source="shadcn/ui">Mobile filter bottom sheet</component>
+        <component name="Button" source="shadcn/ui">Clear filters button, apply button</component>
+        <component name="Badge" source="shadcn/ui">Active filter count on mobile icon</component>
+      </ui-components>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="architecture">Server Components for data fetching - gallery page remains Server Component (ADR-005)</constraint>
+    <constraint type="architecture">URL State - all filter state lives in URL search params, no client state needed</constraint>
+    <constraint type="architecture">Server-side Filtering - Prisma queries filter at database level for performance</constraint>
+    <constraint type="accessibility">Filter controls must be keyboard navigable per WCAG 2.1 AA</constraint>
+    <constraint type="ux">Filter controls use shadcn Select component customized for Marmorani</constraint>
+    <constraint type="ux">Active filter state: gold accent border (#C9A962)</constraint>
+    <constraint type="ux">Smooth transitions on filter changes (0.3s ease-out)</constraint>
+    <constraint type="i18n">All 5 locales must have filter translations (en, fr, de, es, it)</constraint>
+    <constraint type="naming">Hooks: camelCase with use prefix (useGalleryFilters)</constraint>
+    <constraint type="naming">Components: PascalCase (FilterPanel, ActiveFilters)</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface name="Gallery Page searchParams" kind="Next.js Page Props">
+      <signature>
+        interface GalleryPageProps {
+          searchParams: Promise&lt;{
+            marble?: string;
+            finish?: string;
+            useCase?: string;
+          }&gt;;
+        }
+      </signature>
+      <path>src/app/[locale]/gallery/page.tsx</path>
+    </interface>
+    <interface name="getGalleryItems Extended" kind="function">
+      <signature>
+        async function getGalleryItems(
+          locale: string,
+          filters?: GalleryFilters
+        ): Promise&lt;GalleryItemLocalized[]&gt;
+      </signature>
+      <path>src/lib/queries/gallery.ts</path>
+    </interface>
+    <interface name="getGalleryFilterOptions" kind="function">
+      <signature>
+        async function getGalleryFilterOptions(locale: string): Promise&lt;{
+          marbles: Array&lt;{ slug: string; name: string }&gt;;
+          finishes: FinishType[];
+          useCases: string[];
+        }&gt;
+      </signature>
+      <path>src/lib/queries/gallery.ts</path>
+    </interface>
+    <interface name="useGalleryFilters Hook" kind="React Hook">
+      <signature>
+        function useGalleryFilters(): {
+          filters: GalleryFilters;
+          setFilter: (key: keyof GalleryFilters, value: string | undefined) => void;
+          clearFilter: (key: keyof GalleryFilters) => void;
+          clearAllFilters: () => void;
+          hasActiveFilters: boolean;
+          activeFilterCount: number;
+        }
+      </signature>
+      <path>src/hooks/useGalleryFilters.ts</path>
+    </interface>
+    <interface name="FilterPanel Props" kind="component">
+      <signature>
+        interface FilterPanelProps {
+          filters: GalleryFilters;
+          options: {
+            marbles: Array&lt;{ slug: string; name: string }&gt;;
+            finishes: FinishType[];
+            useCases: string[];
+          };
+          onFilterChange: (key: keyof GalleryFilters, value: string | undefined) => void;
+          onClearAll: () => void;
+        }
+      </signature>
+      <path>src/components/gallery/FilterPanel.tsx</path>
+    </interface>
+    <interface name="GalleryEmpty Enhanced Props" kind="component">
+      <signature>
+        interface GalleryEmptyProps {
+          hasActiveFilters?: boolean;
+          onClearFilters?: () => void;
+        }
+      </signature>
+      <path>src/components/gallery/GalleryEmpty.tsx</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Testing framework: Vitest for unit tests, Playwright for E2E.
+      Component tests should verify filter state changes update UI.
+      E2E tests should verify URL synchronization and page re-fetching.
+      No spinners - use skeleton states per UX spec.
+    </standards>
+    <locations>
+      <location>tests/unit/</location>
+      <location>tests/components/</location>
+      <location>tests/e2e/</location>
+    </locations>
+    <ideas>
+      <idea ac="1">E2E: Verify FilterPanel renders on desktop, MobileFilterSheet on mobile</idea>
+      <idea ac="2">E2E: Select marble filter → verify URL contains ?marble=slug → verify grid shows filtered results</idea>
+      <idea ac="3">Unit: Test getGalleryItems with multiple filters returns only matching items</idea>
+      <idea ac="4">E2E: Select filter → verify gold accent appears on active option</idea>
+      <idea ac="5">E2E: Click "Clear filters" → verify URL params cleared → all items shown</idea>
+      <idea ac="6">E2E: Apply filters with no matching items → verify GalleryEmpty shows with "Clear filters" button</idea>
+      <idea ac="7">E2E: Apply filters → copy URL → open in new tab → verify same filters applied</idea>
+      <idea ac="7">E2E: Apply filters → navigate away → press back → verify filters restored</idea>
+    </ideas>
+  </tests>
+</story-context>
+

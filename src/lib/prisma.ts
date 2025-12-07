@@ -20,11 +20,14 @@ const globalForPrisma = globalThis as unknown as {
 
 /**
  * Create PostgreSQL connection pool
+ * Uses DIRECT_URL (session mode, port 5432) for better pg driver compatibility
  */
 function createPool(): Pool {
-  const connectionString = process.env.DATABASE_URL;
+  // Prefer DIRECT_URL (session mode) over DATABASE_URL (transaction mode)
+  // The pg driver has issues with Supabase transaction pooler (port 6543)
+  const connectionString = process.env.DIRECT_URL || process.env.DATABASE_URL;
   if (!connectionString) {
-    throw new Error("DATABASE_URL environment variable is not set");
+    throw new Error("DIRECT_URL or DATABASE_URL environment variable is not set");
   }
 
   return new Pool({

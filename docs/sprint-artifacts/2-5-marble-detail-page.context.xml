@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>5</storyId>
+    <title>Marble Detail Page</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-06</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/2-5-marble-detail-page.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>to view detailed information about a specific marble type</iWant>
+    <soThat>I can learn about its characteristics, origin, and available finishes before choosing it for my custom cube</soThat>
+    <tasks>
+      <task id="1" name="Create marble detail page route">
+        <subtask>1.1: Create src/app/[locale]/marble/[slug]/page.tsx</subtask>
+        <subtask>1.2: Implement generateStaticParams to pre-render all marble slugs</subtask>
+        <subtask>1.3: Implement generateMetadata for SEO (title, description, OG image)</subtask>
+        <subtask>1.4: Create marble query function with locale resolution</subtask>
+        <subtask>1.5: Handle 404 for invalid slugs using notFound()</subtask>
+      </task>
+      <task id="2" name="Create marble query function">
+        <subtask>2.1: Create getMarbleBySlug(slug, locale) in src/lib/queries/marbles.ts</subtask>
+        <subtask>2.2: Include finishes relation with price modifiers</subtask>
+        <subtask>2.3: Resolve multilingual name and description to current locale</subtask>
+        <subtask>2.4: Return typed MarbleDetailLocalized interface</subtask>
+      </task>
+      <task id="3" name="Create MarbleHero component">
+        <subtask>3.1: Create src/components/marble/MarbleHero.tsx</subtask>
+        <subtask>3.2: Display hero image with next/image optimization</subtask>
+        <subtask>3.3: Implement click-to-zoom functionality (lightbox trigger)</subtask>
+        <subtask>3.4: Add subtle parallax or opacity effect on scroll (optional)</subtask>
+        <subtask>3.5: Ensure responsive sizing for mobile/desktop</subtask>
+      </task>
+      <task id="4" name="Create ImageLightbox component">
+        <subtask>4.1: Create src/components/ui/ImageLightbox.tsx</subtask>
+        <subtask>4.2: Use shadcn Dialog or custom modal implementation</subtask>
+        <subtask>4.3: Display full-size image in centered modal</subtask>
+        <subtask>4.4: Close on backdrop click, X button, or Escape key</subtask>
+        <subtask>4.5: Smooth fade-in/fade-out animations</subtask>
+        <subtask>4.6: Prevent body scroll when open</subtask>
+      </task>
+      <task id="5" name="Create MarbleSpecs component">
+        <subtask>5.1: Create src/components/marble/MarbleSpecs.tsx</subtask>
+        <subtask>5.2: Display origin country with label</subtask>
+        <subtask>5.3: Display available finishes as styled chips/badges</subtask>
+        <subtask>5.4: Display density value with unit</subtask>
+        <subtask>5.5: Calculate and display price range (min/max cube prices)</subtask>
+        <subtask>5.6: Add calculatePriceRange(marble) utility function</subtask>
+      </task>
+      <task id="6" name="Create MarbleCTA component">
+        <subtask>6.1: Create src/components/marble/MarbleCTA.tsx</subtask>
+        <subtask>6.2: Style button with gold accent (#C9A962)</subtask>
+        <subtask>6.3: Link to /[locale]/configurator?marble={slug}</subtask>
+        <subtask>6.4: Add hover animation (scale or brightness)</subtask>
+        <subtask>6.5: Consider sticky positioning on scroll for mobile</subtask>
+      </task>
+      <task id="7" name="Assemble marble detail page layout">
+        <subtask>7.1: Create page layout with hero, content, and CTA sections</subtask>
+        <subtask>7.2: Apply Carrara Pure theme styles (white bg, elegant spacing)</subtask>
+        <subtask>7.3: Use Cormorant Garamond for marble name heading</subtask>
+        <subtask>7.4: Structure content: Hero → Name → Description → Specs → CTA</subtask>
+        <subtask>7.5: Ensure responsive layout (single column mobile, wider desktop)</subtask>
+      </task>
+      <task id="8" name="Add translations for marble detail page">
+        <subtask>8.1: Add translations to all 5 locale files (en, fr, de, es, it)</subtask>
+        <subtask>8.2: Include: Origin, Available Finishes, Density</subtask>
+        <subtask>8.3: Include: From X € to Y €, Create My Cube</subtask>
+        <subtask>8.4: Include: finish type names (Polished, Honed, Raw, Brushed)</subtask>
+        <subtask>8.5: Include: Back to Gallery navigation text</subtask>
+      </task>
+      <task id="9" name="Integration testing">
+        <subtask>9.1: Test page renders for valid marble slug</subtask>
+        <subtask>9.2: Test 404 for invalid marble slug</subtask>
+        <subtask>9.3: Test multilingual content displays correctly</subtask>
+        <subtask>9.4: Test CTA navigation to configurator with marble param</subtask>
+        <subtask>9.5: Test lightbox opens/closes on image click</subtask>
+        <subtask>9.6: Test responsive layout on mobile and desktop</subtask>
+        <subtask>9.7: Test SEO meta tags are generated correctly</subtask>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC1">Route /[locale]/marble/[slug] renders marble detail page - Server Component for SEO and performance, static generation with generateStaticParams, returns 404 for invalid slugs, proper meta tags for SEO</criterion>
+    <criterion id="AC2">Hero image displays marble texture in high quality - Uses /public/textures/{slug}/hero.jpg or preview.jpg fallback, full-width hero section, responsive sizing via next/image, optional parallax effect</criterion>
+    <criterion id="AC3">Marble name displays in Cormorant Garamond typography - Uses font-display class, multilingual name resolved for current locale, elegant text hierarchy per UX spec</criterion>
+    <criterion id="AC4">Origin story and characteristics description displayed - Multilingual description resolved for current locale, rich prose section with proper typography, sufficient spacing per UX spec</criterion>
+    <criterion id="AC5">Technical specifications section shows: country of origin with optional flag icon, available finishes as visual chips/badges, density indicator (~2,700 kg/m³), each spec clearly labeled</criterion>
+    <criterion id="AC6">Price range indicator visible - Shows From X € to Y € based on min/max cube sizes, calculated from basePricePerCm3 × volume × finish modifiers, locale-aware currency formatting, positioned near CTA</criterion>
+    <criterion id="AC7">Create My Cube CTA button is prominent - Gold accent color (#C9A962) per UX spec, navigates to /[locale]/configurator?marble={slug}, prominent position (sticky on scroll or fixed), hover state with subtle animation</criterion>
+    <criterion id="AC8">Page follows Carrara Pure theme (light mode) - White background (#FFFFFF) with surface accents (#F8F8F8), elegant spacing and visual hierarchy, consistent with gallery page styling</criterion>
+    <criterion id="AC9">Images zoomable via lightbox on click - Click hero image opens lightbox/modal, close via click outside, X button, or Escape key, optional gallery of additional images, smooth animations</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/PRD.md" title="Product Requirements Document" section="Content &amp; Discovery (FR29-FR34)" snippet="FR31: Users can view detailed product pages for each marble type. FR32: Product pages display marble specifications (origin, characteristics, available finishes). FR33: Product pages show high-quality imagery of marble texture and sample cubes."/>
+      <doc path="docs/ux-design-specification.md" title="UX Design Specification" section="3.1 Color System - Carrara Pure" snippet="Background: Pure White #FFFFFF, Surface: Soft Gray #F8F8F8, Border: Light Gray #E5E5E5, Primary Text: Deep Black #1A1A1A, Gold Accent for CTAs: #C9A962. Typography: Cormorant Garamond for display, Inter for body."/>
+      <doc path="docs/ux-design-specification.md" title="UX Design Specification" section="6.1 Component Strategy" snippet="Button hierarchy: Primary uses Gold (#C9A962) solid. Hover animations: scale-[1.02] with shadow-lg. Modal patterns: Blur + dark overlay (50% opacity), fade + subtle scale animation."/>
+      <doc path="docs/architecture.md" title="Architecture" section="ADR-005: Server Actions over API Routes" snippet="Use Server Components for data fetching (SEO, performance). Static generation with generateStaticParams for marble detail pages. Image optimization via next/image."/>
+      <doc path="docs/sprint-artifacts/tech-spec-epic-2.md" title="Epic 2 Tech Spec" section="Story 2.5: Marble Detail Page ACs" snippet="AC-2.5.1 through AC-2.5.8: Hero image, Cormorant typography, origin story, technical specs, price range, CTA button, Carrara Pure theme, zoomable images."/>
+      <doc path="docs/epics.md" title="Epics" section="Story 2.5: Marble Detail Page" snippet="Route: src/app/[locale]/marble/[slug]/page.tsx. CTA navigates to /configurator?marble={slug}. Dynamic route with generateStaticParams for static generation."/>
+    </docs>
+    <code>
+      <artifact path="src/lib/queries/gallery.ts" kind="query-functions" symbol="resolveLocale, calculateStartingPrice, getGalleryItems" lines="49-55, 36-40, 77-132" reason="Contains locale resolution pattern and price calculation utilities to reuse for marble detail queries"/>
+      <artifact path="src/types/marble.ts" kind="types" symbol="MarbleLocalized, FinishOption, LocalizedString" lines="33-43, 25-28, 14-20" reason="Defines MarbleLocalized interface to extend for detail view, reuse FinishOption type"/>
+      <artifact path="src/components/gallery/MarbleCard.tsx" kind="component" symbol="MarbleCard, formatPrice" lines="31-120, 21-29" reason="Contains formatPrice utility and styling patterns (hover effects, font-display usage) to follow for marble detail components"/>
+      <artifact path="src/constants/marbles.ts" kind="constants" symbol="MANUFACTURING_CONSTRAINTS, FINISH_PRICE_MODIFIERS, FINISH_TYPES" lines="15-20, 39-44, 25-30" reason="Min/Max dimensions and finish modifiers needed for price range calculation"/>
+      <artifact path="src/components/ui/badge.tsx" kind="ui-component" symbol="Badge" reason="Existing badge component to use for finish chips display"/>
+      <artifact path="src/components/ui/button.tsx" kind="ui-component" symbol="Button" reason="Existing button component to extend for gold CTA styling"/>
+      <artifact path="src/components/ui/sheet.tsx" kind="ui-component" symbol="Sheet" reason="Reference for Dialog pattern if Dialog not installed"/>
+      <artifact path="src/app/[locale]/gallery/page.tsx" kind="page" symbol="GalleryPage, generateMetadata" lines="81-122, 51-62" reason="Reference for Server Component page structure, metadata generation, and Suspense patterns"/>
+      <artifact path="src/messages/en.json" kind="translations" section="gallery.finishes" reason="Existing finish translations to reuse; add new marble section"/>
+    </code>
+    <dependencies>
+      <ecosystem name="node">
+        <package name="next" version="16.0.7">App Router, Server Components, next/image, generateStaticParams</package>
+        <package name="@prisma/client" version="7.1.0">Database queries for marble with finishes relation</package>
+        <package name="next-intl" version="4.5.8">useTranslations, getTranslations, getLocale for i18n</package>
+        <package name="lucide-react" version="0.555.0">Icons for specs (MapPin for origin, Layers for density)</package>
+        <package name="tailwindcss" version="4.x">Styling with design tokens</package>
+        <package name="@radix-ui/react-dialog" version="1.1.15">For ImageLightbox modal (shadcn Dialog)</package>
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint source="Architecture ADR-005">Page must be a Server Component for SEO and performance optimization</constraint>
+    <constraint source="Architecture">Use generateStaticParams to pre-render all marble detail pages at build time</constraint>
+    <constraint source="Architecture">All images must use next/image for automatic optimization and lazy loading</constraint>
+    <constraint source="UX Spec 3.1">Carrara Pure theme: White background #FFFFFF, surface #F8F8F8, text #1A1A1A, gold accent #C9A962</constraint>
+    <constraint source="UX Spec 3.2">Typography: Cormorant Garamond for headlines (font-display), Inter for body (font-body)</constraint>
+    <constraint source="UX Spec 7.1">Modal patterns: Close via X button, Escape key, and click outside. Focus auto-focus first interactive element.</constraint>
+    <constraint source="Tech Spec">Image paths: /public/textures/{slug}/hero.jpg for hero, preview.jpg as fallback</constraint>
+    <constraint source="Story 2-4 Learnings">Follow component organization pattern: src/components/marble/ with index.ts exports</constraint>
+    <constraint source="NFR5">Page load time must be under 2 seconds for non-3D pages</constraint>
+    <constraint source="NFR13">WCAG 2.1 Level AA compliance for all content</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface name="getMarbleBySlug" kind="function" path="src/lib/queries/marbles.ts">
+      <signature>getMarbleBySlug(slug: string, locale: string): Promise&lt;MarbleDetailLocalized | null&gt;</signature>
+      <description>Fetches single marble by slug with finishes, resolves multilingual fields to locale</description>
+    </interface>
+    <interface name="MarbleDetailLocalized" kind="type" path="src/types/marble.ts">
+      <signature>interface MarbleDetailLocalized extends MarbleLocalized { priceRange: { min: number; max: number }; }</signature>
+      <description>Extended marble type with calculated price range for detail page</description>
+    </interface>
+    <interface name="calculatePriceRange" kind="function" path="src/lib/utils/price.ts">
+      <signature>calculatePriceRange(marble: MarbleLocalized): { min: number; max: number }</signature>
+      <description>Calculates price range from min cube (5×5×5) to max cube (100×100×100) with finish modifiers</description>
+    </interface>
+    <interface name="generateStaticParams" kind="Next.js function" path="src/app/[locale]/marble/[slug]/page.tsx">
+      <signature>generateStaticParams(): Promise&lt;{ locale: string; slug: string }[]&gt;</signature>
+      <description>Returns all marble slugs for all locales for static generation</description>
+    </interface>
+    <interface name="generateMetadata" kind="Next.js function" path="src/app/[locale]/marble/[slug]/page.tsx">
+      <signature>generateMetadata({ params }): Promise&lt;Metadata&gt;</signature>
+      <description>Generates SEO metadata with marble name, description, and OG image</description>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Testing follows the project patterns established in Epic 1-2. Use Vitest for unit tests and Playwright for E2E tests. Server Components should be tested via integration/E2E. Client Components can use component testing with React Testing Library. Build verification: npm run build must pass, TypeScript compilation via npx tsc --noEmit must succeed.
+    </standards>
+    <locations>
+      <location>tests/unit/ - Unit tests for utility functions (calculatePriceRange)</location>
+      <location>tests/components/ - Component tests for MarbleHero, MarbleSpecs, MarbleCTA, ImageLightbox</location>
+      <location>tests/e2e/ - E2E tests for full marble detail page flow</location>
+    </locations>
+    <ideas>
+      <idea ac="AC1">E2E: Navigate to /en/marble/carrara-white, verify page renders with content</idea>
+      <idea ac="AC1">E2E: Navigate to /en/marble/invalid-slug, verify 404 page displayed</idea>
+      <idea ac="AC1">E2E: Verify generateStaticParams includes all 10 marble slugs × 5 locales</idea>
+      <idea ac="AC2">E2E: Verify hero image loads from correct texture path</idea>
+      <idea ac="AC2">E2E: Test fallback to preview.jpg if hero.jpg missing</idea>
+      <idea ac="AC3">Unit: Verify marble name displays in correct locale (fr vs en)</idea>
+      <idea ac="AC3">E2E: Check h1 element uses font-display class</idea>
+      <idea ac="AC5">Unit: Test calculatePriceRange returns correct min/max for marble</idea>
+      <idea ac="AC6">E2E: Verify price range displays with locale-aware formatting</idea>
+      <idea ac="AC7">E2E: Click CTA button, verify navigation to /configurator?marble={slug}</idea>
+      <idea ac="AC7">E2E: Verify CTA button has gold background color (#C9A962)</idea>
+      <idea ac="AC8">E2E: Verify page background is white (#FFFFFF)</idea>
+      <idea ac="AC9">E2E: Click hero image, verify lightbox opens</idea>
+      <idea ac="AC9">E2E: Press Escape key, verify lightbox closes</idea>
+      <idea ac="AC9">E2E: Click outside lightbox, verify it closes</idea>
+    </ideas>
+  </tests>
+</story-context>
+

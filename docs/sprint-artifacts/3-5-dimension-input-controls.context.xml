@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<story-context id="3-5-dimension-input-controls" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>5</storyId>
+    <title>Dimension Input Controls</title>
+    <status>ready-for-dev</status>
+    <generatedAt>2025-12-07</generatedAt>
+    <generator>BMAD Story Context Workflow (SM Agent)</generator>
+    <sourceStoryPath>docs/sprint-artifacts/3-5-dimension-input-controls.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>to set my cube dimensions with intuitive controls</iWant>
+    <soThat>I can create the exact size I need for my space</soThat>
+    <tasks>
+      <task id="1" title="Create DimensionInput base component" acs="#1, #5, #7">
+        <subtask>1.1: Create src/components/configurator/DimensionInput.tsx</subtask>
+        <subtask>1.2: Implement numeric input field with shadcn/ui Input</subtask>
+        <subtask>1.3: Add increment (+) and decrement (-) buttons</subtask>
+        <subtask>1.4: Display unit label "cm" in monospace font</subtask>
+        <subtask>1.5: Style labels with Inter font as per UX spec</subtask>
+        <subtask>1.6: Ensure touch targets are 44x44px minimum</subtask>
+      </task>
+      <task id="2" title="Implement validation with Zod schema" acs="#2, #3">
+        <subtask>2.1: Create dimension validation schema in src/lib/validation/dimensionSchema.ts</subtask>
+        <subtask>2.2: Validate on blur and on change events</subtask>
+        <subtask>2.3: Display inline error message below field when invalid</subtask>
+        <subtask>2.4: Apply red border + error styling on invalid state</subtask>
+        <subtask>2.5: Add amber/warning styling when at min/max boundary</subtask>
+      </task>
+      <task id="3" title="Connect to Zustand store with debouncing" acs="#4, #8">
+        <subtask>3.1: Use useDimensions selector to read current values</subtask>
+        <subtask>3.2: Use setWidth, setHeight, setDepth actions from useConfigActions</subtask>
+        <subtask>3.3: Implement 100ms debounce on input changes</subtask>
+        <subtask>3.4: Verify 3D cube updates within 500ms of dimension change</subtask>
+        <subtask>3.5: Confirm weight and price recalculate on dimension change</subtask>
+      </task>
+      <task id="4" title="Implement keyboard accessibility" acs="#6">
+        <subtask>4.1: Ensure Tab navigation between H, W, D fields</subtask>
+        <subtask>4.2: Implement Arrow Up/Down for ±1 cm adjustment</subtask>
+        <subtask>4.3: Implement Shift+Arrow for ±10 cm adjustment</subtask>
+        <subtask>4.4: Add visible focus state (gold ring on dark theme)</subtask>
+        <subtask>4.5: Test with keyboard-only navigation</subtask>
+      </task>
+      <task id="5" title="Create DimensionInputs composite component" acs="#1, #5">
+        <subtask>5.1: Create src/components/configurator/DimensionInputs.tsx</subtask>
+        <subtask>5.2: Compose three DimensionInput components (H, W, D)</subtask>
+        <subtask>5.3: Add proper section heading with translations</subtask>
+        <subtask>5.4: Style according to ConfigPanel placeholder layout</subtask>
+      </task>
+      <task id="6" title="Integrate into ConfigPanel" acs="#1-#8">
+        <subtask>6.1: Replace placeholder DimensionInputs section in ConfigPanel</subtask>
+        <subtask>6.2: Remove "comingSoonStory35" placeholder text</subtask>
+        <subtask>6.3: Add i18n translation keys for dimension labels and errors</subtask>
+        <subtask>6.4: Test on desktop (1440px) and mobile (375px) viewports</subtask>
+      </task>
+      <task id="7" title="Add i18n translations" acs="#1, #2">
+        <subtask>7.1: Add translation keys in src/messages/en.json</subtask>
+        <subtask>7.2: Add translation keys in src/messages/fr.json</subtask>
+        <subtask>7.3: Add translation keys in src/messages/de.json</subtask>
+        <subtask>7.4: Add translation keys in src/messages/it.json</subtask>
+        <subtask>7.5: Add translation keys in src/messages/es.json</subtask>
+      </task>
+      <task id="8" title="Performance and integration testing" acs="#4, #8">
+        <subtask>8.1: Verify 3D cube scales correctly with dimension changes</subtask>
+        <subtask>8.2: Confirm debouncing prevents excessive store updates</subtask>
+        <subtask>8.3: Test min (5cm) and max (100cm) boundary behaviors</subtask>
+        <subtask>8.4: Verify TypeScript compiles without errors</subtask>
+        <subtask>8.5: Verify production build succeeds</subtask>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC1" title="Height/Width/Depth input controls">
+      Each dimension has a numeric input field with valid range 5-100 cm, increment/decrement buttons (+/-), unit label displays "cm"
+    </criterion>
+    <criterion id="AC2" title="Real-time validation with error feedback">
+      Values outside 5-100 cm show inline error message. Error state: red border + error message below field. Validation occurs onBlur and onChange.
+    </criterion>
+    <criterion id="AC3" title="Visual feedback when approaching limits">
+      Warning indicator when value is at min (5) or max (100). Subtle amber border when at boundary.
+    </criterion>
+    <criterion id="AC4" title="Real-time 3D view updates">
+      Dimension changes update the 3D cube within 500ms (NFR3). Debounce input to prevent excessive re-renders (100ms). 3D cube scales proportionally.
+    </criterion>
+    <criterion id="AC5" title="Typography follows UX specification">
+      Dimension values display in monospace font (JetBrains Mono). Labels use body font (Inter). Clear visual hierarchy: label → input → unit.
+    </criterion>
+    <criterion id="AC6" title="Keyboard accessibility">
+      Tab navigation between dimension fields. Arrow keys increment/decrement values (±1 cm). Shift+Arrow for larger increments (±10 cm). Focus state clearly visible (gold ring on dark theme).
+    </criterion>
+    <criterion id="AC7" title="Mobile responsiveness">
+      Touch-friendly increment/decrement buttons (44x44px minimum). Input fields are easily tappable. Numeric keyboard appears on mobile devices.
+    </criterion>
+    <criterion id="AC8" title="Integration with Zustand store">
+      Uses setWidth, setHeight, setDepth actions from configStore. Uses useDimensions selector for current values. Changes trigger recalculation of weight and price.
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <!-- PRD References -->
+      <doc path="docs/PRD.md" title="Product Requirements Document">
+        <section name="FR9">Users can set cube dimensions (H, W, D) with real-time 3D updates</section>
+        <section name="FR10">System validates dimension inputs against manufacturing constraints (min/max sizes)</section>
+        <section name="NFR3">Dimension/marble/finish changes reflect in 3D view within 500ms</section>
+        <section name="NFR4">Price and weight calculations update in real-time (&lt;200ms)</section>
+      </doc>
+      
+      <!-- Architecture References -->
+      <doc path="docs/architecture.md" title="Architecture Document">
+        <section name="Project Structure">Component location: src/components/configurator/DimensionInputs.tsx</section>
+        <section name="Implementation Patterns">Component pattern with hooks first, derived state, event handlers, render. Zod + React Hook Form for validation.</section>
+        <section name="State Management">Zustand for configuration state with persist middleware</section>
+      </doc>
+      
+      <!-- UX Design References -->
+      <doc path="docs/ux-design-specification.md" title="UX Design Specification">
+        <section name="3.2 Typography System">JetBrains Mono for dimensions/technical specs, Inter for body text</section>
+        <section name="6.1 Component Strategy">DimensionInput: H×W×D inputs synced with 3D. Key states: Valid, Invalid, Focused</section>
+        <section name="7.1 Form Patterns">Label position: above input. Validation timing: onBlur. Error display: inline, below input, red text</section>
+        <section name="8.1 Responsive Strategy">Mobile: touch targets 44×44px minimum. Numeric keyboard for dimension inputs.</section>
+        <section name="8.2 Accessibility">Keyboard navigation: Tab, Arrow keys, Shift+Arrow. Focus visible: gold ring on dark theme.</section>
+      </doc>
+      
+      <!-- Epic Reference -->
+      <doc path="docs/epics.md" title="Epic Breakdown">
+        <section name="Story 3.5">Complete story definition with AC and technical notes for dimension input controls</section>
+      </doc>
+    </docs>
+    
+    <code>
+      <!-- Zustand Configuration Store -->
+      <file path="src/stores/configStore.ts" kind="store" lines="1-492">
+        <symbol name="useConfigStore">Main Zustand store with dimensions state and actions</symbol>
+        <symbol name="useDimensions">Selector hook returning {width, height, depth}</symbol>
+        <symbol name="useConfigActions">Returns actions: setWidth, setHeight, setDepth, setDimensions</symbol>
+        <symbol name="clampDimension">Helper to clamp values to 5-100 range with dev warnings</symbol>
+        <reason>Primary store integration point for dimension state management</reason>
+      </file>
+      
+      <!-- Cube Calculations -->
+      <file path="src/lib/calculations/cubeCalculations.ts" kind="utility" lines="1-163">
+        <symbol name="calculateDerivedValues">Calculates weight and price from dimensions</symbol>
+        <symbol name="calculateWeight">Weight formula using density</symbol>
+        <symbol name="calculatePrice">Price formula using volume and finish modifier</symbol>
+        <reason>Auto-recalculates weight/price when dimensions change</reason>
+      </file>
+      
+      <!-- Manufacturing Constants -->
+      <file path="src/constants/marbles.ts" kind="constants" lines="1-140">
+        <symbol name="MANUFACTURING_CONSTRAINTS">MIN_DIMENSION: 5, MAX_DIMENSION: 100</symbol>
+        <reason>Validation constraints for dimension inputs</reason>
+      </file>
+      
+      <!-- ConfigPanel (to modify) -->
+      <file path="src/components/configurator/ConfigPanel.tsx" kind="component" lines="1-232">
+        <symbol name="ConfigPanel">Current placeholder with DimensionInputs section to replace</symbol>
+        <reason>Integration target - replace placeholder with real DimensionInputs</reason>
+      </file>
+      
+      <!-- Controls (from Story 3-4) -->
+      <file path="src/components/3d/Controls.tsx" kind="component" lines="1-261">
+        <symbol name="Controls">OrbitControls with dynamic zoom limits based on dimensions</symbol>
+        <reason>Zoom limits recalculate when dimensions change</reason>
+      </file>
+      
+      <!-- Translations -->
+      <file path="src/messages/en.json" kind="i18n">
+        <symbol name="configurator.dimensions">Existing key for dimensions section</symbol>
+        <symbol name="configurator.width/height/depth">Existing dimension label keys</symbol>
+        <symbol name="configurator.comingSoonStory35">Placeholder to remove</symbol>
+        <reason>Extend with error/warning translation keys</reason>
+      </file>
+    </code>
+    
+    <dependencies>
+      <ecosystem name="npm">
+        <package name="react" version="19.2.0" />
+        <package name="next" version="16.0.7" />
+        <package name="zustand" version="^5.0.9" />
+        <package name="zod" version="^4.1.13" />
+        <package name="react-hook-form" version="^7.68.0" />
+        <package name="@hookform/resolvers" version="^5.2.2" />
+        <package name="next-intl" version="^4.5.8" />
+        <package name="use-debounce" note="May need to install for debouncing">Not currently installed - consider adding</package>
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint source="Architecture" type="pattern">
+      Follow component pattern: hooks first, derived state, event handlers, render.
+      Use Zod for validation schemas. Connect via Zustand selectors for minimal re-renders.
+    </constraint>
+    <constraint source="UX Spec" type="styling">
+      Nero Marquina dark theme in configurator. JetBrains Mono for dimension values.
+      Inter for labels. Gold accent (#C9A962) for focus states.
+    </constraint>
+    <constraint source="PRD NFR3" type="performance">
+      Dimension changes must reflect in 3D view within 500ms.
+      Use 100ms debounce to prevent excessive updates.
+    </constraint>
+    <constraint source="Story 3-4" type="integration">
+      Controls.tsx uses SCALE_FACTOR = 0.02. Zoom limits are dynamic based on dimensions.
+      CubeViewer geometry updates automatically via Zustand state.
+    </constraint>
+    <constraint source="MANUFACTURING_CONSTRAINTS" type="validation">
+      MIN_DIMENSION = 5cm, MAX_DIMENSION = 100cm.
+      Values outside range must show error. At boundary shows warning.
+    </constraint>
+  </constraints>
+
+  <interfaces>
+    <interface name="useDimensions" kind="hook" path="src/stores/configStore.ts">
+      <signature>() => { width: number; height: number; depth: number }</signature>
+    </interface>
+    <interface name="useConfigActions" kind="hook" path="src/stores/configStore.ts">
+      <signature>() => { setWidth: (w: number) => void; setHeight: (h: number) => void; setDepth: (d: number) => void; ... }</signature>
+    </interface>
+    <interface name="clampDimension" kind="function" path="src/stores/configStore.ts">
+      <signature>(value: number) => number</signature>
+      <note>Already clamps to 5-100 range. Logs warning in dev mode for invalid values.</note>
+    </interface>
+    <interface name="MANUFACTURING_CONSTRAINTS" kind="constant" path="src/constants/marbles.ts">
+      <signature>{ MIN_DIMENSION: 5, MAX_DIMENSION: 100 }</signature>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Project uses TypeScript strict mode. Validate with `npm run lint` and `npm run build`.
+      Component testing not yet set up but verify functionality manually in browser.
+      Test on both desktop (1440px) and mobile (375px) viewports.
+    </standards>
+    <locations>
+      <location>Manual testing in browser at /configurator route</location>
+      <location>Build verification: npm run build</location>
+      <location>Lint verification: npm run lint</location>
+    </locations>
+    <ideas>
+      <idea ac="AC1">Test each dimension input accepts values 5-100, rejects outside range</idea>
+      <idea ac="AC2">Test error message appears when entering 0, 4, 101, 150</idea>
+      <idea ac="AC3">Test amber warning appears at exactly 5 and 100</idea>
+      <idea ac="AC4">Measure time from input change to 3D update (should be &lt;500ms)</idea>
+      <idea ac="AC5">Visually verify JetBrains Mono on values, Inter on labels</idea>
+      <idea ac="AC6">Test Tab cycles through W→H→D, Arrow keys increment, Shift+Arrow ±10</idea>
+      <idea ac="AC7">Test on mobile: numeric keyboard appears, touch targets are adequate</idea>
+      <idea ac="AC8">Verify weight/price recalculate when dimension changes</idea>
+    </ideas>
+  </tests>
+
+  <learnings>
+    <learning source="Story 3-4">
+      Controls.tsx created with dynamic zoom limits using SCALE_FACTOR = 0.02.
+      minDistance = scaledMax * 1.5, maxDistance = scaledMax * 5.
+      CubeViewer uses frameloop="demand" - OrbitControls handles invalidation.
+    </learning>
+    <learning source="Story 3-4">
+      InteractionHint component created in src/components/configurator/InteractionHint.tsx
+      with localStorage persistence for first-time user hints.
+    </learning>
+    <learning source="configStore">
+      Store already has setWidth, setHeight, setDepth actions that clamp values
+      and trigger calculateDerivedValues. No need to re-implement clamping.
+    </learning>
+    <learning source="configStore">
+      useDimensions selector returns {width, height, depth} for optimized re-renders.
+      useConfigActions returns all action methods.
+    </learning>
+  </learnings>
+</story-context>
+

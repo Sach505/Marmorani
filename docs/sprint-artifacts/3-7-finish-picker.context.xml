@@ -1,0 +1,270 @@
+<story-context id="3-7-finish-picker" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>7</storyId>
+    <title>Finish Picker</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-07</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/3-7-finish-picker.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>to select the finish for my marble cube</iWant>
+    <soThat>I can see how polished, honed, or raw surfaces look on my chosen marble</soThat>
+    <tasks>
+      <task id="1" status="pending">Create FinishPicker component (AC: #1, #5, #6)</task>
+      <task id="2" status="pending">Create FinishOption sub-component (AC: #2, #5, #6)</task>
+      <task id="3" status="pending">Connect to Zustand store (AC: #3, #4)</task>
+      <task id="4" status="pending">Update 3D material for finish (AC: #3)</task>
+      <task id="5" status="pending">Implement keyboard navigation (AC: #6)</task>
+      <task id="6" status="pending">Integrate into ConfigPanel (AC: #1-#7)</task>
+      <task id="7" status="pending">Add i18n translations (AC: #2)</task>
+      <task id="8" status="pending">Testing and verification (AC: #3, #4)</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC1">Display available finishes for selected marble (Polished, Honed, Raw, Brushed if available)</criterion>
+    <criterion id="AC2">Finish option display with localized name, visual indicator, price modifier</criterion>
+    <criterion id="AC3">3D material updates on selection (roughness: polished=0.1, honed=0.5, raw=0.9, brushed=0.7) within 500ms</criterion>
+    <criterion id="AC4">Price recalculation with finish modifier in real-time (&lt;200ms)</criterion>
+    <criterion id="AC5">Selection state with gold highlight (#C9A962)</criterion>
+    <criterion id="AC6">Keyboard navigation (role=radiogroup, arrow keys, Enter/Space, focus ring)</criterion>
+    <criterion id="AC7">Mobile-responsive layout (min 44x44px touch targets)</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/prd.md</path>
+        <title>Product Requirements Document</title>
+        <section>3D Configurator - FR12</section>
+        <snippet>FR12: Users can select finish option (polished, honed, raw, etc.) with visual preview</snippet>
+      </doc>
+      <doc>
+        <path>docs/prd.md</path>
+        <title>Product Requirements Document</title>
+        <section>Non-Functional Requirements - NFR3, NFR4</section>
+        <snippet>NFR3: Changes reflect in 3D view within 500ms. NFR4: Price calculations update in real-time (&lt;200ms)</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Architecture Document</title>
+        <section>Data Architecture - FinishType enum</section>
+        <snippet>FinishType: POLISHED, HONED, RAW, BRUSHED. MarbleFinish model with priceModifier (Float, default 1.0)</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Architecture Document</title>
+        <section>Project Structure - Components</section>
+        <snippet>FinishPicker component location: src/components/configurator/FinishPicker.tsx</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>UX Design Specification</title>
+        <section>6.1 Component Strategy - FinishPicker</section>
+        <snippet>FinishPicker: Visual finish selector (polished, honed, raw). States: Default, Selected with gold highlight</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>UX Design Specification</title>
+        <section>8.2 Accessibility</section>
+        <snippet>Arrow keys navigate finish options. Touch targets: 44x44px minimum. Screen readers: announce finish name and price modifier</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epic Breakdown</title>
+        <section>Story 3.7: Finish Picker</section>
+        <snippet>Material roughness values: polished (0.1), honed (0.5), raw (0.9), brushed (0.7). Use shadcn RadioGroup or custom styled buttons</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/3-6-marble-type-selector.md</path>
+        <title>Story 3.6 - Previous Story</title>
+        <section>Dev Agent Record - Learnings</section>
+        <snippet>SSR Hydration Pattern: Use individual selectors and getState() for actions. Accessibility: role=radiogroup with roving tabindex. Gold accent: ring-accent class</snippet>
+      </doc>
+    </docs>
+
+    <code>
+      <file>
+        <path>src/stores/configStore.ts</path>
+        <kind>store</kind>
+        <symbol>useFinish, setFinish</symbol>
+        <lines>297-312, 437</lines>
+        <reason>Existing finish selector and action - setFinish already triggers recalculation via calculateDerivedValues</reason>
+      </file>
+      <file>
+        <path>src/stores/configStore.ts</path>
+        <kind>store</kind>
+        <symbol>ConfigState, ConfigActions</symbol>
+        <lines>31-74</lines>
+        <reason>Type definitions showing finish as FinishType enum</reason>
+      </file>
+      <file>
+        <path>src/components/3d/MarbleMaterial.tsx</path>
+        <kind>component</kind>
+        <symbol>FINISH_ROUGHNESS, FINISH_METALNESS, FINISH_ENV_INTENSITY</symbol>
+        <lines>39-67</lines>
+        <reason>Already implements finish-based material properties - roughness, metalness, envMapIntensity per FinishType</reason>
+      </file>
+      <file>
+        <path>src/constants/marbles.ts</path>
+        <kind>constants</kind>
+        <symbol>FINISH_TYPES, FINISH_PRICE_MODIFIERS</symbol>
+        <lines>25-44</lines>
+        <reason>Finish types array and price modifiers (POLISHED=1.0, HONED=0.95, RAW=0.85, BRUSHED=1.1)</reason>
+      </file>
+      <file>
+        <path>src/components/configurator/ConfigPanel.tsx</path>
+        <kind>component</kind>
+        <symbol>ConfigPanel - FinishPicker placeholder</symbol>
+        <lines>85-131</lines>
+        <reason>Contains placeholder finish section to be replaced with FinishPicker component</reason>
+      </file>
+      <file>
+        <path>src/components/configurator/MarbleSelector.tsx</path>
+        <kind>component</kind>
+        <symbol>MarbleSelector</symbol>
+        <reason>Reference for radiogroup pattern, keyboard navigation, and accessibility implementation</reason>
+      </file>
+      <file>
+        <path>src/components/configurator/MarbleSwatch.tsx</path>
+        <kind>component</kind>
+        <symbol>MarbleSwatch</symbol>
+        <reason>Reference for individual option component pattern with selected state styling</reason>
+      </file>
+      <file>
+        <path>src/components/configurator/DimensionInputs.tsx</path>
+        <kind>component</kind>
+        <symbol>DimensionInputs</symbol>
+        <reason>Reference for SSR-safe store integration pattern with getState()</reason>
+      </file>
+      <file>
+        <path>src/lib/calculations/cubeCalculations.ts</path>
+        <kind>utility</kind>
+        <symbol>calculateDerivedValues</symbol>
+        <reason>Already handles finish modifier in price calculation</reason>
+      </file>
+      <file>
+        <path>src/generated/prisma/enums.ts</path>
+        <kind>types</kind>
+        <symbol>FinishType</symbol>
+        <reason>Prisma-generated enum: POLISHED, HONED, RAW, BRUSHED</reason>
+      </file>
+    </code>
+
+    <dependencies>
+      <node>
+        <package>zustand</package>
+        <version>^5.0.9</version>
+        <usage>State management for finish selection</usage>
+      </node>
+      <node>
+        <package>next-intl</package>
+        <version>^4.5.8</version>
+        <usage>i18n for finish type names</usage>
+      </node>
+      <node>
+        <package>@react-three/fiber</package>
+        <version>^9.4.2</version>
+        <usage>3D rendering with material updates</usage>
+      </node>
+      <node>
+        <package>three</package>
+        <version>^0.181.2</version>
+        <usage>Material roughness/metalness properties</usage>
+      </node>
+      <node>
+        <package>lucide-react</package>
+        <version>^0.555.0</version>
+        <usage>Icons for finish visual indicators</usage>
+      </node>
+      <node>
+        <package>tailwind-merge</package>
+        <version>^3.4.0</version>
+        <usage>Class merging for conditional styles</usage>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <interfaces>
+    <interface>
+      <name>useFinish</name>
+      <kind>Zustand selector hook</kind>
+      <signature>() => FinishType</signature>
+      <path>src/stores/configStore.ts</path>
+    </interface>
+    <interface>
+      <name>setFinish</name>
+      <kind>Zustand action</kind>
+      <signature>(finish: FinishType) => void</signature>
+      <path>src/stores/configStore.ts</path>
+    </interface>
+    <interface>
+      <name>useConfigStore.getState</name>
+      <kind>SSR-safe store access</kind>
+      <signature>() => ConfigStore</signature>
+      <path>src/stores/configStore.ts</path>
+    </interface>
+    <interface>
+      <name>FinishType</name>
+      <kind>Prisma enum</kind>
+      <signature>POLISHED | HONED | RAW | BRUSHED</signature>
+      <path>src/generated/prisma/enums.ts</path>
+    </interface>
+    <interface>
+      <name>FINISH_PRICE_MODIFIERS</name>
+      <kind>Constants lookup</kind>
+      <signature>Record&lt;FinishType, number&gt;</signature>
+      <path>src/constants/marbles.ts</path>
+    </interface>
+    <interface>
+      <name>FINISH_TYPES</name>
+      <kind>Constants array</kind>
+      <signature>readonly [POLISHED, HONED, RAW, BRUSHED]</signature>
+      <path>src/constants/marbles.ts</path>
+    </interface>
+  </interfaces>
+
+  <constraints>
+    <constraint type="pattern">Use individual Zustand selectors (useFinish) and getState().setFinish() for SSR-safe updates</constraint>
+    <constraint type="pattern">Component pattern: hooks first → derived state → event handlers → render</constraint>
+    <constraint type="pattern">Use "use client" directive for interactive components</constraint>
+    <constraint type="pattern">Use cn() from @/lib/utils for class merging</constraint>
+    <constraint type="accessibility">role="radiogroup" on container with aria-label</constraint>
+    <constraint type="accessibility">role="radio" with aria-checked on each option</constraint>
+    <constraint type="accessibility">Roving tabindex pattern: tabIndex={isSelected ? 0 : -1}</constraint>
+    <constraint type="accessibility">Arrow keys navigate, Enter/Space select</constraint>
+    <constraint type="accessibility">Visible focus ring with focus-visible:ring-accent</constraint>
+    <constraint type="performance">Material change visible within 500ms (NFR3)</constraint>
+    <constraint type="performance">Price recalculation &lt; 200ms (NFR4)</constraint>
+    <constraint type="styling">Gold accent color: #C9A962 via ring-accent class</constraint>
+    <constraint type="styling">Touch targets minimum 44x44px on mobile</constraint>
+    <constraint type="styling">Dark theme: Nero Marquina (bg-background, text-foreground)</constraint>
+    <constraint type="i18n">Finish names via t("configurator.finishes.{TYPE}")</constraint>
+  </constraints>
+
+  <tests>
+    <standards>
+      TypeScript strict mode compilation. ESLint passing. Production build succeeds (npm run build).
+      Manual testing of 3D material changes and price recalculation. Keyboard navigation verification.
+      Visual inspection of selected state styling and mobile responsiveness.
+    </standards>
+    <locations>
+      <location>tests/components/</location>
+      <location>Manual browser testing at /configurator</location>
+    </locations>
+    <ideas>
+      <idea acId="AC1">Test all 4 finish types display correctly for selected marble</idea>
+      <idea acId="AC2">Verify localized names in all 5 locales (en, fr, de, it, es)</idea>
+      <idea acId="AC3">Verify 3D roughness changes visually between finishes</idea>
+      <idea acId="AC4">Measure price update time after finish selection</idea>
+      <idea acId="AC5">Verify gold border on selected finish option</idea>
+      <idea acId="AC6">Test keyboard navigation: ArrowLeft/Right, Enter/Space, Tab</idea>
+      <idea acId="AC7">Test touch targets on mobile viewport (min 375px)</idea>
+    </ideas>
+  </tests>
+</story-context>
+

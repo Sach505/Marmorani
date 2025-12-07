@@ -12,6 +12,44 @@
     "viewAll": "Ver todo",
     "learnMore": "Más información"
   },
+  "gallery": {
+    "title": "Inspiración",
+    "subtitle": "Descubre nuestras creaciones de mármol en interiores reales. Encuentra el mármol que te inspira antes de crear tu cubo personalizado.",
+    "pageTitle": "Galería de Inspiración",
+    "pageDescription": "Explora nuestra colección de cubos de mármol y déjate inspirar por las infinitas posibilidades.",
+    "fromPrice": "Desde {price}",
+    "featured": "Destacado",
+    "noItems": "No hay inspiración disponible",
+    "noItemsDescription": "Vuelve pronto para descubrir nuestras nuevas creaciones.",
+    "useCases": {
+      "coffee-table": "Mesa de centro",
+      "side-table": "Mesa auxiliar",
+      "column": "Columna",
+      "decorative": "Decorativo"
+    },
+    "finishes": {
+      "POLISHED": "Pulido",
+      "HONED": "Afinado",
+      "RAW": "Bruto",
+      "BRUSHED": "Cepillado"
+    },
+    "filters": {
+      "filterBy": "Filtrar por",
+      "filter": "Filtrar",
+      "filterDescription": "Selecciona filtros para refinar tu búsqueda",
+      "marbleType": "Mármol",
+      "finishType": "Acabado",
+      "useCase": "Uso",
+      "allMarbles": "Todos los mármoles",
+      "allFinishes": "Todos los acabados",
+      "allUseCases": "Todos los usos",
+      "clearAll": "Borrar filtros",
+      "apply": "Aplicar",
+      "activeFilters": "Filtros activos",
+      "noResults": "Ningún resultado coincide con tus filtros",
+      "noResultsDescription": "Intenta ajustar o borrar tus filtros para ver más elementos."
+    }
+  },
   "header": {
     "gallery": "Galería",
     "configurator": "Configurador",
@@ -42,6 +80,87 @@
   "home": {
     "welcome": "Bienvenido a Marmorani",
     "subtitle": "Mármol de Lujo Personalizado"
+  },
+  "configurator": {
+    "title": "Configurador",
+    "pageTitle": "Configurador de Cubo de Mármol",
+    "pageTitleWithMarble": "Configurar - {marbleName}",
+    "pageDescription": "Cree su cubo de mármol personalizado. Elija dimensiones, tipo de mármol y acabado para un presupuesto instantáneo.",
+    "pageDescriptionWithMarble": "Configure su cubo de mármol {marbleName}. Elija dimensiones y acabado para un presupuesto instantáneo.",
+    "backToGallery": "Volver a la Galería",
+    "selectedMarble": "Mármol seleccionado",
+    "marbleSelector": "Tipo de Mármol",
+    "marbleSelection": "Selección de Mármol",
+    "selectMarble": "Seleccionar mármol",
+    "dimensions": "Dimensiones",
+    "width": "Ancho",
+    "height": "Alto",
+    "depth": "Profundidad",
+    "finish": "Acabado",
+    "estimatedPrice": "Precio estimado",
+    "priceAndWeight": "Precio y Peso",
+    "weightPlaceholder": "Peso: calculando...",
+    "addToCart": "Añadir al Carrito",
+    "viewer3dPlaceholder": "Vista 3D",
+    "loading3d": "Cargando vista 3D...",
+    "comingSoon": "Próximamente en Epic 3",
+    "panelTitle": "Panel de Configuración",
+    "configPanel": "Opciones de Configuración",
+    "expandPanel": "Expandir panel de configuración",
+    "collapsePanel": "Contraer panel de configuración",
+    "tapToExpand": "Tocar para expandir",
+    "tapToCollapse": "Tocar para contraer",
+    "comingSoonStory35": "Controles de dimensiones - Story 3.5",
+    "comingSoonStory36": "Selector de mármol - Story 3.6",
+    "comingSoonStory37": "Selector de acabado - Story 3.7",
+    "comingSoonStory38": "Precio y peso - Story 3.8",
+    "finishes": {
+      "POLISHED": "Pulido",
+      "HONED": "Afinado",
+      "RAW": "Bruto",
+      "BRUSHED": "Cepillado"
+    },
+    "viewer3dLabel": "Vista previa 3D de cubo de mármol {marble}, {width}×{height}×{depth} cm, acabado {finish}",
+    "hint": {
+      "dragToRotate": "Arrastra para rotar",
+      "scrollToZoom": "Desplaza para hacer zoom",
+      "pinchToZoom": "Pellizca para hacer zoom"
+    },
+    "unit": "cm",
+    "incrementDimension": "Aumentar {dimension}",
+    "decrementDimension": "Disminuir {dimension}",
+    "dimensionErrors": {
+      "min": "Mínimo {min} cm",
+      "max": "Máximo {max} cm",
+      "invalid": "Valor inválido",
+      "required": "Requerido"
+    },
+    "dimensionWarnings": {
+      "atMin": "Dimensión mínima",
+      "atMax": "Dimensión máxima"
+    },
+    "viewDetails": "Ver detalles",
+    "selected": "Seleccionado: {marble}",
+    "marbleSelectorAriaLabel": "Seleccionar tipo de mármol"
+  },
+  "marble": {
+    "specifications": "Especificaciones",
+    "origin": "Origen",
+    "density": "Densidad",
+    "availableFinishes": "Acabados disponibles",
+    "priceRange": "Rango de precios",
+    "priceRangeNote": "Basado en dimensiones de cubo de 5×5×5 cm a 100×100×100 cm",
+    "createCube": "Crear Mi Cubo",
+    "backToGallery": "Volver a la Galería",
+    "interestedTitle": "¿Interesado en este mármol?",
+    "interestedDescription": "Configure su cubo personalizado con este mármol excepcional y reciba un presupuesto instantáneo.",
+    "defaultDescription": "Descubra {name}, un mármol excepcional para sus creaciones personalizadas.",
+    "finishes": {
+      "POLISHED": "Pulido",
+      "HONED": "Afinado",
+      "RAW": "Bruto",
+      "BRUSHED": "Cepillado"
+    }
   }
 }
 

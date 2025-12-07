@@ -12,6 +12,44 @@
     "viewAll": "Alle anzeigen",
     "learnMore": "Mehr erfahren"
   },
+  "gallery": {
+    "title": "Inspiration",
+    "subtitle": "Entdecken Sie unsere Marmorkreationen in echten Innenräumen. Finden Sie den Marmor, der Sie inspiriert, bevor Sie Ihren eigenen Würfel erstellen.",
+    "pageTitle": "Inspirationsgalerie",
+    "pageDescription": "Erkunden Sie unsere Kollektion von Marmorwürfeln und lassen Sie sich von den endlosen Möglichkeiten inspirieren.",
+    "fromPrice": "Ab {price}",
+    "featured": "Empfohlen",
+    "noItems": "Keine Inspiration verfügbar",
+    "noItemsDescription": "Schauen Sie bald wieder vorbei, um unsere neuen Kreationen zu entdecken.",
+    "useCases": {
+      "coffee-table": "Couchtisch",
+      "side-table": "Beistelltisch",
+      "column": "Säule",
+      "decorative": "Dekorativ"
+    },
+    "finishes": {
+      "POLISHED": "Poliert",
+      "HONED": "Geschliffen",
+      "RAW": "Roh",
+      "BRUSHED": "Gebürstet"
+    },
+    "filters": {
+      "filterBy": "Filtern nach",
+      "filter": "Filtern",
+      "filterDescription": "Wählen Sie Filter, um Ihre Suche einzugrenzen",
+      "marbleType": "Marmor",
+      "finishType": "Oberfläche",
+      "useCase": "Verwendung",
+      "allMarbles": "Alle Marmore",
+      "allFinishes": "Alle Oberflächen",
+      "allUseCases": "Alle Verwendungen",
+      "clearAll": "Filter löschen",
+      "apply": "Anwenden",
+      "activeFilters": "Aktive Filter",
+      "noResults": "Keine Ergebnisse entsprechen Ihren Filtern",
+      "noResultsDescription": "Versuchen Sie, Ihre Filter anzupassen oder zu löschen, um mehr Artikel zu sehen."
+    }
+  },
   "header": {
     "gallery": "Galerie",
     "configurator": "Konfigurator",
@@ -42,6 +80,87 @@
   "home": {
     "welcome": "Willkommen bei Marmorani",
     "subtitle": "Maßgeschneiderter Luxusmarmor"
+  },
+  "configurator": {
+    "title": "Konfigurator",
+    "pageTitle": "Marmorwürfel-Konfigurator",
+    "pageTitleWithMarble": "Konfigurieren - {marbleName}",
+    "pageDescription": "Erstellen Sie Ihren individuellen Marmorwürfel. Wählen Sie Maße, Marmorart und Oberfläche für ein sofortiges Angebot.",
+    "pageDescriptionWithMarble": "Konfigurieren Sie Ihren {marbleName} Marmorwürfel. Wählen Sie Maße und Oberfläche für ein sofortiges Angebot.",
+    "backToGallery": "Zurück zur Galerie",
+    "selectedMarble": "Ausgewählter Marmor",
+    "marbleSelector": "Marmorart",
+    "marbleSelection": "Marmorauswahl",
+    "selectMarble": "Marmor auswählen",
+    "dimensions": "Maße",
+    "width": "Breite",
+    "height": "Höhe",
+    "depth": "Tiefe",
+    "finish": "Oberfläche",
+    "estimatedPrice": "Geschätzter Preis",
+    "priceAndWeight": "Preis & Gewicht",
+    "weightPlaceholder": "Gewicht: wird berechnet...",
+    "addToCart": "In den Warenkorb",
+    "viewer3dPlaceholder": "3D-Ansicht",
+    "loading3d": "3D-Ansicht wird geladen...",
+    "comingSoon": "Bald verfügbar in Epic 3",
+    "panelTitle": "Konfigurationspanel",
+    "configPanel": "Konfigurationsoptionen",
+    "expandPanel": "Konfigurationspanel erweitern",
+    "collapsePanel": "Konfigurationspanel minimieren",
+    "tapToExpand": "Tippen zum Erweitern",
+    "tapToCollapse": "Tippen zum Minimieren",
+    "comingSoonStory35": "Maßeingaben kommen in Story 3.5",
+    "comingSoonStory36": "Marmorauswahl kommt in Story 3.6",
+    "comingSoonStory37": "Oberflächenwahl kommt in Story 3.7",
+    "comingSoonStory38": "Preis- & Gewichtsanzeige kommt in Story 3.8",
+    "finishes": {
+      "POLISHED": "Poliert",
+      "HONED": "Geschliffen",
+      "RAW": "Roh",
+      "BRUSHED": "Gebürstet"
+    },
+    "viewer3dLabel": "3D-Vorschau eines {marble} Marmorwürfels, {width}×{height}×{depth} cm, Oberfläche {finish}",
+    "hint": {
+      "dragToRotate": "Ziehen zum Drehen",
+      "scrollToZoom": "Scrollen zum Zoomen",
+      "pinchToZoom": "Kneifen zum Zoomen"
+    },
+    "unit": "cm",
+    "incrementDimension": "{dimension} erhöhen",
+    "decrementDimension": "{dimension} verringern",
+    "dimensionErrors": {
+      "min": "Minimum {min} cm",
+      "max": "Maximum {max} cm",
+      "invalid": "Ungültiger Wert",
+      "required": "Erforderlich"
+    },
+    "dimensionWarnings": {
+      "atMin": "Mindestmaß",
+      "atMax": "Höchstmaß"
+    },
+    "viewDetails": "Details anzeigen",
+    "selected": "Ausgewählt: {marble}",
+    "marbleSelectorAriaLabel": "Marmorart auswählen"
+  },
+  "marble": {
+    "specifications": "Eigenschaften",
+    "origin": "Herkunft",
+    "density": "Dichte",
+    "availableFinishes": "Verfügbare Oberflächen",
+    "priceRange": "Preisspanne",
+    "priceRangeNote": "Basierend auf Würfelmaßen von 5×5×5 cm bis 100×100×100 cm",
+    "createCube": "Meinen Würfel erstellen",
+    "backToGallery": "Zurück zur Galerie",
+    "interestedTitle": "Interessiert an diesem Marmor?",
+    "interestedDescription": "Konfigurieren Sie Ihren maßgeschneiderten Würfel mit diesem außergewöhnlichen Marmor und erhalten Sie ein sofortiges Angebot.",
+    "defaultDescription": "Entdecken Sie {name}, einen außergewöhnlichen Marmor für Ihre individuellen Kreationen.",
+    "finishes": {
+      "POLISHED": "Poliert",
+      "HONED": "Geschliffen",
+      "RAW": "Roh",
+      "BRUSHED": "Gebürstet"
+    }
   }
 }
 

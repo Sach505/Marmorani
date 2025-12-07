@@ -12,6 +12,44 @@
     "viewAll": "Voir tout",
     "learnMore": "En savoir plus"
   },
+  "gallery": {
+    "title": "Inspiration",
+    "subtitle": "Découvrez nos créations en marbre dans des intérieurs réels. Trouvez le marbre qui vous inspire avant de créer votre cube personnalisé.",
+    "pageTitle": "Galerie d'Inspiration",
+    "pageDescription": "Explorez notre collection de cubes en marbre et laissez-vous inspirer par les possibilités infinies.",
+    "fromPrice": "À partir de {price}",
+    "featured": "À la une",
+    "noItems": "Aucune inspiration disponible",
+    "noItemsDescription": "Revenez bientôt pour découvrir nos nouvelles créations.",
+    "useCases": {
+      "coffee-table": "Table basse",
+      "side-table": "Table d'appoint",
+      "column": "Colonne",
+      "decorative": "Décoratif"
+    },
+    "finishes": {
+      "POLISHED": "Poli",
+      "HONED": "Adouci",
+      "RAW": "Brut",
+      "BRUSHED": "Brossé"
+    },
+    "filters": {
+      "filterBy": "Filtrer par",
+      "filter": "Filtrer",
+      "filterDescription": "Sélectionnez des filtres pour affiner votre recherche",
+      "marbleType": "Marbre",
+      "finishType": "Finition",
+      "useCase": "Utilisation",
+      "allMarbles": "Tous les marbres",
+      "allFinishes": "Toutes les finitions",
+      "allUseCases": "Toutes les utilisations",
+      "clearAll": "Effacer les filtres",
+      "apply": "Appliquer",
+      "activeFilters": "Filtres actifs",
+      "noResults": "Aucun résultat ne correspond à vos filtres",
+      "noResultsDescription": "Essayez d'ajuster ou d'effacer vos filtres pour voir plus d'éléments."
+    }
+  },
   "header": {
     "gallery": "Galerie",
     "configurator": "Configurateur",
@@ -42,5 +80,86 @@
   "home": {
     "welcome": "Bienvenue chez Marmorani",
     "subtitle": "Marbre de Luxe Sur Mesure"
+  },
+  "configurator": {
+    "title": "Configurateur",
+    "pageTitle": "Configurateur de Cube en Marbre",
+    "pageTitleWithMarble": "Configurer - {marbleName}",
+    "pageDescription": "Créez votre cube en marbre sur mesure. Choisissez les dimensions, le type de marbre et la finition pour un devis instantané.",
+    "pageDescriptionWithMarble": "Configurez votre cube en marbre {marbleName}. Choisissez les dimensions et la finition pour un devis instantané.",
+    "backToGallery": "Retour à la Galerie",
+    "selectedMarble": "Marbre sélectionné",
+    "marbleSelector": "Type de Marbre",
+    "marbleSelection": "Sélection du Marbre",
+    "selectMarble": "Sélectionner un marbre",
+    "dimensions": "Dimensions",
+    "width": "Largeur",
+    "height": "Hauteur",
+    "depth": "Profondeur",
+    "finish": "Finition",
+    "estimatedPrice": "Prix estimé",
+    "priceAndWeight": "Prix & Poids",
+    "weightPlaceholder": "Poids : calcul en cours...",
+    "addToCart": "Ajouter au Panier",
+    "viewer3dPlaceholder": "Visualisation 3D",
+    "loading3d": "Chargement de la vue 3D...",
+    "comingSoon": "Bientôt disponible dans Epic 3",
+    "panelTitle": "Panneau de Configuration",
+    "configPanel": "Options de Configuration",
+    "expandPanel": "Agrandir le panneau de configuration",
+    "collapsePanel": "Réduire le panneau de configuration",
+    "tapToExpand": "Toucher pour agrandir",
+    "tapToCollapse": "Toucher pour réduire",
+    "comingSoonStory35": "Contrôles des dimensions - Story 3.5",
+    "comingSoonStory36": "Sélecteur de marbre - Story 3.6",
+    "comingSoonStory37": "Sélecteur de finition - Story 3.7",
+    "comingSoonStory38": "Affichage prix & poids - Story 3.8",
+    "finishes": {
+      "POLISHED": "Poli",
+      "HONED": "Adouci",
+      "RAW": "Brut",
+      "BRUSHED": "Brossé"
+    },
+    "viewer3dLabel": "Aperçu 3D d'un cube en marbre {marble}, {width}×{height}×{depth} cm, finition {finish}",
+    "hint": {
+      "dragToRotate": "Glissez pour faire pivoter",
+      "scrollToZoom": "Défilez pour zoomer",
+      "pinchToZoom": "Pincez pour zoomer"
+    },
+    "unit": "cm",
+    "incrementDimension": "Augmenter {dimension}",
+    "decrementDimension": "Diminuer {dimension}",
+    "dimensionErrors": {
+      "min": "Minimum {min} cm",
+      "max": "Maximum {max} cm",
+      "invalid": "Valeur invalide",
+      "required": "Requis"
+    },
+    "dimensionWarnings": {
+      "atMin": "Dimension minimale",
+      "atMax": "Dimension maximale"
+    },
+    "viewDetails": "Voir les détails",
+    "selected": "Sélectionné : {marble}",
+    "marbleSelectorAriaLabel": "Sélectionner le type de marbre"
+  },
+  "marble": {
+    "specifications": "Caractéristiques",
+    "origin": "Origine",
+    "density": "Densité",
+    "availableFinishes": "Finitions disponibles",
+    "priceRange": "Fourchette de prix",
+    "priceRangeNote": "Basé sur des dimensions de cube de 5×5×5 cm à 100×100×100 cm",
+    "createCube": "Créer Mon Cube",
+    "backToGallery": "Retour à la Galerie",
+    "interestedTitle": "Intéressé par ce marbre ?",
+    "interestedDescription": "Configurez votre cube sur mesure avec ce marbre d'exception et recevez un devis instantané.",
+    "defaultDescription": "Découvrez {name}, un marbre d'exception pour vos créations sur mesure.",
+    "finishes": {
+      "POLISHED": "Poli",
+      "HONED": "Adouci",
+      "RAW": "Brut",
+      "BRUSHED": "Brossé"
+    }
   }
 }

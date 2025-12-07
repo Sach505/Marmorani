@@ -46,23 +46,23 @@ development_status:
 
   # Epic 2: Marble Catalog & Discovery
   epic-2: contexted
-  2-1-marble-data-seeding-constants: review
-  2-2-marble-texture-assets: backlog
-  2-3-inspiration-gallery-page: backlog
-  2-4-gallery-filtering: backlog
-  2-5-marble-detail-page: backlog
-  2-6-gallery-to-configurator-navigation: backlog
+  2-1-marble-data-seeding-constants: done
+  2-2-marble-texture-assets: done
+  2-3-inspiration-gallery-page: done
+  2-4-gallery-filtering: done
+  2-5-marble-detail-page: done
+  2-6-gallery-to-configurator-navigation: done
   epic-2-retrospective: optional
 
   # Epic 3: 3D Configurator Core
   epic-3: backlog
-  3-1-configurator-page-shell-theme: backlog
-  3-2-zustand-configuration-store: backlog
-  3-3-3d-cube-viewer-component: backlog
-  3-4-3d-interaction-controls: backlog
-  3-5-dimension-input-controls: backlog
-  3-6-marble-type-selector: backlog
-  3-7-finish-picker: backlog
+  3-1-configurator-page-shell-theme: done
+  3-2-zustand-configuration-store: done
+  3-3-3d-cube-viewer-component: done
+  3-4-3d-interaction-controls: done
+  3-5-dimension-input-controls: done
+  3-6-marble-type-selector: review
+  3-7-finish-picker: ready-for-dev
   3-8-price-weight-display: backlog
   epic-3-retrospective: optional
 

@@ -1,0 +1,303 @@
+<story-context id="bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>2</storyId>
+    <title>Zustand Configuration Store</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-06</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/3-2-zustand-configuration-store.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>developer</asA>
+    <iWant>a centralized state store for cube configuration with persistence and derived calculations</iWant>
+    <soThat>all components stay synchronized, state persists across sessions, and price/weight calculations are automated and accurate</soThat>
+    <tasks>
+      <task id="1" name="Extend existing configStore with full state model">
+        <subtask>1.1: Review existing src/stores/configStore.ts from Story 2-6</subtask>
+        <subtask>1.2: Add TypeScript interfaces for ConfigState, ConfigActions</subtask>
+        <subtask>1.3: Add calculatedWeight and calculatedPrice derived state fields</subtask>
+        <subtask>1.4: Set default values (first marble, 20×20×20cm, POLISHED)</subtask>
+        <subtask>1.5: Ensure all fields are properly typed with FinishType enum</subtask>
+      </task>
+      <task id="2" name="Implement calculation logic for weight and price">
+        <subtask>2.1: Create src/lib/calculations/cubeCalculations.ts</subtask>
+        <subtask>2.2: Implement calculateWeight(width, height, depth, density) function</subtask>
+        <subtask>2.3: Implement calculatePrice(volume, basePricePerCm3, finishModifier) function</subtask>
+        <subtask>2.4: Add marble data lookup (density, basePricePerCm3) from constants</subtask>
+        <subtask>2.5: Add finish modifier lookup from constants</subtask>
+        <subtask>2.6: Integrate calculations into store with automatic recalculation</subtask>
+        <subtask>2.7: Add debouncing (100ms) to prevent excessive recalculations during rapid input</subtask>
+      </task>
+      <task id="3" name="Configure persist middleware with localStorage">
+        <subtask>3.1: Review existing persist configuration in configStore</subtask>
+        <subtask>3.2: Configure partialize to exclude derived values</subtask>
+        <subtask>3.3: Configure onRehydrateStorage to trigger recalculation after hydration</subtask>
+        <subtask>3.4: Add storage key marmorani-config</subtask>
+        <subtask>3.5: Handle SSR hydration edge cases (skip persist on server)</subtask>
+      </task>
+      <task id="4" name="Implement URL parameter initialization">
+        <subtask>4.1: Update ConfiguratorClient.tsx to read URL marble param on mount</subtask>
+        <subtask>4.2: Call setMarble() with URL param value if present</subtask>
+        <subtask>4.3: Validate marble slug exists (use existing validateMarbleSlug)</subtask>
+        <subtask>4.4: Fall back to default marble if URL param invalid</subtask>
+        <subtask>4.5: URL param takes precedence over localStorage on initial page load</subtask>
+      </task>
+      <task id="5" name="Implement typed store actions">
+        <subtask>5.1: Implement setMarble(slug) with validation and recalculation</subtask>
+        <subtask>5.2: Implement setDimensions({width?, height?, depth?}) with constraint clamping</subtask>
+        <subtask>5.3: Implement setFinish(finish) with recalculation trigger</subtask>
+        <subtask>5.4: Implement resetConfiguration() to restore defaults</subtask>
+        <subtask>5.5: Add manufacturing constraint validation (MIN=5, MAX=100)</subtask>
+        <subtask>5.6: Log warnings for invalid values (dev mode only)</subtask>
+      </task>
+      <task id="6" name="Create marble data constants for calculations">
+        <subtask>6.1: Extend src/constants/marbles.ts with MARBLE_DATA lookup</subtask>
+        <subtask>6.2: Add density (kg/m³) and basePricePerCm3 (cents) for each marble</subtask>
+        <subtask>6.3: Add FINISH_MODIFIERS constant mapping FinishType to price multiplier</subtask>
+        <subtask>6.4: Ensure constants match seeded database values</subtask>
+        <subtask>6.5: Export TypeScript types for marble data</subtask>
+      </task>
+      <task id="7" name="Create optimized selector hooks">
+        <subtask>7.1: Create individual field selectors (useMarbleSlug, useWidth, etc.)</subtask>
+        <subtask>7.2: Create useConfiguredCube() composite selector</subtask>
+        <subtask>7.3: Create useCalculatedValues() selector for weight + price</subtask>
+        <subtask>7.4: Document selector usage patterns in code comments</subtask>
+        <subtask>7.5: Export all selectors from store file</subtask>
+      </task>
+      <task id="8" name="Integration and testing">
+        <subtask>8.1: Test localStorage persistence (change config, refresh, verify)</subtask>
+        <subtask>8.2: Test URL parameter initialization (navigate with ?marble=carrara)</subtask>
+        <subtask>8.3: Test calculation accuracy with known values</subtask>
+        <subtask>8.4: Test constraint enforcement (min/max dimensions)</subtask>
+        <subtask>8.5: Test recalculation performance (&lt; 200ms)</subtask>
+        <subtask>8.6: Verify TypeScript compiles with no errors</subtask>
+        <subtask>8.7: Verify build succeeds</subtask>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC1" description="Zustand store manages all cube configuration state">
+      <detail>marbleSlug: string (selected marble slug, from URL param or default)</detail>
+      <detail>width: number (cm, constrained 5-100)</detail>
+      <detail>height: number (cm, constrained 5-100)</detail>
+      <detail>depth: number (cm, constrained 5-100)</detail>
+      <detail>finish: FinishType enum (POLISHED, HONED, RAW, BRUSHED)</detail>
+      <detail>All values initialized with sensible defaults</detail>
+    </criterion>
+    <criterion id="AC2" description="Derived values auto-calculate when inputs change">
+      <detail>calculatedWeight: number (kg) derived from dimensions × density</detail>
+      <detail>calculatedPrice: number (cents) derived from volume × basePricePerCm3 × finishModifier</detail>
+      <detail>Calculations update within 200ms of input change (NFR4)</detail>
+      <detail>Values recalculate when marble type, dimensions, or finish change</detail>
+    </criterion>
+    <criterion id="AC3" description="State persists to localStorage via Zustand persist middleware">
+      <detail>User can close browser and return to find their configuration intact</detail>
+      <detail>Persistence key: marmorani-config</detail>
+      <detail>Partial persistence (exclude calculated values - regenerate on hydration)</detail>
+    </criterion>
+    <criterion id="AC4" description="URL parameter ?marble={slug} initializes marbleSlug on first load">
+      <detail>If URL param exists and marble is valid, use it</detail>
+      <detail>If URL param invalid or missing, use default (first available marble)</detail>
+      <detail>URL param takes precedence over localStorage on initial load</detail>
+      <detail>Store syncs with URL when marble changes from configurator</detail>
+    </criterion>
+    <criterion id="AC5" description="Store provides typed actions for state mutations">
+      <detail>setMarble(slug: string): validates and sets marble, triggers recalculation</detail>
+      <detail>setDimensions(width?, height?, depth?): validates and sets dimensions</detail>
+      <detail>setFinish(finish: FinishType): sets finish, triggers price recalculation</detail>
+      <detail>resetConfiguration(): resets all values to defaults</detail>
+      <detail>Actions enforce manufacturing constraints (5-100 cm)</detail>
+    </criterion>
+    <criterion id="AC6" description="Marble data integration for calculations">
+      <detail>Store fetches/accesses marble density and basePricePerCm3 for selected marble</detail>
+      <detail>Store fetches/accesses finish price modifiers for selected marble</detail>
+      <detail>Data sourced from constants or Prisma query (client-accessible)</detail>
+    </criterion>
+    <criterion id="AC7" description="Store selector hooks for optimized re-renders">
+      <detail>useConfigStore.getState() for non-reactive access</detail>
+      <detail>Individual selectors for each field to minimize re-renders</detail>
+      <detail>useConfiguredCube() selector for full configuration object</detail>
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/architecture.md" title="Architecture Document" section="Technology Stack Details - Zustand">
+        <snippet>Zustand 4.x chosen for state management. Lightweight with persist middleware for localStorage. Works well with React Server Components (hydration-safe). Selector pattern for optimized re-renders.</snippet>
+      </doc>
+      <doc path="docs/architecture.md" title="Architecture Document" section="Data Architecture - Formulas">
+        <snippet>Weight formula: weight_kg = (width × height × depth) × density / 1,000,000. Price formula: price_cents = basePricePerCm3 × volume × finishModifier.</snippet>
+      </doc>
+      <doc path="docs/architecture.md" title="Architecture Document" section="Project Structure">
+        <snippet>Stores in src/stores/configStore.ts and cartStore.ts. Hooks in src/hooks/ including usePriceCalculation.ts and useWeightCalculation.ts. Constants in src/constants/marbles.ts and shipping.ts.</snippet>
+      </doc>
+      <doc path="docs/PRD.md" title="Product Requirements Document" section="FR13 - Weight Calculation">
+        <snippet>System automatically calculates and displays cube weight based on dimensions and marble density.</snippet>
+      </doc>
+      <doc path="docs/PRD.md" title="Product Requirements Document" section="FR14 - Price Calculation">
+        <snippet>System automatically calculates and displays price based on dimensions, marble type, and finish.</snippet>
+      </doc>
+      <doc path="docs/PRD.md" title="Product Requirements Document" section="NFR4 - Performance">
+        <snippet>Price and weight calculations update in real-time (&lt; 200ms).</snippet>
+      </doc>
+      <doc path="docs/ux-design-specification.md" title="UX Design Specification" section="Pricing Display Strategy">
+        <snippet>Configurator shows product price only + weight indicator. Always show weight in configurator to help user understand shipping impact. Price formatting follows locale conventions.</snippet>
+      </doc>
+      <doc path="docs/epics.md" title="Epic Breakdown" section="Story 3.2: Zustand Configuration Store">
+        <snippet>AC: Store manages marbleId, dimensions, finish, calculatedWeight, calculatedPrice. Derived values recalculate automatically. State persists to localStorage. URL param initializes marbleId.</snippet>
+      </doc>
+      <doc path="docs/sprint-artifacts/3-1-configurator-page-shell-theme.md" title="Story 3.1 (Predecessor)" section="Dev Notes">
+        <snippet>ConfiguratorClient exists at src/components/configurator/ConfiguratorClient.tsx. Zustand store partially exists with basic fields and persist middleware. Marble validation ready via validateMarbleSlug.</snippet>
+      </doc>
+      <doc path="prisma/schema.prisma" title="Database Schema" section="Marble Model">
+        <snippet>Marble model includes density (Float, kg/m³) and basePricePerCm3 (Int, cents). MarbleFinish has priceModifier (Float, default 1.0). FinishType enum: POLISHED, HONED, RAW, BRUSHED.</snippet>
+      </doc>
+    </docs>
+
+    <code>
+      <file path="src/stores/configStore.ts" kind="store" reason="Existing Zustand store to extend with derived calculations">
+        <symbol>useConfigStore</symbol>
+        <symbol>ConfigState</symbol>
+        <symbol>ConfigActions</symbol>
+        <symbol>clampDimension</symbol>
+        <lines>1-143</lines>
+        <notes>Already has: marbleSlug, width, height, depth, finish, persist middleware with marmorani-config key, partialize excluding _hasHydrated, onRehydrateStorage callback, initializeFromUrl action. Missing: calculatedWeight, calculatedPrice, recalculate action.</notes>
+      </file>
+      <file path="src/constants/marbles.ts" kind="constants" reason="Extend with MARBLE_DATA for density and pricing lookup">
+        <symbol>MANUFACTURING_CONSTRAINTS</symbol>
+        <symbol>FINISH_TYPES</symbol>
+        <symbol>FINISH_PRICE_MODIFIERS</symbol>
+        <lines>1-65</lines>
+        <notes>FINISH_PRICE_MODIFIERS already exists. Need to add MARBLE_DATA with density and basePricePerCm3 for each marble slug.</notes>
+      </file>
+      <file path="src/components/configurator/ConfiguratorClient.tsx" kind="component" reason="Client wrapper that initializes store from URL param">
+        <symbol>ConfiguratorClient</symbol>
+        <symbol>initializeFromUrl</symbol>
+        <lines>1-93</lines>
+        <notes>Already calls initializeFromUrl on mount with initialMarble prop. May need to trigger recalculation after hydration.</notes>
+      </file>
+      <file path="src/lib/queries/configurator.ts" kind="query" reason="Server-side marble validation for URL params">
+        <symbol>validateMarbleSlug</symbol>
+        <symbol>getFirstAvailableMarbleSlug</symbol>
+        <lines>1-70</lines>
+        <notes>Used by configurator page.tsx to validate ?marble param before passing to client.</notes>
+      </file>
+      <file path="src/lib/utils/price.ts" kind="utility" reason="Existing price calculation utilities to reference">
+        <symbol>calculatePriceRange</symbol>
+        <symbol>formatPrice</symbol>
+        <symbol>getFinishModifier</symbol>
+        <lines>1-111</lines>
+        <notes>Contains price range calculation logic. Can be referenced for cube price calculation formula.</notes>
+      </file>
+      <file path="src/lib/queries/marbles.ts" kind="query" reason="Marble data fetching with density and price info">
+        <symbol>getMarbleBySlug</symbol>
+        <symbol>getAllMarbleSlugs</symbol>
+        <lines>1-108</lines>
+        <notes>Returns marble with density, basePricePerCm3, finishes. Server-side only - need client-accessible constants.</notes>
+      </file>
+      <file path="src/generated/prisma/enums.ts" kind="types" reason="FinishType enum definition">
+        <symbol>FinishType</symbol>
+        <notes>Generated by Prisma. Enum values: POLISHED, HONED, RAW, BRUSHED.</notes>
+      </file>
+    </code>
+
+    <dependencies>
+      <node>
+        <package name="zustand" version="^5.0.9" purpose="State management with persist middleware"/>
+        <package name="next" version="16.0.7" purpose="React framework with App Router"/>
+        <package name="react" version="19.2.0" purpose="UI library"/>
+        <package name="typescript" version="^5" purpose="Type safety"/>
+        <package name="zod" version="^4.1.13" purpose="Schema validation (optional for store actions)"/>
+      </node>
+      <prisma>
+        <model name="Marble" fields="id, slug, density, basePricePerCm3"/>
+        <model name="MarbleFinish" fields="marbleId, type, priceModifier"/>
+        <enum name="FinishType" values="POLISHED, HONED, RAW, BRUSHED"/>
+      </prisma>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="pattern" source="architecture">Use Zustand selector pattern for optimized re-renders in consuming components</constraint>
+    <constraint type="pattern" source="architecture">Stores must handle SSR/hydration properly - skip persist on server</constraint>
+    <constraint type="pattern" source="architecture">Use constants for client-side data - avoid runtime DB queries in store</constraint>
+    <constraint type="performance" source="PRD-NFR4">Calculations must complete within 200ms of input change</constraint>
+    <constraint type="validation" source="story">Dimensions constrained to 5-100 cm (MANUFACTURING_CONSTRAINTS)</constraint>
+    <constraint type="naming" source="architecture">Files: camelCase with Store suffix (configStore.ts), hooks: camelCase with use prefix</constraint>
+    <constraint type="types" source="architecture">Use generated Prisma enums (FinishType) from src/generated/prisma/enums</constraint>
+    <constraint type="persistence" source="story">localStorage key must be 'marmorani-config', exclude derived values from persistence</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface name="ConfigState" kind="TypeScript Interface" path="src/stores/configStore.ts">
+      <signature>
+interface ConfigState {
+  marbleSlug: string;
+  width: number;
+  height: number;
+  depth: number;
+  finish: FinishType;
+  calculatedWeight: number;
+  calculatedPrice: number;
+  _hasHydrated: boolean;
+}
+      </signature>
+    </interface>
+    <interface name="ConfigActions" kind="TypeScript Interface" path="src/stores/configStore.ts">
+      <signature>
+interface ConfigActions {
+  setMarble: (slug: string) => void;
+  setDimensions: (dims: Partial&lt;{width: number; height: number; depth: number}&gt;) => void;
+  setFinish: (finish: FinishType) => void;
+  resetConfiguration: () => void;
+  recalculate: () => void;
+}
+      </signature>
+    </interface>
+    <interface name="MarbleData" kind="TypeScript Type" path="src/constants/marbles.ts">
+      <signature>
+interface MarbleConstants {
+  density: number;        // kg/m³
+  basePricePerCm3: number; // cents
+}
+type MarbleDataMap = Record&lt;string, MarbleConstants&gt;;
+      </signature>
+    </interface>
+    <interface name="calculateWeight" kind="Function" path="src/lib/calculations/cubeCalculations.ts">
+      <signature>function calculateWeight(width: number, height: number, depth: number, density: number): number</signature>
+      <notes>Returns weight in kg. Formula: (width × height × depth) × density / 1,000,000</notes>
+    </interface>
+    <interface name="calculatePrice" kind="Function" path="src/lib/calculations/cubeCalculations.ts">
+      <signature>function calculatePrice(volume: number, basePricePerCm3: number, finishModifier: number): number</signature>
+      <notes>Returns price in cents. Formula: volume × basePricePerCm3 × finishModifier</notes>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      No formal testing framework configured yet (vitest planned per architecture). For this story, use manual testing via browser dev tools and type checking via TypeScript compilation. Validate calculations manually with known values. Test localStorage persistence by modifying state, refreshing browser, verifying state restored.
+    </standards>
+    <locations>
+      <location>tests/unit/ (planned)</location>
+      <location>Browser DevTools for localStorage inspection</location>
+      <location>TypeScript compiler (npm run build) for type errors</location>
+    </locations>
+    <ideas>
+      <idea ac="AC1">Verify store initializes with default values (first marble, 20×20×20, POLISHED)</idea>
+      <idea ac="AC2">Test calculation with known marble: Carrara (density ~2700 kg/m³), 10×10×10 cube = 2.7kg</idea>
+      <idea ac="AC2">Test price: 10×10×10 = 1000cm³, basePricePerCm3=15 cents, POLISHED (1.0) = 15000 cents</idea>
+      <idea ac="AC3">Modify config, close tab, reopen - verify state restored from localStorage</idea>
+      <idea ac="AC3">Verify calculatedWeight and calculatedPrice are NOT in localStorage (partialize)</idea>
+      <idea ac="AC4">Navigate to /configurator?marble=nero-marquina, verify store has nero-marquina</idea>
+      <idea ac="AC4">Navigate with invalid marble slug, verify fallback to first available</idea>
+      <idea ac="AC5">Call setDimensions with value &gt;100, verify clamped to 100</idea>
+      <idea ac="AC5">Call setDimensions with value &lt;5, verify clamped to 5</idea>
+      <idea ac="AC6">Verify MARBLE_DATA constant has all seeded marble slugs with correct density</idea>
+      <idea ac="AC7">Verify individual selectors only cause re-render when their specific value changes</idea>
+    </ideas>
+  </tests>
+</story-context>
+

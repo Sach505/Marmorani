@@ -1,0 +1,257 @@
+<story-context id="3-6-marble-type-selector" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>6</storyId>
+    <title>Marble Type Selector</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-07</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/3-6-marble-type-selector.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>to choose my marble type from visual swatches</iWant>
+    <soThat>I can see the texture before selecting and compare options easily</soThat>
+    <tasks>
+      <task id="1" name="Create MarbleSelector component" ac="1,3,9">
+        <subtask>1.1: Create src/components/configurator/MarbleSelector.tsx</subtask>
+        <subtask>1.2: Fetch marble list from constants or Prisma query</subtask>
+        <subtask>1.3: Implement grid layout with responsive columns (CSS Grid)</subtask>
+        <subtask>1.4: Add ARIA attributes (role="radiogroup", role="radio")</subtask>
+        <subtask>1.5: Style selected swatch with gold border (#C9A962)</subtask>
+        <subtask>1.6: Export component from src/components/configurator/index.ts</subtask>
+      </task>
+      <task id="2" name="Create MarbleSwatch sub-component" ac="1,2,3,4">
+        <subtask>2.1: Create src/components/configurator/MarbleSwatch.tsx</subtask>
+        <subtask>2.2: Display preview thumbnail from /textures/{slug}/preview.jpg</subtask>
+        <subtask>2.3: Add hover overlay with marble name (i18n)</subtask>
+        <subtask>2.4: Implement "View details" link (opens in new tab)</subtask>
+        <subtask>2.5: Add focus state with visible ring</subtask>
+        <subtask>2.6: Add selection state with gold border</subtask>
+      </task>
+      <task id="3" name="Connect to Zustand store" ac="5,7">
+        <subtask>3.1: Use useMarbleSlug selector to read current marble</subtask>
+        <subtask>3.2: Use setMarble action (or getState().setMarble) to update</subtask>
+        <subtask>3.3: Verify 3D CubeViewer updates marble texture on selection</subtask>
+        <subtask>3.4: Confirm weight and price recalculate automatically</subtask>
+      </task>
+      <task id="4" name="Implement texture crossfade transition" ac="6">
+        <subtask>4.1: Add transition CSS or animation for swatch selection feedback</subtask>
+        <subtask>4.2: Verify 3D texture transition is smooth (may require CubeViewer update)</subtask>
+        <subtask>4.3: Test transition timing (~300ms) for elegant feel</subtask>
+      </task>
+      <task id="5" name="Implement mobile horizontal scroll" ac="8">
+        <subtask>5.1: Add horizontal scroll container for mobile breakpoint</subtask>
+        <subtask>5.2: Implement scroll-snap behavior</subtask>
+        <subtask>5.3: Add visual scroll indicator (fade gradient or dots)</subtask>
+        <subtask>5.4: Test swipe gestures on mobile</subtask>
+      </task>
+      <task id="6" name="Implement keyboard navigation" ac="9">
+        <subtask>6.1: Add ArrowLeft/ArrowRight for horizontal navigation</subtask>
+        <subtask>6.2: Add ArrowUp/ArrowDown for grid navigation (optional)</subtask>
+        <subtask>6.3: Enter/Space to select focused swatch</subtask>
+        <subtask>6.4: Tab moves focus into/out of radiogroup</subtask>
+        <subtask>6.5: Test with keyboard-only navigation</subtask>
+      </task>
+      <task id="7" name="Integrate into ConfigPanel" ac="1-9">
+        <subtask>7.1: Replace placeholder marble section in ConfigPanel with MarbleSelector</subtask>
+        <subtask>7.2: Add section heading "Marble Type" with i18n translation</subtask>
+        <subtask>7.3: Test desktop and mobile layouts</subtask>
+      </task>
+      <task id="8" name="Add i18n translations" ac="2">
+        <subtask>8.1: Add marble selector translation keys in src/messages/en.json</subtask>
+        <subtask>8.2: Add translation keys in src/messages/fr.json</subtask>
+        <subtask>8.3: Add translation keys in src/messages/de.json</subtask>
+        <subtask>8.4: Add translation keys in src/messages/it.json</subtask>
+        <subtask>8.5: Add translation keys in src/messages/es.json</subtask>
+      </task>
+      <task id="9" name="Testing and verification" ac="5,6,7">
+        <subtask>9.1: Verify marble selection updates 3D view within 500ms</subtask>
+        <subtask>9.2: Verify price recalculates based on marble's basePricePerCm3</subtask>
+        <subtask>9.3: Verify weight recalculates based on marble's density</subtask>
+        <subtask>9.4: Test all 10 marbles display correctly with previews</subtask>
+        <subtask>9.5: Verify TypeScript compiles without errors</subtask>
+        <subtask>9.6: Verify production build succeeds</subtask>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC1" title="Grid of marble swatches with thumbnail textures">
+      <detail>Display all available marbles from the database/constants</detail>
+      <detail>Each swatch shows preview.jpg thumbnail (fast loading)</detail>
+      <detail>Grid layout responsive: 5-6 columns desktop, 4 columns mobile</detail>
+      <detail>Swatches are uniformly sized squares with rounded corners</detail>
+    </criterion>
+    <criterion id="AC2" title="Marble name on hover/focus">
+      <detail>Hover reveals marble name in elegant tooltip or overlay</detail>
+      <detail>Focus state shows marble name for keyboard users</detail>
+      <detail>Name displayed in current locale language (i18n)</detail>
+    </criterion>
+    <criterion id="AC3" title="Currently selected marble highlighted">
+      <detail>Gold border (#C9A962) around selected swatch per UX spec</detail>
+      <detail>Clear visual distinction from unselected swatches</detail>
+      <detail>Selection persists across component re-renders</detail>
+    </criterion>
+    <criterion id="AC4" title="View details link to marble page">
+      <detail>Each swatch has optional "View details" action (hover or context)</detail>
+      <detail>Link opens marble detail page (/marble/[slug]) in new tab</detail>
+      <detail>Non-intrusive, doesn't interfere with swatch selection</detail>
+    </criterion>
+    <criterion id="AC5" title="Immediate 3D texture change on selection">
+      <detail>Clicking/tapping a swatch changes marble in 3D view</detail>
+      <detail>Texture change happens within 500ms (NFR3)</detail>
+      <detail>Zustand store marbleSlug updates immediately</detail>
+    </criterion>
+    <criterion id="AC6" title="Smooth texture transition (crossfade)">
+      <detail>Visual crossfade effect when changing marble textures</detail>
+      <detail>Transition duration ~300ms for elegant feel</detail>
+      <detail>No jarring texture pop-in</detail>
+    </criterion>
+    <criterion id="AC7" title="Price and weight recalculation">
+      <detail>Selecting different marble recalculates price based on marble's basePricePerCm3</detail>
+      <detail>Weight recalculates based on marble's density</detail>
+      <detail>Derived values update in real-time (&lt; 200ms, NFR4)</detail>
+    </criterion>
+    <criterion id="AC8" title="Mobile horizontal scroll">
+      <detail>On mobile viewports, swatches are horizontally scrollable</detail>
+      <detail>Scroll snapping for swatch alignment</detail>
+      <detail>Touch-friendly swipe gesture</detail>
+      <detail>Visual scroll indicator (fade gradient or dots)</detail>
+    </criterion>
+    <criterion id="AC9" title="Keyboard navigation and accessibility">
+      <detail>role="radiogroup" on container for screen readers</detail>
+      <detail>Arrow keys navigate between swatches</detail>
+      <detail>Enter/Space selects focused swatch</detail>
+      <detail>Visible focus ring (gold) on each swatch</detail>
+      <detail>aria-label with marble name on each swatch</detail>
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/prd.md" title="Product Requirements Document" section="Functional Requirements">
+        FR11: Users can select marble type from catalog with immediate texture change. FR17: 3D renders photo-realistic marble textures. NFR3: Changes reflect in 3D view within 500ms. NFR4: Price and weight calculations &lt; 200ms.
+      </doc>
+      <doc path="docs/architecture.md" title="Architecture" section="Component Patterns">
+        Component pattern: Hooks first, derived state, event handlers, render. Use individual selectors for optimal re-renders. Store actions via getState() for SSR-safe calls.
+      </doc>
+      <doc path="docs/architecture.md" title="Architecture" section="Project Structure">
+        Components at src/components/configurator/MarbleSelector.tsx. Stores at src/stores/configStore.ts. Constants at src/constants/marbles.ts.
+      </doc>
+      <doc path="docs/ux-design-specification.md" title="UX Design Specification" section="6.1 Component Library">
+        MarbleSelector: Grid of marble swatches with preview. States: Default, Hover (show name), Selected (gold border). Accessibility: role="radiogroup" with labeled options.
+      </doc>
+      <doc path="docs/ux-design-specification.md" title="UX Design Specification" section="8.2 Accessibility">
+        Arrow keys navigate marble selector. Touch targets: 44×44px minimum on mobile. Screen readers: aria-label with marble name.
+      </doc>
+      <doc path="docs/ux-design-specification.md" title="UX Design Specification" section="3.1 Color System">
+        Accent color: Champagne Gold #C9A962 for selected states and CTAs. Focus ring: gold on dark theme.
+      </doc>
+      <doc path="docs/epics.md" title="Epics" section="Story 3.6: Marble Type Selector">
+        Story definition with full acceptance criteria and technical notes. Pre-requisites: Story 3.2 (store), Story 3.3 (3D viewer), Story 2.1 (marble data).
+      </doc>
+      <doc path="docs/sprint-artifacts/3-5-dimension-input-controls.md" title="Story 3.5 (Previous)" section="Dev Notes">
+        SSR Hydration Pattern: Use individual selectors (useMarbleSlug) and getState() for actions. Focus Styling: focus-visible:ring-2 focus-visible:ring-accent. Touch Targets: Minimum 44×44px (size-11 in Tailwind).
+      </doc>
+    </docs>
+    <code>
+      <file path="src/stores/configStore.ts" kind="store" symbol="useConfigStore" lines="164-412" reason="Primary store for marble selection. Contains setMarble action, useMarbleSlug selector, and calculateDerivedValues for weight/price recalculation.">
+        Key exports: useMarbleSlug (selector), useConfigStore.getState().setMarble (action), useCalculatedValues (for price/weight). Uses persist middleware for localStorage.
+      </file>
+      <file path="src/constants/marbles.ts" kind="constants" symbol="MARBLE_DATA" lines="86-127" reason="Contains all 10 marble slugs with density and basePricePerCm3. Used to validate marble selection and display swatches.">
+        Available marbles: carrara-white, nero-marquina, calacatta-gold, emperador-dark, statuario, verde-guatemala, rosa-portogallo, sahara-noir, bianco-sivec, travertino-romano. DEFAULT_MARBLE_SLUG = "carrara-white".
+      </file>
+      <file path="src/components/configurator/ConfigPanel.tsx" kind="component" symbol="ConfigPanel" lines="64-107" reason="Contains placeholder MarbleSelector section that needs to be replaced with actual component. Lines 64-107 are the marble section.">
+        Current placeholder shows 4 swatch placeholders and "comingSoonStory36" message. Replace with actual MarbleSelector component integration.
+      </file>
+      <file path="src/components/configurator/DimensionInput.tsx" kind="component" symbol="DimensionInput" lines="1-309" reason="Reference for patterns: debounced onChange, keyboard navigation (ArrowUp/Down), focus states, touch targets (size-11), accessibility (aria-invalid, aria-describedby).">
+        Patterns to follow: local state for immediate feedback, debouncedOnChange for store updates, handleKeyDown for arrow navigation, cn() for conditional styling.
+      </file>
+      <file path="src/components/3d/CubeViewer.tsx" kind="component" symbol="CubeViewer" lines="77-126" reason="MarbleCube receives marbleSlug prop and passes to MarbleMaterial. Texture changes trigger re-render via useEffect invalidate on marbleSlug change.">
+        CubeViewer already listens to marbleSlug changes and updates 3D view. No changes needed here - MarbleSelector just updates the store.
+      </file>
+      <file path="src/components/configurator/DimensionInputs.tsx" kind="component" symbol="DimensionInputs" reason="Shows pattern for consuming store values with individual selectors and calling setWidth/setHeight/setDepth actions.">
+        Pattern reference for SSR-safe store integration.
+      </file>
+      <file path="public/textures" kind="assets" reason="Contains 10 marble folders each with preview.jpg (400×400px thumbnails). Path pattern: /textures/{slug}/preview.jpg">
+        Available textures: bianco-sivec, calacatta-gold, carrara-white, emperador-dark, nero-marquina, rosa-portogallo, sahara-noir, statuario, travertino-romano, verde-guatemala.
+      </file>
+      <file path="prisma/schema.prisma" kind="schema" symbol="Marble" lines="70-85" reason="Marble model with slug (unique), name (Json multilingual), density, basePricePerCm3. MarbleFinish has priceModifier.">
+        For future DB queries. Current implementation uses MARBLE_DATA constants for client-side.
+      </file>
+      <file path="src/messages/en.json" kind="i18n" symbol="configurator" lines="84-142" reason="Existing translation keys for configurator. Add marbleSelector.* keys for new component.">
+        Existing keys: marbleSelection, selectMarble, marbleSelector. Add: viewDetails, selected, ariaLabel.
+      </file>
+    </code>
+    <dependencies>
+      <node>
+        <package name="react" version="19.2.0" />
+        <package name="next" version="16.0.7" />
+        <package name="zustand" version="5.0.9" />
+        <package name="tailwindcss" version="4" />
+        <package name="lucide-react" version="0.555.0" />
+        <package name="next-intl" version="4.5.8" />
+        <package name="clsx" version="2.1.1" />
+        <package name="tailwind-merge" version="3.4.0" />
+        <package name="@react-three/fiber" version="9.4.2" />
+        <package name="@react-three/drei" version="10.7.7" />
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint category="SSR Hydration">Use individual Zustand selectors (useMarbleSlug) and getState() for actions to avoid SSR hydration mismatches. Never destructure the entire store.</constraint>
+    <constraint category="Performance NFR3">Marble changes must reflect in 3D view within 500ms. Store update triggers immediate re-render via useConfigStore subscription.</constraint>
+    <constraint category="Performance NFR4">Price and weight recalculations must complete in &lt; 200ms. calculateDerivedValues is already optimized.</constraint>
+    <constraint category="Accessibility WCAG 2.1 AA">Use role="radiogroup" on container, role="radio" on swatches. Arrow key navigation. Visible focus ring. aria-label with marble name.</constraint>
+    <constraint category="Touch Targets">Minimum 44×44px (size-11 in Tailwind) for mobile touch accessibility per UX spec 8.1.</constraint>
+    <constraint category="Component Pattern">Follow architecture.md pattern: 1) Hooks first 2) Derived state 3) Event handlers 4) Render.</constraint>
+    <constraint category="Styling">Use cn() from lib/utils for conditional Tailwind classes. Gold accent: #C9A962 (accent color in Tailwind config).</constraint>
+    <constraint category="i18n">All user-facing text via useTranslations("configurator"). Marble names from multilingual JSON when available.</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface name="useMarbleSlug" kind="selector" path="src/stores/configStore.ts">
+      <signature>() => string</signature>
+      <description>Returns current marble slug from config store. Use for reading marble selection.</description>
+    </interface>
+    <interface name="setMarble" kind="action" path="src/stores/configStore.ts">
+      <signature>useConfigStore.getState().setMarble(slug: string) => void</signature>
+      <description>Updates marble selection. Validates slug exists in MARBLE_DATA, triggers weight/price recalculation.</description>
+    </interface>
+    <interface name="useCalculatedValues" kind="selector" path="src/stores/configStore.ts">
+      <signature>() => { calculatedWeight: number; calculatedPrice: number }</signature>
+      <description>Returns derived weight (kg) and price (cents). Recalculates when marble/dimensions/finish change.</description>
+    </interface>
+    <interface name="MARBLE_DATA" kind="constant" path="src/constants/marbles.ts">
+      <signature>Record&lt;string, { density: number; basePricePerCm3: number }&gt;</signature>
+      <description>Lookup map for all marble slugs. Keys are valid slugs for setMarble validation.</description>
+    </interface>
+    <interface name="MarbleSelectorProps" kind="component-props">
+      <signature>{ className?: string; disabled?: boolean }</signature>
+      <description>Props for MarbleSelector component. className for styling override, disabled for readonly state.</description>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      No test framework configured in package.json yet. Current verification: TypeScript compilation (npm run build), ESLint (npm run lint), manual browser testing. For story verification: 1) Build succeeds without errors 2) All marbles render with previews 3) Selection updates 3D view 4) Price/weight recalculate 5) Keyboard navigation works 6) Mobile scroll works.
+    </standards>
+    <locations>
+      <location>tests/ (future)</location>
+      <location>Manual browser testing at /en/configurator</location>
+    </locations>
+    <ideas>
+      <idea ac="AC1">Verify 10 marble swatches render in responsive grid. Check preview.jpg loads for each.</idea>
+      <idea ac="AC2">Hover over swatch, verify marble name appears. Tab to swatch, verify name visible.</idea>
+      <idea ac="AC3">Click swatch, verify gold border appears. Refresh page, verify selection persists (localStorage).</idea>
+      <idea ac="AC5">Select different marble, verify 3D cube texture changes within 500ms.</idea>
+      <idea ac="AC7">Select marble with different basePricePerCm3, verify price display updates.</idea>
+      <idea ac="AC8">Resize to mobile viewport, verify horizontal scroll with snap behavior.</idea>
+      <idea ac="AC9">Tab into selector, use Arrow keys, verify focus moves. Press Enter, verify selection.</idea>
+    </ideas>
+  </tests>
+</story-context>
+

@@ -1,0 +1,333 @@
+<story-context id="2-2-marble-texture-assets" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>2</storyId>
+    <title>Marble Texture Assets</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-05</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/2-2-marble-texture-assets.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>to see realistic marble textures throughout the platform</iWant>
+    <soThat>I can appreciate each marble's unique characteristics</soThat>
+    <tasks>
+      <task id="1" ac="3">Create texture folder structure
+        <subtask id="1.1">Create /public/textures/ directory if not exists</subtask>
+        <subtask id="1.2">Create subdirectory for each of the 10 marbles using slugs from seed data</subtask>
+        <subtask id="1.3">Add .gitkeep or placeholder to track folder structure in git</subtask>
+      </task>
+      <task id="2" ac="1,2">Source and prepare Carrara White textures
+        <subtask id="2.1">Obtain/create diffuse texture (white with subtle gray veining)</subtask>
+        <subtask id="2.2">Generate normal map from diffuse</subtask>
+        <subtask id="2.3">Create roughness map (mid-gray for honed feel)</subtask>
+        <subtask id="2.4">Create preview.jpg (400×400) and hero.jpg (1200×800)</subtask>
+        <subtask id="2.5">Verify seamless tiling</subtask>
+      </task>
+      <task id="3" ac="1,2">Source and prepare Nero Marquina textures</task>
+      <task id="4" ac="1,2">Source and prepare Calacatta Gold textures</task>
+      <task id="5" ac="1,2">Source and prepare Emperador Dark textures</task>
+      <task id="6" ac="1,2">Source and prepare Statuario textures</task>
+      <task id="7" ac="1,2">Source and prepare Verde Guatemala textures</task>
+      <task id="8" ac="1,2">Source and prepare Rosa Portogallo textures</task>
+      <task id="9" ac="1,2">Source and prepare Sahara Noir textures</task>
+      <task id="10" ac="1,2">Source and prepare Bianco Sivec textures</task>
+      <task id="11" ac="1,2">Source and prepare Travertino Romano textures</task>
+      <task id="12" ac="6">Create texture utility functions
+        <subtask id="12.1">Create src/lib/textures.ts with helper functions</subtask>
+        <subtask id="12.2">Define getTextureUrl(slug, type) function</subtask>
+        <subtask id="12.3">Define TEXTURE_TYPES constant</subtask>
+        <subtask id="12.4">Add fallback placeholder image handling</subtask>
+        <subtask id="12.5">Export typed texture path utilities</subtask>
+      </task>
+      <task id="13" ac="4">Create texture validation test page
+        <subtask id="13.1">Create /app/[locale]/dev/textures/page.tsx (dev-only route)</subtask>
+        <subtask id="13.2">Display all marble textures in a grid</subtask>
+        <subtask id="13.3">Use next/image for each texture</subtask>
+        <subtask id="13.4">Show load status for each image</subtask>
+        <subtask id="13.5">Console log any 404 or load errors</subtask>
+      </task>
+      <task id="14" ac="5">Verify texture budget
+        <subtask id="14.1">Check total size of /public/textures/ directory</subtask>
+        <subtask id="14.2">Optimize any textures exceeding individual size limits</subtask>
+        <subtask id="14.3">Document final size breakdown per marble</subtask>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC1">Each marble has a complete texture set in /public/textures/{slug}/
+      - diffuse.jpg - base color/pattern at 2K resolution (2048×2048px) minimum
+      - normal.jpg - surface detail for 3D lighting (2K resolution)
+      - roughness.jpg - finish variation map (2K resolution)
+      - All textures are seamlessly tileable for 3D mapping</criterion>
+    <criterion id="AC2">Each marble has optimized preview images
+      - preview.jpg - 400×400px square thumbnail for gallery cards
+      - hero.jpg - 1200×800px landscape for marble detail pages
+      - Images are properly compressed (JPEG quality 80-85)</criterion>
+    <criterion id="AC3">Texture folder structure matches seeded marble slugs:
+      - /public/textures/carrara-white/
+      - /public/textures/nero-marquina/
+      - /public/textures/calacatta-gold/
+      - /public/textures/emperador-dark/
+      - /public/textures/statuario/
+      - /public/textures/verde-guatemala/
+      - /public/textures/rosa-portogallo/
+      - /public/textures/sahara-noir/
+      - /public/textures/bianco-sivec/
+      - /public/textures/travertino-romano/</criterion>
+    <criterion id="AC4">Images load correctly via next/image with optimization
+      - Test page verifies all textures load without 404 errors
+      - Images render at appropriate sizes for their use case
+      - WebP conversion happens automatically via Next.js</criterion>
+    <criterion id="AC5">Total texture budget respects ~60MB limit
+      - All 10 marbles × 5 images per marble = 50 files total
+      - Estimated size: ~6MB per marble (3×2K textures + 2 preview images)
+      - Verify total /public/textures/ directory size</criterion>
+    <criterion id="AC6">Texture utility functions created for programmatic access
+      - Helper function to get texture paths by marble slug
+      - Type-safe texture path constants
+      - Fallback handling for missing textures</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Marmorani Architecture</title>
+        <section>ADR-006: Static textures over CDN storage</section>
+        <snippet>Store in /public/textures/ for MVP. Simplest solution, Vercel CDN serves automatically, ~60MB budget.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Marmorani Architecture</title>
+        <section>Project Structure</section>
+        <snippet>public/textures/{marble-slug}/ contains diffuse.jpg, normal.jpg, roughness.jpg for ~10 marble types.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic 2 Technical Specification</title>
+        <section>Story 2.2: Marble Texture Assets</section>
+        <snippet>AC-2.2.1: diffuse.jpg (2K minimum), AC-2.2.2: normal.jpg, AC-2.2.3: roughness.jpg, AC-2.2.4: preview.jpg (400×400px), AC-2.2.5: Images load correctly via next/image.</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>UX Design Specification</title>
+        <section>Visual Foundation / Color System</section>
+        <snippet>Photo-realistic marble textures with accurate veining. Gallery thumbnails: 400×400px WebP. Detail heroes: 1200×800px WebP. 3D textures: 2K JPG.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epic Breakdown</title>
+        <section>Story 2.2: Marble Texture Assets</section>
+        <snippet>High-quality texture images from /public/textures/{slug}/: diffuse.jpg, normal.jpg, roughness.jpg, preview.jpg, hero.jpg. Total texture budget: ~60MB for 10 marbles.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/2-1-marble-data-seeding-constants.md</path>
+        <title>Story 2.1: Marble Data Seeding &amp; Constants</title>
+        <section>Dev Agent Record</section>
+        <snippet>10 Marbles Seeded with textureFolder field matching slug. Constants: MANUFACTURING_CONSTRAINTS, FINISH_TYPES. Types: MarbleLocalized, MarbleSeedData.</snippet>
+      </doc>
+    </docs>
+
+    <code>
+      <file>
+        <path>src/constants/marbles.ts</path>
+        <kind>constants</kind>
+        <symbol>MANUFACTURING_CONSTRAINTS, FINISH_TYPES, FINISH_PRICE_MODIFIERS, USE_CASES</symbol>
+        <lines>1-65</lines>
+        <reason>Manufacturing constraints and finish types to reference for roughness maps. FINISH_TYPES used for mapping polish level to roughness values.</reason>
+      </file>
+      <file>
+        <path>src/types/marble.ts</path>
+        <kind>types</kind>
+        <symbol>LocalizedString, FinishOption, MarbleLocalized, MarbleSeedData, MarbleRaw</symbol>
+        <lines>1-75</lines>
+        <reason>Type definitions for marble data. textureFolder field maps to texture directory slugs.</reason>
+      </file>
+      <file>
+        <path>prisma/seed.ts</path>
+        <kind>seed-script</kind>
+        <symbol>MARBLES</symbol>
+        <lines>34-310</lines>
+        <reason>Complete marble seed data with textureFolder values defining the 10 directory slugs to create.</reason>
+      </file>
+      <file>
+        <path>prisma/schema.prisma</path>
+        <kind>schema</kind>
+        <symbol>Marble, FinishType</symbol>
+        <lines>70-86</lines>
+        <reason>Marble model with textureFolder field that maps to /public/textures/{textureFolder}/.</reason>
+      </file>
+      <file>
+        <path>src/lib/utils.ts</path>
+        <kind>utility</kind>
+        <symbol>cn</symbol>
+        <lines>all</lines>
+        <reason>Utility functions pattern to follow for new src/lib/textures.ts file.</reason>
+      </file>
+    </code>
+
+    <dependencies>
+      <node>
+        <package>next</package>
+        <version>16.0.7</version>
+        <purpose>App Router, next/image optimization, automatic WebP conversion</purpose>
+      </node>
+      <node>
+        <package>three</package>
+        <version>0.181.2</version>
+        <purpose>3D rendering will use texture maps for PBR materials</purpose>
+      </node>
+      <node>
+        <package>@react-three/fiber</package>
+        <version>9.4.2</version>
+        <purpose>React Three Fiber for declarative 3D, useTexture hook</purpose>
+      </node>
+      <node>
+        <package>@react-three/drei</package>
+        <version>10.7.7</version>
+        <purpose>Drei useTexture for loading diffuse/normal/roughness maps</purpose>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint source="architecture" type="storage">Textures stored in /public/textures/ per ADR-006 for Vercel CDN serving</constraint>
+    <constraint source="architecture" type="budget">~60MB total texture budget for MVP (migrate to CDN if catalog grows)</constraint>
+    <constraint source="tech-spec" type="resolution">3D textures: 2K (2048×2048) minimum for diffuse, normal, roughness</constraint>
+    <constraint source="tech-spec" type="format">JPEG format for textures. next/image auto-converts to WebP for browsers.</constraint>
+    <constraint source="ux-spec" type="gallery">Gallery thumbnails: 400×400px, optimized &lt;50KB each for quick loading</constraint>
+    <constraint source="ux-spec" type="hero">Detail page heroes: 1200×800px landscape</constraint>
+    <constraint source="dev-notes" type="tiling">All 3D textures must be seamlessly tileable for proper 3D mapping</constraint>
+    <constraint source="dev-notes" type="pbr">PBR texture set: diffuse (color), normal (surface detail), roughness (finish variation)</constraint>
+    <constraint source="conventions" type="naming">Use camelCase for functions, SCREAMING_SNAKE for constants, follow existing patterns</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>next/image</name>
+      <kind>React Component</kind>
+      <signature>&lt;Image src="/textures/{slug}/preview.jpg" width={400} height={400} alt={marbleName} /&gt;</signature>
+      <path>next/image (built-in)</path>
+    </interface>
+    <interface>
+      <name>useTexture</name>
+      <kind>React Hook (Drei)</kind>
+      <signature>const [diffuse, normal, roughness] = useTexture(['/textures/{slug}/diffuse.jpg', '/textures/{slug}/normal.jpg', '/textures/{slug}/roughness.jpg'])</signature>
+      <path>@react-three/drei</path>
+    </interface>
+    <interface>
+      <name>getTextureUrl (to create)</name>
+      <kind>Utility Function</kind>
+      <signature>getTextureUrl(slug: string, type: TextureType): string</signature>
+      <path>src/lib/textures.ts (new file)</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>Testing follows Vitest for unit tests (not yet set up in this project). Focus on:
+      - File existence validation for all texture paths
+      - Image optimization and size verification
+      - next/image integration testing via dev test page
+      - Type-safe utility function coverage</standards>
+    <locations>
+      - tests/unit/ (if created)
+      - src/app/[locale]/dev/textures/page.tsx (visual validation page)
+      - Manual verification of /public/textures/ directory structure</locations>
+    <ideas>
+      <idea ac="AC1,AC3">Verify all 10 marble folders exist with correct slug names</idea>
+      <idea ac="AC1">Check each folder contains diffuse.jpg, normal.jpg, roughness.jpg at 2K+ resolution</idea>
+      <idea ac="AC2">Verify preview.jpg is 400×400 and hero.jpg is 1200×800</idea>
+      <idea ac="AC4">Load test page renders all images without console errors</idea>
+      <idea ac="AC5">Total /public/textures/ size is under 60MB</idea>
+      <idea ac="AC6">getTextureUrl returns correct paths for valid slugs</idea>
+      <idea ac="AC6">getTextureUrl handles missing textures with fallback</idea>
+    </ideas>
+  </tests>
+
+  <marbleReference>
+    <marble slug="carrara-white" color="White/cream with subtle gray veining" origin="Italy" />
+    <marble slug="nero-marquina" color="Deep black with bold white veining" origin="Spain" />
+    <marble slug="calacatta-gold" color="White with golden/brown veining" origin="Italy" />
+    <marble slug="emperador-dark" color="Dark brown with lighter brown veining" origin="Spain" />
+    <marble slug="statuario" color="White with dramatic gray veining" origin="Italy" />
+    <marble slug="verde-guatemala" color="Deep green with white/lighter green veining" origin="Guatemala" />
+    <marble slug="rosa-portogallo" color="Pink/salmon with subtle darker veining" origin="Portugal" />
+    <marble slug="sahara-noir" color="Black with beige/gold fossil patterns" origin="Tunisia" />
+    <marble slug="bianco-sivec" color="Pure white, minimal veining" origin="North Macedonia" />
+    <marble slug="travertino-romano" color="Beige/cream with natural holes and patterns" origin="Italy" />
+  </marbleReference>
+
+  <textureSpecifications>
+    <spec type="diffuse">
+      <resolution>2048×2048px minimum</resolution>
+      <format>JPEG 85%</format>
+      <purpose>Base color and pattern</purpose>
+      <notes>Should capture authentic marble veining patterns. Color accuracy critical. Must tile seamlessly.</notes>
+    </spec>
+    <spec type="normal">
+      <resolution>2048×2048px</resolution>
+      <format>JPEG 90%</format>
+      <purpose>Surface depth for lighting</purpose>
+      <notes>Generated from diffuse using height map conversion. RGB channels encode surface direction vectors.</notes>
+    </spec>
+    <spec type="roughness">
+      <resolution>2048×2048px</resolution>
+      <format>JPEG 85%</format>
+      <purpose>Finish variation (black=smooth, white=rough)</purpose>
+      <notes>Default to mid-gray for natural marble look. Modified by finish type in 3D configurator.</notes>
+    </spec>
+    <spec type="preview">
+      <resolution>400×400px</resolution>
+      <format>JPEG 80%</format>
+      <purpose>Gallery card thumbnails</purpose>
+      <notes>Center-cropped from most visually appealing area. Target &lt;50KB each.</notes>
+    </spec>
+    <spec type="hero">
+      <resolution>1200×800px</resolution>
+      <format>JPEG 85%</format>
+      <purpose>Detail page hero image</purpose>
+      <notes>Landscape orientation for marble detail pages.</notes>
+    </spec>
+  </textureSpecifications>
+
+  <learningsFromPreviousStory>
+    <learning source="2-1-marble-data-seeding-constants">
+      10 Marbles seeded in database with textureFolder field matching slug pattern.
+      Slugs: carrara-white, nero-marquina, calacatta-gold, emperador-dark, statuario, verde-guatemala, rosa-portogallo, sahara-noir, bianco-sivec, travertino-romano.
+    </learning>
+    <learning source="2-1-marble-data-seeding-constants">
+      Constants available: MANUFACTURING_CONSTRAINTS, FINISH_TYPES, FINISH_PRICE_MODIFIERS in src/constants/marbles.ts.
+      Use FINISH_TYPES for roughness mapping.
+    </learning>
+    <learning source="2-1-marble-data-seeding-constants">
+      Types available: MarbleLocalized, MarbleSeedData in src/types/marble.ts. Extend or reuse as needed.
+    </learning>
+    <learning source="2-1-marble-data-seeding-constants">
+      Use typed constants with 'as const' for type safety. Follow camelCase functions, SCREAMING_SNAKE constants.
+    </learning>
+  </learningsFromPreviousStory>
+
+  <textureSourcingOptions>
+    <option name="Licensed Stock Textures" recommended="true">
+      <sources>Poliigon, Textures.com, CC0 Textures</sources>
+      <pros>High quality, ready to use, commercially licensed</pros>
+      <cons>Cost, may need adjustments</cons>
+    </option>
+    <option name="AI-Generated Textures">
+      <sources>Midjourney, Stable Diffusion with seamless tiling</sources>
+      <pros>Custom, no licensing issues</pros>
+      <cons>May lack realism, tiling quality varies</cons>
+    </option>
+    <option name="Procedural Generation">
+      <sources>Substance Designer, Material Maker</sources>
+      <pros>Perfect tiling, adjustable</pros>
+      <cons>Requires specialized software</cons>
+    </option>
+    <recommendation>Use a combination of licensed CC0 textures where available, with AI assistance for creating missing variations.</recommendation>
+  </textureSourcingOptions>
+</story-context>
+

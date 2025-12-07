@@ -1,0 +1,221 @@
+<story-context id="3-1-configurator-page-shell-theme" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>1</storyId>
+    <title>Configurator Page Shell &amp; Theme</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-06</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/3-1-configurator-page-shell-theme.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>to enter an immersive dark-themed configurator environment with a responsive layout</iWant>
+    <soThat>the marble cube stands out beautifully and I feel like I'm in a private atelier where I can design my custom creation</soThat>
+    <tasks>
+      <task id="1" ac="1,4,5">Extend existing configurator page structure</task>
+      <task id="2" ac="2">Implement desktop layout (70/30 split)</task>
+      <task id="3" ac="3">Implement mobile layout with bottom sheet</task>
+      <task id="4" ac="4">Create minimal configurator header</task>
+      <task id="5" ac="6">Create 3D canvas placeholder</task>
+      <task id="6" ac="7">Create configuration panel structure</task>
+      <task id="7" ac="8">Add accessibility features</task>
+      <task id="8" ac="5,7">Update translations</task>
+      <task id="9" ac="1-8">Integration testing</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC1">Configurator page displays full Nero Marquina dark theme (bg: #0D0D0D, surface: #1A1A1A, text: #FFFFFF/#B3B3B3, accent: #C9A962)</criterion>
+    <criterion id="AC2">Desktop layout follows 70/30 split (3D viewport 70%, config panel 30%, min-height 600px viewport)</criterion>
+    <criterion id="AC3">Mobile layout uses top/bottom structure (60% viewport, 40% bottom sheet, swipeable/draggable)</criterion>
+    <criterion id="AC4">Minimal header with logo and back navigation (returns to previous page, logo links to homepage)</criterion>
+    <criterion id="AC5">Page title updates dynamically (reflects current marble selection, meta description for SEO)</criterion>
+    <criterion id="AC6">3D canvas area prepared for React Three Fiber integration (placeholder with shimmer loading, ready for Story 3.3)</criterion>
+    <criterion id="AC7">Configuration panel structure with placeholder sections (MarbleSelector, DimensionInputs, FinishPicker, PriceDisplay)</criterion>
+    <criterion id="AC8">Accessibility requirements met (aria-labels, focus management, keyboard navigation, WCAG 2.1 AA contrast)</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>3D Configurator (FR8-18)</section>
+        <snippet>Users can access 3D configurator from homepage or gallery. All configurator changes update 3D view in real-time (&lt;500ms). NFR1-6 define performance targets: 3D load &lt;3s, 60fps, changes &lt;500ms.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Architecture Document</title>
+        <section>Project Structure, Implementation Patterns</section>
+        <snippet>All configurator components in src/components/configurator/. PascalCase components. Use existing UI primitives from shadcn/ui. Server Components for data, Client for interactivity.</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>UX Design Specification</title>
+        <section>3.1 Color System - Nero Marquina, 8.1 Responsive Strategy</section>
+        <snippet>Nero Marquina theme: bg #0D0D0D, surface #1A1A1A, accent #C9A962, text #FFFFFF. Desktop: 70% cube, 30% config panel. Mobile: 60% viewport, bottom sheet 40% swipeable.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epic Breakdown</title>
+        <section>Epic 3: 3D Configurator Core, Story 3.1</section>
+        <snippet>Story 3.1 establishes configurator shell with dark theme, responsive layout, and placeholder structure for subsequent stories (3.3-3.8).</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/2-6-gallery-to-configurator-navigation.md</path>
+        <title>Story 2-6 Completed</title>
+        <section>Dev Agent Record</section>
+        <snippet>Created ConfiguratorClient.tsx with dark theme class, configStore.ts with persist middleware, theme-transition-cinematic animation. Placeholder UI marked for Epic 3 replacement.</snippet>
+      </doc>
+    </docs>
+
+    <code>
+      <artifact>
+        <path>src/app/[locale]/configurator/page.tsx</path>
+        <kind>page</kind>
+        <symbol>ConfiguratorPage, generateMetadata</symbol>
+        <lines>1-69</lines>
+        <reason>Existing server component to extend with dynamic title based on marble name</reason>
+      </artifact>
+      <artifact>
+        <path>src/components/configurator/ConfiguratorClient.tsx</path>
+        <kind>component</kind>
+        <symbol>ConfiguratorClient</symbol>
+        <lines>1-197</lines>
+        <reason>Core client component to refactor - compose new layout components (ConfiguratorLayout, ConfigPanel, ThreeDViewport)</reason>
+      </artifact>
+      <artifact>
+        <path>src/stores/configStore.ts</path>
+        <kind>store</kind>
+        <symbol>useConfigStore, ConfigState, ConfigActions</symbol>
+        <lines>1-143</lines>
+        <reason>Existing Zustand store with marble, dimensions, finish state - no changes needed</reason>
+      </artifact>
+      <artifact>
+        <path>src/lib/queries/configurator.ts</path>
+        <kind>utility</kind>
+        <symbol>validateMarbleSlug, getFirstAvailableMarbleSlug</symbol>
+        <lines>1-71</lines>
+        <reason>Used for marble name in page title generation</reason>
+      </artifact>
+      <artifact>
+        <path>src/app/globals.css</path>
+        <kind>styles</kind>
+        <symbol>.dark, .theme-transition-cinematic, .animate-configurator-enter, .animate-shimmer</symbol>
+        <lines>174-354</lines>
+        <reason>Existing dark theme tokens and animations to use. Add new shimmer for 3D placeholder loading.</reason>
+      </artifact>
+      <artifact>
+        <path>src/messages/fr.json</path>
+        <kind>translations</kind>
+        <symbol>configurator namespace</symbol>
+        <lines>84-105</lines>
+        <reason>Extend with panel section labels: marbleSelection, dimensions, finish, priceWeight, loading states</reason>
+      </artifact>
+      <artifact>
+        <path>src/components/ui/sheet.tsx</path>
+        <kind>component</kind>
+        <symbol>Sheet (shadcn)</symbol>
+        <reason>Consider for mobile bottom sheet implementation. Alternative: custom with Framer Motion.</reason>
+      </artifact>
+    </code>
+
+    <dependencies>
+      <ecosystem name="node">
+        <package name="next" version="16.0.7" />
+        <package name="react" version="19.2.0" />
+        <package name="@react-three/fiber" version="9.4.2" />
+        <package name="@react-three/drei" version="10.7.7" />
+        <package name="three" version="0.181.2" />
+        <package name="zustand" version="5.0.9" />
+        <package name="next-intl" version="4.5.8" />
+        <package name="tailwindcss" version="4" />
+        <package name="lucide-react" version="0.555.0" />
+        <package name="class-variance-authority" version="0.7.1" />
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <interfaces>
+    <interface>
+      <name>ConfiguratorClientProps</name>
+      <kind>TypeScript interface</kind>
+      <signature>interface ConfiguratorClientProps { initialMarble: string; marbleName?: string; }</signature>
+      <path>src/components/configurator/ConfiguratorClient.tsx</path>
+    </interface>
+    <interface>
+      <name>ConfigState</name>
+      <kind>TypeScript interface</kind>
+      <signature>interface ConfigState { marbleSlug: string; width: number; height: number; depth: number; finish: FinishType; _hasHydrated: boolean; }</signature>
+      <path>src/stores/configStore.ts</path>
+    </interface>
+    <interface>
+      <name>ConfigActions</name>
+      <kind>TypeScript interface</kind>
+      <signature>interface ConfigActions { setMarble, setDimensions, setWidth, setHeight, setDepth, setFinish, initializeFromUrl, reset, setHasHydrated }</signature>
+      <path>src/stores/configStore.ts</path>
+    </interface>
+    <interface>
+      <name>FinishType</name>
+      <kind>Prisma enum</kind>
+      <signature>enum FinishType { POLISHED, HONED, RAW, BRUSHED }</signature>
+      <path>src/generated/prisma/enums.ts</path>
+    </interface>
+  </interfaces>
+
+  <constraints>
+    <constraint type="architecture">Extend ConfiguratorClient, do not replace. Compose new components within existing structure.</constraint>
+    <constraint type="architecture">All new configurator components go in src/components/configurator/</constraint>
+    <constraint type="pattern">Follow existing naming conventions: PascalCase components, camelCase utilities</constraint>
+    <constraint type="styling">Use existing Tailwind tokens and CSS variables from globals.css</constraint>
+    <constraint type="styling">Responsive: use Tailwind breakpoints (md: for desktop ≥768px)</constraint>
+    <constraint type="theming">Dark theme already applied via .dark class - leverage existing tokens</constraint>
+    <constraint type="accessibility">WCAG 2.1 AA compliance required per NFR13-17</constraint>
+    <constraint type="performance">No loading spinners - use shimmer skeleton states per UX spec</constraint>
+    <constraint type="i18n">All text must use next-intl translations, extend "configurator" namespace</constraint>
+    <constraint type="testing">No E2E tests from 2-6 - consider adding Playwright tests for this story</constraint>
+  </constraints>
+
+  <tests>
+    <standards>Use Vitest for unit/component tests, Playwright for E2E. Test files co-located or in tests/ directory. Follow existing patterns from codebase.</standards>
+    <locations>
+      <location>tests/unit/</location>
+      <location>tests/components/</location>
+      <location>tests/e2e/</location>
+    </locations>
+    <ideas>
+      <idea ac="AC1">Test dark theme CSS variables are applied correctly on configurator route</idea>
+      <idea ac="AC2">Test desktop layout renders 70/30 grid at viewport ≥768px</idea>
+      <idea ac="AC3">Test mobile layout renders stacked with bottom sheet at viewport &lt;768px</idea>
+      <idea ac="AC3">Test bottom sheet expand/collapse on swipe gesture</idea>
+      <idea ac="AC4">Test back button navigates to previous page (gallery or marble detail)</idea>
+      <idea ac="AC5">Test page title updates with marble name dynamically</idea>
+      <idea ac="AC6">Test 3D placeholder renders with shimmer animation</idea>
+      <idea ac="AC7">Test all placeholder sections render (MarbleSelector, DimensionInputs, FinishPicker, PriceDisplay)</idea>
+      <idea ac="AC8">Test keyboard navigation through panel controls (Tab, Enter, Arrow keys)</idea>
+      <idea ac="AC8">Run Lighthouse accessibility audit, verify score ≥90</idea>
+      <idea ac="AC1-8">E2E: Navigate from gallery to configurator, verify theme transition and layout</idea>
+    </ideas>
+  </tests>
+
+  <filesToCreate>
+    <file>src/components/configurator/ConfiguratorHeader.tsx</file>
+    <file>src/components/configurator/ConfiguratorLayout.tsx</file>
+    <file>src/components/configurator/ThreeDViewport.tsx</file>
+    <file>src/components/configurator/ConfigPanel.tsx</file>
+    <file>src/components/configurator/MobileBottomSheet.tsx</file>
+  </filesToCreate>
+
+  <filesToModify>
+    <file>src/app/[locale]/configurator/page.tsx</file>
+    <file>src/components/configurator/ConfiguratorClient.tsx</file>
+    <file>src/messages/en.json</file>
+    <file>src/messages/fr.json</file>
+    <file>src/messages/de.json</file>
+    <file>src/messages/es.json</file>
+    <file>src/messages/it.json</file>
+  </filesToModify>
+</story-context>
+

@@ -1,0 +1,300 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>6</storyId>
+    <title>Gallery to Configurator Navigation</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-06</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/2-6-gallery-to-configurator-navigation.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>to start configuring a cube with a marble I discovered in the gallery or detail page</iWant>
+    <soThat>my chosen marble is already selected when I reach the configurator, saving time and creating a seamless browsing experience</soThat>
+    <tasks>
+      <task id="1" ac="1,2,4">Create configurator page shell
+        <subtask id="1.1">Create src/app/[locale]/configurator/page.tsx placeholder</subtask>
+        <subtask id="1.2">Implement dark theme (Nero Marquina) for configurator page</subtask>
+        <subtask id="1.3">Parse marble URL query parameter</subtask>
+        <subtask id="1.4">Implement marble slug validation (check against DB or constants)</subtask>
+        <subtask id="1.5">Apply fallback to first available marble if invalid/missing</subtask>
+      </task>
+      <task id="2" ac="3,4">Create configuration Zustand store initialization
+        <subtask id="2.1">Create src/stores/configStore.ts (if not exists)</subtask>
+        <subtask id="2.2">Define store interface with marbleSlug, width, height, depth, finish</subtask>
+        <subtask id="2.3">Add initializeFromUrl(marbleSlug: string | null) action</subtask>
+        <subtask id="2.4">Implement marble validation in store initialization</subtask>
+        <subtask id="2.5">Add persist middleware for localStorage (optional for this story)</subtask>
+      </task>
+      <task id="3" ac="2">Implement theme transition animation
+        <subtask id="3.1">Create CSS transition for background color change</subtask>
+        <subtask id="3.2">Implement theme context or CSS variable switching</subtask>
+        <subtask id="3.3">Add 0.5s ease transition on page mount</subtask>
+        <subtask id="3.4">Test transition from gallery (light) → configurator (dark)</subtask>
+      </task>
+      <task id="4" ac="1,6">Update MarbleCTA component for navigation
+        <subtask id="4.1">Verify MarbleCTA uses proper Next.js Link component</subtask>
+        <subtask id="4.2">Ensure locale is preserved in navigation URL</subtask>
+        <subtask id="4.3">Test browser back button behavior</subtask>
+        <subtask id="4.4">Add analytics tracking for CTA clicks (optional)</subtask>
+      </task>
+      <task id="5" ac="5">Add quick-configure to gallery cards
+        <subtask id="5.1">Update src/components/gallery/MarbleCard.tsx (if applicable)</subtask>
+        <subtask id="5.2">Add hover overlay with "Configure" quick action</subtask>
+        <subtask id="5.3">Link to /configurator?marble={slug} with marble's slug</subtask>
+        <subtask id="5.4">Style quick-action as subtle icon or text link</subtask>
+      </task>
+      <task id="6" ac="3,4">Create marble data fetching for configurator
+        <subtask id="6.1">Create getFirstAvailableMarbleSlug() utility function</subtask>
+        <subtask id="6.2">Use existing getAllMarbleSlugs() from src/lib/queries/marbles.ts</subtask>
+        <subtask id="6.3">Implement server-side marble validation in page.tsx</subtask>
+      </task>
+      <task id="7" ac="1">Add configurator translations
+        <subtask id="7.1">Add "configurator" namespace to all 5 locale files</subtask>
+        <subtask id="7.2">Include: page title, loading states, marble selector labels</subtask>
+        <subtask id="7.3">Reuse existing "marble" and "gallery" translations where appropriate</subtask>
+      </task>
+      <task id="8" ac="1-6">Integration testing
+        <subtask id="8.1">Test navigation from marble detail page CTA</subtask>
+        <subtask id="8.2">Test navigation with valid marble slug</subtask>
+        <subtask id="8.3">Test navigation with invalid marble slug (fallback)</subtask>
+        <subtask id="8.4">Test navigation without marble slug (fallback)</subtask>
+        <subtask id="8.5">Test theme transition animation</subtask>
+        <subtask id="8.6">Test browser back button behavior</subtask>
+        <subtask id="8.7">Test locale preservation</subtask>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="AC1">Clicking "Create My Cube" (Créer Mon Cube) on marble detail page navigates to configurator
+      <detail>Navigation target: /[locale]/configurator?marble={slug}</detail>
+      <detail>Marble slug is passed as URL query parameter</detail>
+      <detail>Navigation preserves current locale</detail>
+    </criterion>
+    <criterion id="AC2">Theme transition from light (Carrara Pure) to dark (Nero Marquina) is smooth
+      <detail>Transition duration: 0.5s ease</detail>
+      <detail>Cinematic fade effect between themes</detail>
+      <detail>No jarring color flashes or layout shifts</detail>
+    </criterion>
+    <criterion id="AC3">Invalid or missing marble slug is handled gracefully
+      <detail>If marble param is missing → default to first available marble</detail>
+      <detail>If marble param is invalid (doesn't exist in DB) → default to first available marble</detail>
+      <detail>No error displayed to user, seamless fallback</detail>
+    </criterion>
+    <criterion id="AC4">Configurator marble selector shows pre-selected marble as active
+      <detail>URL parameter ?marble={slug} initializes Zustand store state</detail>
+      <detail>Marble selector UI highlights the pre-selected marble</detail>
+      <detail>User can immediately adjust dimensions and finish without re-selecting marble</detail>
+    </criterion>
+    <criterion id="AC5">Quick-configure action from gallery cards (if available)
+      <detail>Gallery cards can have a quick-configure CTA overlay</detail>
+      <detail>Clicking triggers same navigation flow as detail page CTA</detail>
+      <detail>Same URL parameter pattern: /configurator?marble={slug}</detail>
+    </criterion>
+    <criterion id="AC6">Browser back button returns to previous gallery/detail page
+      <detail>Navigation uses standard Next.js Link/router</detail>
+      <detail>Browser history is preserved correctly</detail>
+      <detail>User can return to their discovery journey</detail>
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/prd.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR34 - Content &amp; Discovery</section>
+        <snippet>FR34: Users can navigate directly from gallery item to configurator with that marble pre-selected. This enables the "Inspiration First" user journey.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Architecture Document</title>
+        <section>Project Structure - Configurator</section>
+        <snippet>Configurator route at /[locale]/configurator/page.tsx. Uses React Three Fiber for 3D rendering. Zustand for state management at src/stores/configStore.ts.</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>UX Design Specification</title>
+        <section>3.1 Color System - Nero Marquina (Configurator)</section>
+        <snippet>Configurator uses dark theme: Background #0D0D0D, Surface #1A1A1A, Accent #C9A962. Cinematic fade transition from Carrara Pure (white) to Nero Marquina (dark) when entering configurator.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic 2 Technical Specification</title>
+        <section>Story 2.6: Gallery to Configurator Navigation</section>
+        <snippet>AC-2.6.1: Clicking "Create My Cube" navigates to /configurator?marble={slug}. AC-2.6.2: Theme transition is smooth (0.5s). AC-2.6.3: Invalid/missing marble slug defaults to first available. AC-2.6.4: Configurator shows pre-selected marble as active.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epic Breakdown</title>
+        <section>Story 2.6</section>
+        <snippet>Pre-selection flow: User on gallery/detail → Click "Configure with this marble" → Navigate to /configurator?marble={slug} → Configurator reads URL param, initializes store → 3D view loads with selected texture.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/components/marble/MarbleCTA.tsx</path>
+        <kind>component</kind>
+        <symbol>MarbleCTA</symbol>
+        <lines>1-75</lines>
+        <reason>Already implements CTA button that navigates to /[locale]/configurator?marble={slug}. This story validates the destination exists and functions correctly.</reason>
+      </artifact>
+      <artifact>
+        <path>src/lib/queries/marbles.ts</path>
+        <kind>query</kind>
+        <symbol>getAllMarbleSlugs</symbol>
+        <lines>100-108</lines>
+        <reason>Provides getAllMarbleSlugs() for validating marble slugs. Use for checking if URL param marble exists in database.</reason>
+      </artifact>
+      <artifact>
+        <path>src/lib/queries/marbles.ts</path>
+        <kind>query</kind>
+        <symbol>getMarbleBySlug</symbol>
+        <lines>45-87</lines>
+        <reason>Fetches single marble by slug with localized content. Can be used to validate marble exists before initializing configurator.</reason>
+      </artifact>
+      <artifact>
+        <path>src/lib/utils/price.ts</path>
+        <kind>utility</kind>
+        <symbol>calculatePriceRange, formatPrice</symbol>
+        <lines>1-111</lines>
+        <reason>Price calculation utilities available for Epic 3 configurator integration. formatPrice handles locale-aware currency formatting.</reason>
+      </artifact>
+      <artifact>
+        <path>src/constants/marbles.ts</path>
+        <kind>constants</kind>
+        <symbol>MANUFACTURING_CONSTRAINTS, FINISH_TYPES</symbol>
+        <lines>1-66</lines>
+        <reason>Defines dimension constraints (MIN: 5cm, MAX: 100cm) and finish types. Needed for Zustand store initialization defaults.</reason>
+      </artifact>
+      <artifact>
+        <path>src/app/[locale]/marble/[slug]/page.tsx</path>
+        <kind>page</kind>
+        <symbol>MarbleDetailPage</symbol>
+        <lines>1-178</lines>
+        <reason>Marble detail page that uses MarbleCTA component. Pattern to follow for configurator Server Component with generateStaticParams.</reason>
+      </artifact>
+      <artifact>
+        <path>src/components/gallery/MarbleCard.tsx</path>
+        <kind>component</kind>
+        <symbol>MarbleCard</symbol>
+        <reason>Gallery card component that may need quick-configure overlay (AC5). Check if gallery cards can link directly to configurator.</reason>
+      </artifact>
+      <artifact>
+        <path>src/messages/en.json</path>
+        <kind>translations</kind>
+        <lines>1-103</lines>
+        <reason>English translation file. Add "configurator" namespace for new page translations.</reason>
+      </artifact>
+      <artifact>
+        <path>src/messages/fr.json</path>
+        <kind>translations</kind>
+        <reason>French translation file. Add "configurator" namespace translations.</reason>
+      </artifact>
+      <artifact>
+        <path>src/app/globals.css</path>
+        <kind>stylesheet</kind>
+        <reason>Global styles with CSS custom properties for theme. Add theme transition and Nero Marquina variables here.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package>next</package>
+        <version>16.0.7</version>
+        <usage>App Router, Server Components, Link component, searchParams</usage>
+      </node>
+      <node>
+        <package>zustand</package>
+        <version>5.0.9</version>
+        <usage>Configuration state management with persist middleware</usage>
+      </node>
+      <node>
+        <package>next-intl</package>
+        <version>4.5.8</version>
+        <usage>i18n, useLocale hook, getTranslations for server components</usage>
+      </node>
+      <node>
+        <package>react</package>
+        <version>19.2.0</version>
+      </node>
+      <node>
+        <package>tailwindcss</package>
+        <version>4.x</version>
+        <usage>Styling, CSS custom properties, transitions</usage>
+      </node>
+      <node>
+        <package>@prisma/client</package>
+        <version>7.1.0</version>
+        <usage>Database queries for marble validation</usage>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint source="architecture">Server Component for URL parsing: Configurator page should be a Server Component that reads URL params and passes validated marble to client components</constraint>
+    <constraint source="architecture">Client-side store: Zustand store manages configuration state; initialized from URL param on mount</constraint>
+    <constraint source="ux-design">Theme switching: Use CSS custom properties defined in Tailwind config for light/dark theme transition</constraint>
+    <constraint source="dev-notes">Graceful degradation: Must handle edge cases (invalid slug, missing param) without breaking UX</constraint>
+    <constraint source="architecture">Naming convention: React components use PascalCase (ConfiguratorClient.tsx), stores use camelCase with Store suffix (configStore.ts)</constraint>
+    <constraint source="architecture">Server Actions pattern: Use Zod for validation, return ActionResponse type</constraint>
+    <constraint source="dev-notes">This story creates the SHELL for the configurator. Actual 3D viewer, controls, and full configuration UI are in Epic 3.</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>MarbleCTA Navigation</name>
+      <kind>component-link</kind>
+      <signature>Link href={`/${locale}/configurator?marble=${slug}`}</signature>
+      <path>src/components/marble/MarbleCTA.tsx</path>
+    </interface>
+    <interface>
+      <name>getAllMarbleSlugs</name>
+      <kind>async function</kind>
+      <signature>getAllMarbleSlugs(): Promise&lt;string[]&gt;</signature>
+      <path>src/lib/queries/marbles.ts</path>
+    </interface>
+    <interface>
+      <name>getMarbleBySlug</name>
+      <kind>async function</kind>
+      <signature>getMarbleBySlug(slug: string, locale: string): Promise&lt;MarbleDetailLocalized | null&gt;</signature>
+      <path>src/lib/queries/marbles.ts</path>
+    </interface>
+    <interface>
+      <name>ConfiguratorPageProps</name>
+      <kind>TypeScript interface</kind>
+      <signature>interface ConfiguratorPageProps { params: { locale: string }; searchParams: { marble?: string }; }</signature>
+      <path>src/app/[locale]/configurator/page.tsx (to create)</path>
+    </interface>
+    <interface>
+      <name>ConfigStore</name>
+      <kind>Zustand store</kind>
+      <signature>interface ConfigState { marbleSlug: string; width: number; height: number; depth: number; finish: FinishType; } interface ConfigActions { setMarble: (slug: string) =&gt; void; initializeFromUrl: (marbleSlug: string | null) =&gt; Promise&lt;void&gt;; reset: () =&gt; void; }</signature>
+      <path>src/stores/configStore.ts (to create)</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Testing follows Vitest for unit/integration tests. Focus on AC coverage. Test Server Component rendering with mock data. Test Zustand store actions independently. CSS transitions tested visually or via E2E (Playwright).
+    </standards>
+    <locations>
+      <location>tests/unit/</location>
+      <location>tests/components/</location>
+      <location>tests/e2e/</location>
+    </locations>
+    <ideas>
+      <idea ac="AC1">E2E: Click MarbleCTA on marble detail page → verify URL is /configurator?marble={slug} → verify locale preserved</idea>
+      <idea ac="AC2">Visual: Capture screenshots before/after configurator load → verify smooth transition without flashes</idea>
+      <idea ac="AC3">Unit: Call configStore.initializeFromUrl with invalid slug → verify fallback to first marble</idea>
+      <idea ac="AC3">Unit: Call configStore.initializeFromUrl with null → verify fallback to first marble</idea>
+      <idea ac="AC4">Integration: Load configurator with ?marble=carrara-white → verify store state.marbleSlug === "carrara-white"</idea>
+      <idea ac="AC5">E2E: Hover gallery card → verify quick-configure overlay appears → click → verify navigation to configurator</idea>
+      <idea ac="AC6">E2E: Navigate from gallery → detail → configurator → click browser back → verify returns to detail page</idea>
+      <idea ac="AC1">Unit: Test translations exist in all 5 locale files for "configurator" namespace</idea>
+    </ideas>
+  </tests>
+</story-context>
+

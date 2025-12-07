@@ -73,3 +73,15 @@ export interface MarbleRaw {
   updatedAt: Date;
 }
 
+/**
+ * Extended marble type for detail page with calculated price range
+ *
+ * @see Story 2.5: Marble Detail Page
+ */
+export interface MarbleDetailLocalized extends MarbleLocalized {
+  priceRange: {
+    min: number;
+    max: number;
+  };
+}
+
