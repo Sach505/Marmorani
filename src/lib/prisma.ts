@@ -4,8 +4,14 @@
  * Implements the recommended singleton pattern with the pg driver adapter
  * to prevent multiple PrismaClient instances during Next.js hot reloading.
  *
+ * For Vercel/serverless deployments with Supabase:
+ * - Uses DATABASE_URL (Transaction Pooler, port 6543) in production
+ * - Uses DIRECT_URL (Session mode, port 5432) in development
+ * - Pool size is minimized for serverless compatibility
+ *
  * @see https://pris.ly/d/prisma7-client-config
  * @see https://www.prisma.io/docs/orm/overview/databases/postgresql
+ * @see https://supabase.com/docs/guides/database/connecting-to-postgres#connection-pooler
  */
 
 import { Pool } from "pg";
@@ -20,21 +26,35 @@ const globalForPrisma = globalThis as unknown as {
 
 /**
  * Create PostgreSQL connection pool
- * Uses DIRECT_URL (session mode, port 5432) for better pg driver compatibility
+ * 
+ * Production (Vercel serverless):
+ * - Uses DATABASE_URL (Transaction Pooler) for better connection management
+ * - Pool size of 1 to avoid exhausting Supabase connection limits
+ * 
+ * Development:
+ * - Uses DIRECT_URL (Session mode) for better debugging
+ * - Larger pool size for faster local development
  */
 function createPool(): Pool {
-  // Prefer DIRECT_URL (session mode) over DATABASE_URL (transaction mode)
-  // The pg driver has issues with Supabase transaction pooler (port 6543)
-  const connectionString = process.env.DIRECT_URL || process.env.DATABASE_URL;
+  const isProduction = process.env.NODE_ENV === "production";
+  
+  // In production, prefer DATABASE_URL (transaction pooler) for serverless
+  // In development, prefer DIRECT_URL (session mode) for debugging
+  const connectionString = isProduction
+    ? process.env.DATABASE_URL || process.env.DIRECT_URL
+    : process.env.DIRECT_URL || process.env.DATABASE_URL;
+    
   if (!connectionString) {
-    throw new Error("DIRECT_URL or DATABASE_URL environment variable is not set");
+    throw new Error("DATABASE_URL or DIRECT_URL environment variable is not set");
   }
 
   return new Pool({
     connectionString,
-    max: 10, // Maximum pool size
-    idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000,
+    // Serverless: minimize pool size to avoid MaxClientsInSessionMode errors
+    // Each serverless function instance maintains its own pool
+    max: isProduction ? 1 : 5,
+    idleTimeoutMillis: isProduction ? 10000 : 30000,
+    connectionTimeoutMillis: isProduction ? 5000 : 2000,
   });
 }
 
@@ -53,10 +73,9 @@ function createPrismaClient(): PrismaClient {
         : ["error"],
   });
 
-  // Store pool reference for reuse in development
-  if (process.env.NODE_ENV !== "production") {
-    globalForPrisma.pool = pool;
-  }
+  // Store pool reference for reuse (important for both dev and production)
+  // This helps prevent creating new pools on every request in serverless
+  globalForPrisma.pool = pool;
 
   return client;
 }
@@ -64,8 +83,8 @@ function createPrismaClient(): PrismaClient {
 /**
  * Prisma Client singleton instance
  *
- * In development: Reuses the same instance across hot reloads
- * In production: Creates a new instance per serverless function invocation
+ * Reuses the same instance across requests in the same serverless function instance.
+ * This is critical for Vercel serverless to avoid exhausting database connections.
  *
  * Usage:
  * ```typescript
@@ -76,10 +95,8 @@ function createPrismaClient(): PrismaClient {
  */
 export const prisma = globalForPrisma.prisma ?? createPrismaClient();
 
-// Preserve instance across hot reloads in development
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = prisma;
-}
+// Preserve instance across requests (important for both dev hot-reload and production serverless)
+globalForPrisma.prisma = prisma;
 
 // Re-export PrismaClient type for use in other files
 export type { PrismaClient } from "@/generated/prisma/client";
