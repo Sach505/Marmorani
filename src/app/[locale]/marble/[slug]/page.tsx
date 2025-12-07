@@ -21,19 +21,27 @@ const LOCALES = ["en", "fr", "de", "es", "it"];
 /**
  * Generate static params for all marble detail pages
  * Creates routes for all marble slugs × all locales
+ * Falls back to empty array if DB is unavailable during build
  */
 export async function generateStaticParams(): Promise<
   { locale: string; slug: string }[]
 > {
-  const slugs = await getAllMarbleSlugs();
+  try {
+    const slugs = await getAllMarbleSlugs();
 
-  // Generate params for each locale × slug combination
-  return LOCALES.flatMap((locale) =>
-    slugs.map((slug) => ({
-      locale,
-      slug,
-    }))
-  );
+    // Generate params for each locale × slug combination
+    return LOCALES.flatMap((locale) =>
+      slugs.map((slug) => ({
+        locale,
+        slug,
+      }))
+    );
+  } catch (error) {
+    // DB not available during build (e.g., Vercel build environment)
+    // Pages will be generated on-demand instead
+    console.warn("Could not fetch marble slugs for static generation:", error);
+    return [];
+  }
 }
 
 /**
