@@ -9,6 +9,7 @@
  */
 
 import { prisma } from "@/lib/prisma";
+import { safeQuery } from "@/lib/queries/errorHandling";
 import type { GalleryItemLocalized, GalleryFilters } from "@/types/gallery";
 import type { LocalizedString } from "@/types/marble";
 import type { FinishType, Prisma } from "@/generated/prisma/client";
@@ -78,57 +79,63 @@ export async function getGalleryItems(
   locale: string,
   filters?: GalleryFilters
 ): Promise<GalleryItemLocalized[]> {
-  // Build WHERE clause with AND logic for multiple filters
-  const where: Prisma.GalleryItemWhereInput = {};
+  return safeQuery(
+    async () => {
+      // Build WHERE clause with AND logic for multiple filters
+      const where: Prisma.GalleryItemWhereInput = {};
 
-  // Build marble filter conditions
-  const marbleConditions: Prisma.MarbleWhereInput = {};
+      // Build marble filter conditions
+      const marbleConditions: Prisma.MarbleWhereInput = {};
 
-  if (filters?.marbleType) {
-    marbleConditions.slug = filters.marbleType;
-  }
+      if (filters?.marbleType) {
+        marbleConditions.slug = filters.marbleType;
+      }
 
-  if (filters?.finish) {
-    // Filter by marble that has the specified finish
-    marbleConditions.finishes = { some: { type: filters.finish } };
-  }
+      if (filters?.finish) {
+        // Filter by marble that has the specified finish
+        marbleConditions.finishes = { some: { type: filters.finish } };
+      }
 
-  // Only add marble filter if we have conditions
-  if (Object.keys(marbleConditions).length > 0) {
-    where.marble = marbleConditions;
-  }
+      // Only add marble filter if we have conditions
+      if (Object.keys(marbleConditions).length > 0) {
+        where.marble = marbleConditions;
+      }
 
-  if (filters?.useCase) {
-    where.useCase = filters.useCase;
-  }
+      if (filters?.useCase) {
+        where.useCase = filters.useCase;
+      }
 
-  const items = await prisma.galleryItem.findMany({
-    where,
-    orderBy: [{ featured: "desc" }, { order: "asc" }, { createdAt: "desc" }],
-    include: {
-      marble: {
-        select: {
-          slug: true,
-          name: true,
-          basePricePerCm3: true,
+      const items = await prisma.galleryItem.findMany({
+        where,
+        orderBy: [{ featured: "desc" }, { order: "asc" }, { createdAt: "desc" }],
+        include: {
+          marble: {
+            select: {
+              slug: true,
+              name: true,
+              basePricePerCm3: true,
+            },
+          },
         },
-      },
-    },
-  });
+      });
 
-  return items.map((item) => ({
-    id: item.id,
-    title: resolveLocale(item.title, locale),
-    description: resolveLocale(item.description, locale),
-    imageUrl: item.imageUrl,
-    useCase: item.useCase,
-    featured: item.featured,
-    marbleSlug: item.marble?.slug ?? null,
-    marbleName: item.marble ? resolveLocale(item.marble.name, locale) : null,
-    startingPrice: item.marble
-      ? calculateStartingPrice(item.marble.basePricePerCm3)
-      : null,
-  }));
+      return items.map((item) => ({
+        id: item.id,
+        title: resolveLocale(item.title, locale),
+        description: resolveLocale(item.description, locale),
+        imageUrl: item.imageUrl,
+        useCase: item.useCase,
+        featured: item.featured,
+        marbleSlug: item.marble?.slug ?? null,
+        marbleName: item.marble ? resolveLocale(item.marble.name, locale) : null,
+        startingPrice: item.marble
+          ? calculateStartingPrice(item.marble.basePricePerCm3)
+          : null,
+      }));
+    },
+    [], // Fallback to empty array if DB unavailable
+    "getGalleryItems"
+  );
 }
 
 /**
@@ -178,39 +185,45 @@ export interface GalleryFilterOptions {
 export async function getGalleryFilterOptions(
   locale: string
 ): Promise<GalleryFilterOptions> {
-  // Get unique marbles from gallery items
-  const marblesWithGalleryItems = await prisma.marble.findMany({
-    where: {
-      galleryItems: { some: {} },
+  return safeQuery(
+    async () => {
+      // Get unique marbles from gallery items
+      const marblesWithGalleryItems = await prisma.marble.findMany({
+        where: {
+          galleryItems: { some: {} },
+        },
+        select: {
+          slug: true,
+          name: true,
+        },
+        orderBy: { slug: "asc" },
+      });
+
+      const marbles = marblesWithGalleryItems.map((marble) => ({
+        slug: marble.slug,
+        name: resolveLocale(marble.name, locale),
+      }));
+
+      // Get unique finishes from marbles that have gallery items
+      const finishesResult = await prisma.marbleFinish.findMany({
+        where: {
+          marble: {
+            galleryItems: { some: {} },
+          },
+        },
+        select: { type: true },
+        distinct: ["type"],
+      });
+
+      const finishes = finishesResult.map((f) => f.type);
+
+      // Get unique use cases from gallery items
+      const useCases = await getGalleryUseCases();
+
+      return { marbles, finishes, useCases };
     },
-    select: {
-      slug: true,
-      name: true,
-    },
-    orderBy: { slug: "asc" },
-  });
-
-  const marbles = marblesWithGalleryItems.map((marble) => ({
-    slug: marble.slug,
-    name: resolveLocale(marble.name, locale),
-  }));
-
-  // Get unique finishes from marbles that have gallery items
-  const finishesResult = await prisma.marbleFinish.findMany({
-    where: {
-      marble: {
-        galleryItems: { some: {} },
-      },
-    },
-    select: { type: true },
-    distinct: ["type"],
-  });
-
-  const finishes = finishesResult.map((f) => f.type);
-
-  // Get unique use cases from gallery items
-  const useCases = await getGalleryUseCases();
-
-  return { marbles, finishes, useCases };
+    { marbles: [], finishes: [], useCases: [] }, // Fallback to empty options
+    "getGalleryFilterOptions"
+  );
 }
 

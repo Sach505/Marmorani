@@ -8,6 +8,7 @@
  */
 
 import { prisma } from "@/lib/prisma";
+import { safeQuery } from "@/lib/queries/errorHandling";
 import type { MarbleDetailLocalized, MarbleLocalized } from "@/types/marble";
 import type { LocalizedString } from "@/types/marble";
 import { calculatePriceRange } from "@/lib/utils/price";
@@ -46,44 +47,50 @@ export async function getMarbleBySlug(
   slug: string,
   locale: string
 ): Promise<MarbleDetailLocalized | null> {
-  const marble = await prisma.marble.findUnique({
-    where: { slug, available: true },
-    include: {
-      finishes: {
-        select: {
-          type: true,
-          priceModifier: true,
+  return safeQuery(
+    async () => {
+      const marble = await prisma.marble.findUnique({
+        where: { slug, available: true },
+        include: {
+          finishes: {
+            select: {
+              type: true,
+              priceModifier: true,
+            },
+          },
         },
-      },
+      });
+
+      if (!marble) {
+        return null;
+      }
+
+      const localizedMarble: MarbleLocalized = {
+        id: marble.id,
+        slug: marble.slug,
+        name: resolveLocale(marble.name, locale),
+        description: resolveLocale(marble.description, locale),
+        density: marble.density,
+        basePricePerCm3: marble.basePricePerCm3,
+        origin: marble.origin,
+        textureFolder: marble.textureFolder,
+        finishes: marble.finishes.map((f) => ({
+          type: f.type,
+          priceModifier: f.priceModifier,
+        })),
+      };
+
+      // Calculate price range using the utility function
+      const priceRange = calculatePriceRange(localizedMarble);
+
+      return {
+        ...localizedMarble,
+        priceRange,
+      };
     },
-  });
-
-  if (!marble) {
-    return null;
-  }
-
-  const localizedMarble: MarbleLocalized = {
-    id: marble.id,
-    slug: marble.slug,
-    name: resolveLocale(marble.name, locale),
-    description: resolveLocale(marble.description, locale),
-    density: marble.density,
-    basePricePerCm3: marble.basePricePerCm3,
-    origin: marble.origin,
-    textureFolder: marble.textureFolder,
-    finishes: marble.finishes.map((f) => ({
-      type: f.type,
-      priceModifier: f.priceModifier,
-    })),
-  };
-
-  // Calculate price range using the utility function
-  const priceRange = calculatePriceRange(localizedMarble);
-
-  return {
-    ...localizedMarble,
-    priceRange,
-  };
+    null, // Fallback to null if DB unavailable
+    `getMarbleBySlug(${slug})`
+  );
 }
 
 /**
@@ -98,12 +105,18 @@ export async function getMarbleBySlug(
  * ```
  */
 export async function getAllMarbleSlugs(): Promise<string[]> {
-  const marbles = await prisma.marble.findMany({
-    where: { available: true },
-    select: { slug: true },
-    orderBy: { slug: "asc" },
-  });
+  return safeQuery(
+    async () => {
+      const marbles = await prisma.marble.findMany({
+        where: { available: true },
+        select: { slug: true },
+        orderBy: { slug: "asc" },
+      });
 
-  return marbles.map((m) => m.slug);
+      return marbles.map((m) => m.slug);
+    },
+    [], // Fallback to empty array if DB unavailable
+    "getAllMarbleSlugs"
+  );
 }
 

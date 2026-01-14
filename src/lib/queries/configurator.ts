@@ -7,6 +7,7 @@
  */
 
 import { getAllMarbleSlugs, getMarbleBySlug } from "@/lib/queries/marbles";
+import { DEFAULT_MARBLE_SLUG } from "@/constants/marbles";
 
 /**
  * Get the first available marble slug for fallback
@@ -46,26 +47,34 @@ export async function validateMarbleSlug(
   slug: string | null | undefined,
   locale: string
 ): Promise<string> {
-  // Get first available for fallback
-  const fallbackSlug = await getFirstAvailableMarbleSlug();
+  try {
+    // Get first available for fallback
+    const fallbackSlug = await getFirstAvailableMarbleSlug();
 
-  if (!fallbackSlug) {
-    throw new Error("No available marbles in database");
+    if (!fallbackSlug) {
+      // DB unavailable - use hardcoded default
+      console.warn("Database unavailable, using default marble slug");
+      return DEFAULT_MARBLE_SLUG;
+    }
+
+    // No slug provided - use fallback
+    if (!slug) {
+      return fallbackSlug;
+    }
+
+    // Validate slug exists in database
+    const marble = await getMarbleBySlug(slug, locale);
+
+    if (!marble) {
+      // Invalid slug - use fallback (AC3)
+      return fallbackSlug;
+    }
+
+    return slug;
+  } catch (error) {
+    // Catch-all for any DB errors
+    console.error("Error validating marble slug:", error);
+    return DEFAULT_MARBLE_SLUG;
   }
-
-  // No slug provided - use fallback
-  if (!slug) {
-    return fallbackSlug;
-  }
-
-  // Validate slug exists in database
-  const marble = await getMarbleBySlug(slug, locale);
-
-  if (!marble) {
-    // Invalid slug - use fallback (AC3)
-    return fallbackSlug;
-  }
-
-  return slug;
 }
 
