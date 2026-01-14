@@ -16,6 +16,7 @@ import { useMarbleSlug } from "@/stores/configStore";
 import { MARBLE_DATA, type LocalizedMarbleName } from "@/constants/marbles";
 import { DimensionInputs } from "./DimensionInputs";
 import { MarbleSelector } from "./MarbleSelector";
+import { FinishPicker } from "./FinishPicker";
 
 interface ConfigPanelProps {
   /** Custom class name */
@@ -83,52 +84,7 @@ export function ConfigPanel({ className }: ConfigPanelProps) {
       <DimensionInputs />
 
       {/* FinishPicker Section (Story 3.7) */}
-      <section
-        className="rounded-lg border border-border bg-surface/50 p-4"
-        aria-labelledby="finish-section-title"
-      >
-        <h3
-          id="finish-section-title"
-          className="font-display text-base md:text-lg font-semibold mb-3"
-        >
-          {t("finish")}
-        </h3>
-        <div className="flex flex-wrap gap-2" role="radiogroup" aria-label={t("finish")}>
-          <button
-            type="button"
-            className={cn(
-              "px-3 py-1.5 rounded-lg text-sm",
-              "bg-accent text-accent-foreground",
-              "font-body font-medium",
-              "focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-            )}
-            role="radio"
-            aria-checked="true"
-          >
-            {t("finishes.POLISHED")}
-          </button>
-          {(["HONED", "RAW", "BRUSHED"] as const).map((finish) => (
-            <button
-              key={finish}
-              type="button"
-              className={cn(
-                "px-3 py-1.5 rounded-lg text-sm",
-                "bg-muted text-muted-foreground hover:bg-muted/80",
-                "font-body",
-                "transition-colors",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-              )}
-              role="radio"
-              aria-checked="false"
-            >
-              {t(`finishes.${finish}`)}
-            </button>
-          ))}
-        </div>
-        <p className="font-body text-xs text-muted-foreground mt-3 text-center">
-          {t("comingSoonStory37")}
-        </p>
-      </section>
+      <FinishPicker />
 
       {/* PriceDisplay Section (Story 3.8) */}
       <section
